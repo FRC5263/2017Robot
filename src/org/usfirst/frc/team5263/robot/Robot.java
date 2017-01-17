@@ -12,12 +12,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	final String defaultAuto = "Default";
-	final String customAuto = "My Auto";
-	String autoSelected;
-	SendableChooser<String> chooser = new SendableChooser<>();
 	
+	Manipulators manipulators = new Manipulators();
 	Sensing sensing = new Sensing();
+	CameraMan cameraMan = new CameraMan(sensing, manipulators);
+	CameraMonitor cameraMonitor = new CameraMonitor(cameraMan);
+	AutoVirtualDriver virtualDriver = new AutoVirtualDriver(sensing, cameraMan, cameraMonitor, manipulators);
+	DashboardCommunication dashComm = new DashboardCommunication();
+	
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -25,10 +27,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		chooser.addDefault("Default Auto", defaultAuto);
-		chooser.addObject("My Auto", customAuto);
-		SmartDashboard.putData("Auto choices", chooser);
-		
 		sensing.reset();
 	}
 
@@ -45,10 +43,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		autoSelected = chooser.getSelected();
-		// autoSelected = SmartDashboard.getString("Auto Selector",
-		// defaultAuto);
-		System.out.println("Auto selected: " + autoSelected);
+		virtualDriver.init(dashComm.getSelectedAutonMode());
 	}
 	
 	
@@ -63,6 +58,7 @@ public class Robot extends IterativeRobot {
 	public void teleopInit() {
 		// TODO Auto-generated method stub
 		super.teleopInit();
+		cameraMan.lookForward();
 	}
 
 	@Override
@@ -76,15 +72,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		switch (autoSelected) {
-		case customAuto:
-			// Put custom auto code here
-			break;
-		case defaultAuto:
-		default:
-			// Put default auto code here
-			break;
-		}
+		virtualDriver.periodicAuto();
 	}
 
 	/**
