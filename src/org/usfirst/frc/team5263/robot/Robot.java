@@ -27,6 +27,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
+		dashComm.init();
 		sensing.reset();
 	}
 
