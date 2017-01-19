@@ -70,6 +70,7 @@ public class Robot extends IterativeRobot {
 	public void testInit() {
 		// TODO Auto-generated method stub
 		super.testInit();
+	
 	}
 
 	/**

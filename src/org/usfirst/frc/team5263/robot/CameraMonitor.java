@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5263.robot;
 
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 /**
  * This class starts up the camera, sets appropriate camera settings,
@@ -19,5 +20,6 @@ public class CameraMonitor {
 	}
 	public void CameraInit (){
 		CameraServer.getInstance().startAutomaticCapture();
+		//NetworkTable.getTable(key)
 	}
 }

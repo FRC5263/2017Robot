@@ -29,12 +29,12 @@ public class DashboardCommunication {
 //			SmartDashboard.putNumber("Counter: ", counter);
 //			counter++;
 //		}
-		while (counter > -1){
-			SmartDashboard.putNumber("Check Gyro", gyro.getAngle());
-			SmartDashboard.putNumber("Counter: ", counter);
-			counter++;
-			
-		}
+//		while (counter > -1){
+//			SmartDashboard.putNumber("Check Gyro", gyro.getAngle());
+//			SmartDashboard.putNumber("Counter: ", counter);
+//			counter++;
+//			
+//		}
 	}
 	
 	public String getSelectedAutonMode() {
