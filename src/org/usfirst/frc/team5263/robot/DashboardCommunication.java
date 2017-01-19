@@ -12,16 +12,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DashboardCommunication {
 	final String defaultAuto = "Default";
 	final String customAuto = "My Auto";
+	final String gyroAuto = "Gyro";
 	String autoSelected;
 	ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 	SendableChooser<String> chooser = new SendableChooser<>(); 
 	public void init() {
 		chooser.addDefault("Default Auto", defaultAuto);
 		chooser.addObject("My Auto", customAuto);
+		chooser.addObject("Gyro", gyroAuto);
 		SmartDashboard.putData("Auto choices", chooser);
 		// This the starting gyro value
 		//SmartDashboard.putNumber("Check Gyro", gyro.getAngle());
-		int counter = 0; 
 //		while (counter < 60000){
 //			//Timer.delay(0.001);
 //			//Should repeat?????
@@ -30,18 +31,21 @@ public class DashboardCommunication {
 //			counter++;
 //		}
 //		while (counter > -1){
-//			SmartDashboard.putNumber("Check Gyro", gyro.getAngle());
-//			SmartDashboard.putNumber("Counter: ", counter);
+
 //			counter++;
 //			
 //		}
 	}
-	
+	public void dashperiodic() {
+		SmartDashboard.putNumber("Check Gyro", gyro.getAngle());
+//		SmartDashboard.putNumber("Counter: ", counter);
+	}
 	public String getSelectedAutonMode() {
 		String selected = chooser.getSelected();
+		System.out.println(chooser);
 		//TODO: check if getSelected returned null (that would indicate nothing was
 		//selected on the dashboard); figure out how to behave in that case
 		//Return something useful here
-		return null;
+		return selected;
 	}
 }
