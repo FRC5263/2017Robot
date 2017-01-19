@@ -23,7 +23,7 @@ public class Robot extends IterativeRobot {
 	CameraMan cameraMan = new CameraMan(sensing, manipulators);
 	CameraMonitor cameraMonitor = new CameraMonitor(cameraMan);
 	AutoVirtualDriver virtualDriver = new AutoVirtualDriver(sensing, cameraMan, cameraMonitor, manipulators);
-	DashboardCommunication dashComm = new DashboardCommunication();
+	DashboardCommunication dashComm = new DashboardCommunication(sensing);
 
 	
 	/**
