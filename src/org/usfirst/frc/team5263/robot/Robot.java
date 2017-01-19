@@ -1,9 +1,14 @@
 package org.usfirst.frc.team5263.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+<<<<<<< HEAD
+=======
+import edu.wpi.first.wpilibj.command.Command;
+>>>>>>> branch 'master' of https://github.com/FRC5263/2017Robot.git
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.vision.VisionThread;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -14,14 +19,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
 	
+	Command autonomousCommand;
+	SendableChooser autoChooser; 
 	Manipulators manipulators = new Manipulators();
 	Sensing sensing = new Sensing();
 	CameraMan cameraMan = new CameraMan(sensing, manipulators);
 	CameraMonitor cameraMonitor = new CameraMonitor(cameraMan);
 	AutoVirtualDriver virtualDriver = new AutoVirtualDriver(sensing, cameraMan, cameraMonitor, manipulators);
 	DashboardCommunication dashComm = new DashboardCommunication();
-	//RobotDrive myRobot;
 
+	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -31,6 +38,7 @@ public class Robot extends IterativeRobot {
 		dashComm.init();
 		sensing.reset();
 		sensing.init();
+		cameraMonitor.CameraInit();
 	}
 
 	/**
@@ -46,7 +54,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		virtualDriver.init(dashComm.getSelectedAutonMode());
+		//virtualDriver.init(dashComm.getSelectedAutonMode());
 	}
 	
 	
@@ -55,6 +63,7 @@ public class Robot extends IterativeRobot {
 	public void robotPeriodic() {
 		// TODO Auto-generated method stub
 		super.robotPeriodic();
+		dashComm.dashperiodic();
 	}
 
 	@Override
@@ -91,5 +100,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 	}
+	
+
 }
 

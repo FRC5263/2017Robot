@@ -1,5 +1,6 @@
 package org.usfirst.frc.team5263.robot;
-
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -11,20 +12,40 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DashboardCommunication {
 	final String defaultAuto = "Default";
 	final String customAuto = "My Auto";
+	final String gyroAuto = "Gyro";
 	String autoSelected;
-	SendableChooser<String> chooser = new SendableChooser<>();
-	
+	ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+	SendableChooser<String> chooser = new SendableChooser<>(); 
 	public void init() {
 		chooser.addDefault("Default Auto", defaultAuto);
 		chooser.addObject("My Auto", customAuto);
+		chooser.addObject("Gyro", gyroAuto);
 		SmartDashboard.putData("Auto choices", chooser);
+		// This the starting gyro value
+		//SmartDashboard.putNumber("Check Gyro", gyro.getAngle());
+//		while (counter < 60000){
+//			//Timer.delay(0.001);
+//			//Should repeat?????
+//			SmartDashboard.putNumber("Check Gyro", gyro.getAngle());
+//			SmartDashboard.putNumber("Counter: ", counter);
+//			counter++;
+//		}
+//		while (counter > -1){
+//			
+//			counter++;
+//			
+//		}
 	}
-	
+	public void dashperiodic() {
+		SmartDashboard.putNumber("Check Gyro", gyro.getAngle());
+//		SmartDashboard.putNumber("Counter: ", counter);
+	}
 	public String getSelectedAutonMode() {
 		String selected = chooser.getSelected();
+		System.out.println(chooser);
 		//TODO: check if getSelected returned null (that would indicate nothing was
 		//selected on the dashboard); figure out how to behave in that case
 		//Return something useful here
-		return null;
+		return selected;
 	}
 }
