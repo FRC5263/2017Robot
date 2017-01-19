@@ -2,8 +2,10 @@ package org.usfirst.frc.team5263.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.vision.VisionThread;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -23,6 +25,7 @@ public class Robot extends IterativeRobot {
 	AutoVirtualDriver virtualDriver = new AutoVirtualDriver(sensing, cameraMan, cameraMonitor, manipulators);
 	DashboardCommunication dashComm = new DashboardCommunication();
 	
+	
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -32,8 +35,7 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		dashComm.init();
 		sensing.reset();
-		
-	
+		cameraMonitor.CameraInit();
 	}
 
 	/**
@@ -49,7 +51,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		virtualDriver.init(dashComm.getSelectedAutonMode());
+		//virtualDriver.init(dashComm.getSelectedAutonMode());
 	}
 	
 	
@@ -95,5 +97,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 	}
+	
+
 }
 
