@@ -19,7 +19,6 @@ public class DashboardCommunication {
 		chooser.addObject("My Auto", customAuto);
 		SmartDashboard.putData("Auto choices", chooser);
 		SmartDashboard.putNumber("Check Gyro", gyro.getAngle());
-		//I'm testing git from home. Delete me!  - Evan
 	}
 	
 	public String getSelectedAutonMode() {
