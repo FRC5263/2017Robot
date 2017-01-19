@@ -29,8 +29,7 @@ public class Sensing {
 	 * @return degrees rotated, or null if gyro is not healthy
 	 */
 	public Double getGyroAngle() {
-		//TODO: return the current gyroscope angle, or null if the gyro is not working.
-		return (double) 0;
+		return gyro.getAngle();
 	}
 	
 	/**

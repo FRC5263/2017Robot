@@ -14,8 +14,11 @@ public class DashboardCommunication {
 	final String customAuto = "My Auto";
 	final String gyroAuto = "Gyro";
 	String autoSelected;
-	ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 	SendableChooser<String> chooser = new SendableChooser<>(); 
+	Sensing sensing;
+	public DashboardCommunication (Sensing sensing){
+		this.sensing = sensing; 
+	}
 	public void init() {
 		chooser.addDefault("Default Auto", defaultAuto);
 		chooser.addObject("My Auto", customAuto);
@@ -37,7 +40,7 @@ public class DashboardCommunication {
 //		}
 	}
 	public void dashperiodic() {
-		SmartDashboard.putNumber("Check Gyro", gyro.getAngle());
+		SmartDashboard.putNumber("Check Gyro", sensing.getGyroAngle());
 //		SmartDashboard.putNumber("Counter: ", counter);
 	}
 	public String getSelectedAutonMode() {
