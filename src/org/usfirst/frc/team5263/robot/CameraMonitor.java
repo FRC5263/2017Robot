@@ -1,5 +1,7 @@
 package org.usfirst.frc.team5263.robot;
 
+import edu.wpi.first.wpilibj.CameraServer;
+
 /**
  * This class starts up the camera, sets appropriate camera settings,
  * and watches for telemetry broadcast by GRIP. When said telemetry is received,
@@ -14,5 +16,8 @@ public class CameraMonitor {
 	public boolean doPeriodicDiagnostics() {
 		//TODO: check that the camera is actively streaming and we're getting live telemetry from GRIP.
 		return false;
+	}
+	public void CameraInit (){
+		CameraServer.getInstance().startAutomaticCapture();
 	}
 }

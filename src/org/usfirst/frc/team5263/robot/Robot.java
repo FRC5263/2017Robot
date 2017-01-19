@@ -28,6 +28,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		sensing.reset();
+		cameraMonitor.CameraInit();
 	}
 
 	/**
@@ -43,7 +44,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		virtualDriver.init(dashComm.getSelectedAutonMode());
+		//virtualDriver.init(dashComm.getSelectedAutonMode());
 	}
 	
 	
@@ -88,5 +89,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 	}
+	
+
 }
 
