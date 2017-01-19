@@ -22,11 +22,18 @@ public class DashboardCommunication {
 		// This the starting gyro value
 		//SmartDashboard.putNumber("Check Gyro", gyro.getAngle());
 		int counter = 0; 
-		while (counter < 60000){
-			Timer.delay(0.001);
-			//Should repeat?????
+//		while (counter < 60000){
+//			//Timer.delay(0.001);
+//			//Should repeat?????
+//			SmartDashboard.putNumber("Check Gyro", gyro.getAngle());
+//			SmartDashboard.putNumber("Counter: ", counter);
+//			counter++;
+//		}
+		while (counter > -1){
 			SmartDashboard.putNumber("Check Gyro", gyro.getAngle());
+			SmartDashboard.putNumber("Counter: ", counter);
 			counter++;
+			
 		}
 	}
 	
