@@ -1,10 +1,7 @@
 package org.usfirst.frc.team5263.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-<<<<<<< HEAD
-=======
 import edu.wpi.first.wpilibj.command.Command;
->>>>>>> branch 'master' of https://github.com/FRC5263/2017Robot.git
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
