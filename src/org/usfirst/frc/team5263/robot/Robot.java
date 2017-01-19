@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5263.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -13,6 +14,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
 	
+	Command autonomousCommand;
+	SendableChooser autoChooser; 
 	Manipulators manipulators = new Manipulators();
 	Sensing sensing = new Sensing();
 	CameraMan cameraMan = new CameraMan(sensing, manipulators);
@@ -29,6 +32,8 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		dashComm.init();
 		sensing.reset();
+		
+	
 	}
 
 	/**
@@ -53,6 +58,7 @@ public class Robot extends IterativeRobot {
 	public void robotPeriodic() {
 		// TODO Auto-generated method stub
 		super.robotPeriodic();
+		dashComm.dashperiodic();
 	}
 
 	@Override
