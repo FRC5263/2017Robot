@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5263.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -19,7 +20,7 @@ public class Robot extends IterativeRobot {
 	CameraMonitor cameraMonitor = new CameraMonitor(cameraMan);
 	AutoVirtualDriver virtualDriver = new AutoVirtualDriver(sensing, cameraMan, cameraMonitor, manipulators);
 	DashboardCommunication dashComm = new DashboardCommunication();
-	
+	//RobotDrive myRobot;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -27,7 +28,9 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
+		dashComm.init();
 		sensing.reset();
+		sensing.init();
 	}
 
 	/**

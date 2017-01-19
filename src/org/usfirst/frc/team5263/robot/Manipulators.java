@@ -1,5 +1,7 @@
 package org.usfirst.frc.team5263.robot;
 
+import edu.wpi.first.wpilibj.RobotDrive;
+
 /**
  * This class contains reference to all motor driver channels, all pneumatics,
  * all servos etc, and provides functions to manage the state of these channels
@@ -7,4 +9,7 @@ package org.usfirst.frc.team5263.robot;
  */
 public class Manipulators {
 
+	public RobotDrive myRobot = new RobotDrive(0, 1);
+
 }
+
