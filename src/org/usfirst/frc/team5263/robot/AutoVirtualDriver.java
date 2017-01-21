@@ -33,7 +33,7 @@ public class AutoVirtualDriver {
 	public void periodicAuto() { 
 		
 		// Put custom auto code here
-		// isaiah
+		// isaiah...jk its Evan nowhngbtvwcsggtxceggccegccfgrcfb ISAIAH STOP FRRRRRRRRRRIIIIIIIIICK
 		//double angleOfset = sensing.getGyroAngle();
 
 		angleOffset = sensing.getGyroAngle();
