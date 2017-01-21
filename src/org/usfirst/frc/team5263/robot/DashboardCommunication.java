@@ -24,21 +24,6 @@ public class DashboardCommunication {
 		chooser.addObject("My Auto", customAuto);
 		chooser.addObject("Gyro", gyroAuto);
 		SmartDashboard.putData("Auto choices", chooser);
-		// This the starting gyro value
-		//SmartDashboard.putNumber("Check Gyro", gyro.getAngle());
-//		while (counter < 60000){
-//			//Timer.delay(0.001);
-//			//Should repeat?????
-//			SmartDashboard.putNumber("Check Gyro", gyro.getAngle());
-//			SmartDashboard.putNumber("Counter: ", counter);
-//			counter++;
-//		}
-//		while (counter > -1){
-
-//			counter++;
-//			
-//		}
-	}
 	public void dashperiodic() {
 		SmartDashboard.putNumber("Check Gyro", sensing.getGyroAngle());
 //		SmartDashboard.putNumber("Counter: ", counter);
