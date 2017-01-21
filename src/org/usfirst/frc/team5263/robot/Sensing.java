@@ -25,6 +25,7 @@ public class Sensing {
 		encoder1 = new Encoder(0, 1);
 		
 		
+		
 	}
 	/**
 	 * Gets number of degrees the robot has rotated since the last call
@@ -35,7 +36,9 @@ public class Sensing {
 	public Double getGyroAngle() {
 		return gyro.getAngle();
 	}
-	
+	public Double getEncoder1() {
+		return (double) encoder1.get();
+	}
 	/**
 	 * Gets number of feet the given wheel has traveled since the last
 	 * call to reset(). Positive values indicate forward motion.
