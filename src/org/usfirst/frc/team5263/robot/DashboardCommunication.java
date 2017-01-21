@@ -13,12 +13,15 @@ public class DashboardCommunication {
 	final String defaultAuto = "Default";
 	final String customAuto = "My Auto";
 	final String gyroAuto = "Gyro";
+	Diagnostics diagnostics; 
 	String autoSelected;
 	SendableChooser<String> chooser = new SendableChooser<>(); 
 	Sensing sensing;
-	public DashboardCommunication (Sensing sensing){
-		this.sensing = sensing; 
-	}
+	 public DashboardCommunication(Sensing sensing, Diagnostics diagnostics) {
+		 this.diagnostics = diagnostics;
+		 this.sensing = sensing; 
+
+	 }
 	public void init() {
 		chooser.addDefault("Default Auto", defaultAuto);
 		chooser.addObject("My Auto", customAuto);
@@ -29,6 +32,7 @@ public class DashboardCommunication {
 		SmartDashboard.putNumber("Check Gyro", sensing.getGyroAngle());
 		SmartDashboard.putNumber("Encoder1", sensing.getEncoder1()); 
 //		SmartDashboard.putNumber("Counter: ", counter);
+		SmartDashboard.putNumber("CAN Value", diagnostics.getLeftMotorCurrent());
 	}
 	public String getSelectedAutonMode() {
 		String selected = chooser.getSelected();
