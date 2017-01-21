@@ -20,6 +20,6 @@ public class CameraMonitor {
 	}
 	public void CameraInit (){
 		CameraServer.getInstance().startAutomaticCapture();
-		//NetworkTable.getTable(key);
+		//NetworkTable.getTable(key); //hey julia this was giving an error so i commented it
 	}
 }
