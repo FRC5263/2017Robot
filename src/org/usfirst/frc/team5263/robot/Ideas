@@ -1,0 +1,5 @@
+--------IDEAS--------
+Check motors with diagnostics
+Check if the moters in the same gear box is different
+Check if gyro is moving even when motors haven't moved in 1 second
+auto modifcation to auton if gyro is broken
