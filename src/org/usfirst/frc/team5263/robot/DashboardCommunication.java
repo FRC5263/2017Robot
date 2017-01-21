@@ -27,6 +27,7 @@ public class DashboardCommunication {
 	}
 	public void dashperiodic() {
 		SmartDashboard.putNumber("Check Gyro", sensing.getGyroAngle());
+		SmartDashboard.putInt("Encoder1", encoder1.get()); 
 //		SmartDashboard.putNumber("Counter: ", counter);
 	}
 	public String getSelectedAutonMode() {

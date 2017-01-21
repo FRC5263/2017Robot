@@ -22,9 +22,9 @@ public class Robot extends IterativeRobot {
 	Sensing sensing = new Sensing();
 	CameraMan cameraMan = new CameraMan(sensing, manipulators);
 	CameraMonitor cameraMonitor = new CameraMonitor(cameraMan);
-	AutoVirtualDriver virtualDriver = new AutoVirtualDriver(sensing, cameraMan, cameraMonitor, manipulators);
-	TeleOperated teleOp = new TeleOperated(sensing, cameraMan, cameraMonitor, manipulators);
 	DashboardCommunication dashComm = new DashboardCommunication(sensing);
+	AutoVirtualDriver virtualDriver = new AutoVirtualDriver(sensing, cameraMan, cameraMonitor, manipulators, dashComm);
+	TeleOperated teleOp = new TeleOperated(sensing, cameraMan, cameraMonitor, manipulators);
 	Diagnostics diagnostics = new Diagnostics();
 	
 	/**

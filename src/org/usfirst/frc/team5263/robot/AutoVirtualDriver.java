@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5263.robot;
 
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AutoVirtualDriver {
 	
@@ -17,7 +18,7 @@ public class AutoVirtualDriver {
 	int biggerDegrees = turnDegrees + 5;
 	
 	
-	public AutoVirtualDriver(Sensing sensing, CameraMan cameraMan, CameraMonitor cameraMonitor, Manipulators manipulators) {
+	public AutoVirtualDriver(Sensing sensing, CameraMan cameraMan, CameraMonitor cameraMonitor, Manipulators manipulators, DashboardCommunication dashComm) {
 		
 		this.sensing = sensing;
 		this.manipulators = manipulators; 
@@ -31,6 +32,9 @@ public class AutoVirtualDriver {
 	}
 	
 	public void periodicAuto() { 
+		
+		
+		//SmartDashboard.putInt("Encoder1", encoder1.get()); 
 		
 		// Put custom auto code here
 		// isaiah
