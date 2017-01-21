@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5263.robot;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.Encoder;
 
 /**
  * This class is responsible for all sensors except the camera.
@@ -13,6 +14,7 @@ public class Sensing {
 	 * Resets gyroscope angle and encoders to 0.
 	 */
 	ADXRS450_Gyro gyro;
+	Encoder encoder1;
 	
 	public void reset() {
 		
@@ -20,6 +22,9 @@ public class Sensing {
 	
 	public void init(){
 		gyro = new ADXRS450_Gyro();
+		encoder1 = new Encoder(0, 1);
+		
+		
 		
 	}
 	/**
@@ -31,7 +36,9 @@ public class Sensing {
 	public Double getGyroAngle() {
 		return gyro.getAngle();
 	}
-	
+	public Double getEncoder1() {
+		return (double) encoder1.get();
+	}
 	/**
 	 * Gets number of feet the given wheel has traveled since the last
 	 * call to reset(). Positive values indicate forward motion.
