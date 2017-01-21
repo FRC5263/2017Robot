@@ -39,7 +39,7 @@ public class AutoVirtualDriver {
 		// Put custom auto code here
 		// isaiah...jk its Evan nowhngbtvwcsggtxceggccegccfgrcfb ISAIAH STOP FRRRRRRRRRRIIIIIIIIICK
 		//double angleOfset = sensing.getGyroAngle();
-
+		double encoder1Val = sensing.getEncoder1();
 		angleOffset = sensing.getGyroAngle();
 		System.out.println("angle Offset: " + angleOffset);
 		System.out.println("first angle: " + firstAngle);
@@ -58,7 +58,7 @@ public class AutoVirtualDriver {
 			System.out.println("angle larger than specified :" + angle );
 		}
 		else{
-			if(rep < 500){
+			if(rep < 500 && encoder1Val < 100){
 				manipulators.myRobot.tankDrive(0.4, 0.4);
 				System.out.println("driving straght");
 			}
