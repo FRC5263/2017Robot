@@ -9,20 +9,25 @@ public class AutoVirtualDriver {
 	Manipulators manipulators;
 	double rep = 0; //isaiah
 	double angleOffset;
-	double firstAngle = angleOffset;
+	double firstAngle;
 	
 	
 	int turnDegrees = 90;
+	int smallerDegrees = turnDegrees - 5;
+	int biggerDegrees = turnDegrees + 5;
+	
+	
 	public AutoVirtualDriver(Sensing sensing, CameraMan cameraMan, CameraMonitor cameraMonitor, Manipulators manipulators) {
 		
 		this.sensing = sensing;
 		this.manipulators = manipulators; 
-		angleOffset  = sensing.getGyroAngle();
+		
 		
 	}
 	
 	public void init(String mode) {
-		
+		angleOffset  = sensing.getGyroAngle();
+		firstAngle = angleOffset;
 	}
 	
 	public void periodicAuto() { 
@@ -41,12 +46,12 @@ public class AutoVirtualDriver {
 			angle = angle - angleOffset; 
 		}
 		
-		if(angle > turnDegrees && rep < 500){
+		if(angle < smallerDegrees && rep < 500){
 			manipulators.myRobot.tankDrive(0.6, -0.6); //try this
-			System.out.println("angle smaller than 170 :" + angle );
-		}else if(angle < turnDegrees && rep < 500){
+			System.out.println("angle smaller than specified :" + angle);
+		}else if(angle > biggerDegrees && rep < 500){
 			manipulators.myRobot.tankDrive(-0.6, 0.6); //maybe change
-			System.out.println("angle larger than 190 :" + angle );
+			System.out.println("angle larger than specified :" + angle );
 		}
 		else{
 			if(rep < 500){
