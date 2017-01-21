@@ -24,7 +24,7 @@ public class Robot extends IterativeRobot {
 	CameraMonitor cameraMonitor = new CameraMonitor(cameraMan);
 	AutoVirtualDriver virtualDriver = new AutoVirtualDriver(sensing, cameraMan, cameraMonitor, manipulators);
 	Diagnostics diagnostics = new Diagnostics();
-	DashboardCommunication dashComm = new DashboardCommunication(sensing, diagnostics)
+	DashboardCommunication dashComm = new DashboardCommunication(sensing, diagnostics);
 	
 	/**
 	 * This function is run when the robot is first started up and should be
