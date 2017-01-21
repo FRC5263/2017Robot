@@ -17,15 +17,11 @@ public class DashboardCommunication {
 	String autoSelected;
 	SendableChooser<String> chooser = new SendableChooser<>(); 
 	Sensing sensing;
-	public DashboardCommunication (Sensing sensing){
-		this.sensing = sensing; 
-	}
 	 public DashboardCommunication(Sensing sensing, Diagnostics diagnostics) {
-		 
+		 this.diagnostics = diagnostics;
+		 this.sensing = sensing; 
+
 	 }
-	 public Double .getCurrent(14);() {
-			return pdp.getCurrent(14);;
-		}
 	public void init() {
 		chooser.addDefault("Default Auto", defaultAuto);
 		chooser.addObject("My Auto", customAuto);
@@ -35,6 +31,7 @@ public class DashboardCommunication {
 	public void dashperiodic() {
 		SmartDashboard.putNumber("Check Gyro", sensing.getGyroAngle());
 //		SmartDashboard.putNumber("Counter: ", counter);
+		SmartDashboard.putNumber("CAN Value", diagnostics.getCurrent(14));
 	}
 	public String getSelectedAutonMode() {
 		String selected = chooser.getSelected();
