@@ -24,6 +24,7 @@ public class DashboardCommunication {
 		chooser.addObject("My Auto", customAuto);
 		chooser.addObject("Gyro", gyroAuto);
 		SmartDashboard.putData("Auto choices", chooser);
+	}
 	public void dashperiodic() {
 		SmartDashboard.putNumber("Check Gyro", sensing.getGyroAngle());
 //		SmartDashboard.putNumber("Counter: ", counter);
