@@ -13,12 +13,19 @@ public class DashboardCommunication {
 	final String defaultAuto = "Default";
 	final String customAuto = "My Auto";
 	final String gyroAuto = "Gyro";
+	Diagnostics diagnostics; 
 	String autoSelected;
 	SendableChooser<String> chooser = new SendableChooser<>(); 
 	Sensing sensing;
 	public DashboardCommunication (Sensing sensing){
 		this.sensing = sensing; 
 	}
+	 public DashboardCommunication(Sensing sensing, Diagnostics diagnostics) {
+		 
+	 }
+	 public Double .getCurrent(14);() {
+			return pdp.getCurrent(14);;
+		}
 	public void init() {
 		chooser.addDefault("Default Auto", defaultAuto);
 		chooser.addObject("My Auto", customAuto);
