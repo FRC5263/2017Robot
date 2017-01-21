@@ -22,7 +22,7 @@ public class AutoVirtualDriver {
 	}
 	
 	public void init(String mode) {
-		
+		angleOffset  = sensing.getGyroAngle();
 	}
 	
 	public void periodicAuto() { 

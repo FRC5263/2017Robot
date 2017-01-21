@@ -24,7 +24,7 @@ public class Robot extends IterativeRobot {
 	CameraMonitor cameraMonitor = new CameraMonitor(cameraMan);
 	AutoVirtualDriver virtualDriver = new AutoVirtualDriver(sensing, cameraMan, cameraMonitor, manipulators);
 	DashboardCommunication dashComm = new DashboardCommunication(sensing);
-
+	Diagnostics diagnostics = new Diagnostics();
 	
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -36,6 +36,8 @@ public class Robot extends IterativeRobot {
 		sensing.reset();
 		sensing.init();
 		cameraMonitor.CameraInit();
+		diagnostics.init();
+		
 	}
 
 	/**
@@ -61,6 +63,7 @@ public class Robot extends IterativeRobot {
 		// TODO Auto-generated method stub
 		super.robotPeriodic();
 		dashComm.dashperiodic();
+		diagnostics.diagperiodic();
 	}
 
 	@Override
