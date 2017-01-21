@@ -53,7 +53,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		//virtualDriver.init(dashComm.getSelectedAutonMode());
+		virtualDriver.init(dashComm.getSelectedAutonMode());
 	}
 	
 	
