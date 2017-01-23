@@ -2,6 +2,7 @@ package org.usfirst.frc.team5263.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -27,6 +28,7 @@ public class Robot extends IterativeRobot {
 	AutoVirtualDriver virtualDriver = new AutoVirtualDriver(sensing, cameraMan, cameraMonitor, manipulators, dashComm);
 	TeleOperated teleOp = new TeleOperated(sensing, cameraMan, cameraMonitor, manipulators);
 	
+	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -38,6 +40,9 @@ public class Robot extends IterativeRobot {
 		sensing.init();
 		cameraMonitor.CameraInit();
 		diagnostics.init();
+		
+		
+	
 		
 	}
 
