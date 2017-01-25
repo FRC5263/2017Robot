@@ -21,8 +21,8 @@ public class CameraMonitor {
 		return false;
 	}
 	public void CameraInit (){
-		CameraServer.getInstance().startAutomaticCapture();
-		
+//		CameraServer.getInstance().startAutomaticCapture();
+		/**
 		NetworkTable.getTable("GRIP/myContoursReport"); 
 		double [] defaultValue = new double[0];
 		while(true){
@@ -34,5 +34,6 @@ public class CameraMonitor {
 			System.out.println();
 			Timer.delay(1);
 		}
+		**/
 	}
 }
