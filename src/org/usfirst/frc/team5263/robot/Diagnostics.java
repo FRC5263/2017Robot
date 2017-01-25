@@ -17,5 +17,9 @@ public class Diagnostics {
 		// TODO Auto-generated method stub
 		return pdp.getCurrent(14);
 	}
+	public double getRightMotorCurrent() {
+		return pdp.getCurrent(15);
+		
+	}
 	
 }
