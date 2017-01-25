@@ -145,10 +145,10 @@ public class AutoVirtualDriver {
 				System.out.println("encoder val " + encoder1Val + " more than " + distance[step]);
 				manipulators.myRobot.tankDrive(-0.4, -0.4); 
 			}else{
-				if(step < steps - 1){
+				if(step < steps - 1){ //whats happening is that this is repeated over and over and always defaults to the else, and the condition is true
 					step = step + 1;
 					System.out.println("STEP HIGHER");
-					autoRunner = 2;
+					autoRunner = 1;
 				}
 			}
 		
