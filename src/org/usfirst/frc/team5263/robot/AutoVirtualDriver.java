@@ -2,8 +2,10 @@ package org.usfirst.frc.team5263.robot;
 
 import java.lang.reflect.Array;
 
-import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//import java.lang.reflect.Array;
+
+//import edu.wpi.first.wpilibj.RobotDrive;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AutoVirtualDriver {
 	
@@ -24,9 +26,9 @@ public class AutoVirtualDriver {
 	int encoderSet;
 	
 	int step = 0; //this will go up, for every completed step
-	int steps = 10; //This variable is a finite number, the number of tasks to complete
 	double[] turn = {90, 90, 90};
 	double[] distance = {200, 200, 200};
+	int steps = Array.getLength(turn); //This variable is a finite number, the number of tasks to complete
 	double encoder1Val;
 	double angle;
 	
@@ -84,7 +86,7 @@ public class AutoVirtualDriver {
 			if(rep == 1){
 				angle = angle - angleOffset; 
 			}
-			
+			System.out.println(step);
 			autoRunner = 2;
 			break;
 			
@@ -128,12 +130,13 @@ public class AutoVirtualDriver {
 			
 		case 3: 
 			encoder1Val = sensing.getEncoder1();
-			System.out.println("finished turn steps");
+			System.out.println("running drive");
+			System.out.println("step " + step + " steps " + steps);
 			encoderSet = encoderSet + 1;
 			if(encoderSet == 1){
 				sensing.encoder1.reset();
-				encoderMin = distance[step] - 10;
-				encoderMax = distance[step] + 10;
+				encoderMin = distance[step] - 50;
+				encoderMax = distance[step] + 50;
 			}
 			if(encoder1Val < encoderMin){
 				System.out.println("encoder val " + encoder1Val + " less than " + distance[step]);
@@ -142,10 +145,10 @@ public class AutoVirtualDriver {
 				System.out.println("encoder val " + encoder1Val + " more than " + distance[step]);
 				manipulators.myRobot.tankDrive(-0.4, -0.4); 
 			}else{
-				if(step < steps){
+				if(step < steps - 1){
 					step = step + 1;
 					System.out.println("STEP HIGHER");
-					autoRunner = 1;
+					autoRunner = 2;
 				}
 			}
 		
