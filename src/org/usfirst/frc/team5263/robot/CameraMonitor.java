@@ -22,7 +22,10 @@ public class CameraMonitor {
 	}
 	public void CameraInit (){
 		CameraServer.getInstance().startAutomaticCapture();
-		NetworkTable.getTable("GRIP/myContoursReport"); 
+		NetworkTable.getTable("GRIP/myContoursReport");
+		int inches = 18;
+		int feet = (int) 1.5;
+		inches  = feet;
 		double [] defaultValue = new double[0];
 //		while(true){
 //			double [] areas = table.getNumberArray("area", defaultValue);
