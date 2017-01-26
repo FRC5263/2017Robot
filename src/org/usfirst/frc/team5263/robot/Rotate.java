@@ -9,7 +9,7 @@ public class Rotate {
 	double firstAngle;
 
 	double angle;
-	
+	int beenDone;
 	
 	public Rotate(double degrees, Sensing sensing, Manipulators manipulators, AutoVirtualDriver virtualDriver) {
 		this.degrees = degrees;
@@ -22,14 +22,14 @@ public class Rotate {
 		
 		if(angle < minMargin){
 			
-			if(minMargin - angle > 20){
+			if(minMargin - angle > 20){ //should be WAIT WHAT>??? 
 				manipulators.myRobot.tankDrive(0.6, -0.6);
 				System.out.println("fast min");
 			}else{
 				manipulators.myRobot.tankDrive(0.375, -0.375);
 				System.out.println("slow min");
 				}
-			System.out.println("angle " + angle + " less than specified " + turn[step]);
+			System.out.println("angle " + angle + " less than specified " + degrees);
 			
 		}else if(angle > maxMargin){
 			
@@ -40,10 +40,14 @@ public class Rotate {
 				manipulators.myRobot.tankDrive(-0.375, -0.375);
 				System.out.println("slow max");
 				}
-			System.out.println("angle " + angle + " more than specified " + turn[step]);
+			System.out.println("angle " + angle + " more than specified " + degrees);
 			
 		}else{
-			autoRunner = 3;
+			System.out.println("Rotation between margins, stopping.");
+			beenDone = beenDone + 1;
+			if(beenDone > 1000){
+				//add return thing
+			}
 		}
 		
 	}
