@@ -24,13 +24,24 @@ public class AutoVirtualDriver {
 	int after;
 	int autoRunner;
 	int encoderSet; // delete
-	
+
 	int step = 0; //this will go up, for every completed step
+	
+	
 	double[] turn = {90, 90, 90};
 	double[] distance = {200, 200, 200};
 	int steps = Array.getLength(turn); //This variable is a finite number, the number of tasks to complete
 	double encoder1Val; //delete
 	double angle;
+	
+
+	public Double step() {
+		return (double) step;
+	}
+	public Double steps() {
+		return (double) steps;
+	}
+	
 	
 	public AutoVirtualDriver(Sensing sensing, CameraMan cameraMan, CameraMonitor cameraMonitor, Manipulators manipulators, DashboardCommunication dashComm) {
 		
@@ -69,12 +80,12 @@ public class AutoVirtualDriver {
 		//SmartDashboard.putInt("Encoder1", encoder1.get()); 
 		
 
-		
+		(distance[step])
 		
 		switch (autoRunner){
 
 		case 1: 
-			Object drive = new DriveStraight(10, sensing, manipulators);
+			
 			
 			
 			

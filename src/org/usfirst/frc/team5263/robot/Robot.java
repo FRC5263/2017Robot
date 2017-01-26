@@ -27,6 +27,7 @@ public class Robot extends IterativeRobot {
 	DashboardCommunication dashComm = new DashboardCommunication(sensing, diagnostics);
 	AutoVirtualDriver virtualDriver = new AutoVirtualDriver(sensing, cameraMan, cameraMonitor, manipulators, dashComm);
 	TeleOperated teleOp = new TeleOperated(sensing, cameraMan, cameraMonitor, manipulators);
+	Object drive = new DriveStraight(10, sensing, manipulators, virtualDriver);
 	
 	
 	/**
