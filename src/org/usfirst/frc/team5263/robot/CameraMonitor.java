@@ -21,19 +21,21 @@ public class CameraMonitor {
 		return false;
 	}
 	public void CameraInit (){
-//		CameraServer.getInstance().startAutomaticCapture();
-		/**
-		NetworkTable.getTable("GRIP/myContoursReport"); 
+		CameraServer.getInstance().startAutomaticCapture();
+		NetworkTable.getTable("GRIP/myContoursReport");
+		int inches = 18;
+		int feet = (int) 1.5;
+		inches  = feet;
 		double [] defaultValue = new double[0];
-		while(true){
-			double [] areas = table.getNumberArray("area", defaultValue);
-			System.out.println("Areas: ");
-			for(double area : areas){
-				System.out.println(area + " ");
-			}
-			System.out.println();
-			Timer.delay(1);
-		}
-		**/
+//		while(true){
+//			double [] areas = table.getNumberArray("area", defaultValue);
+//			System.out.println("Areas: ");
+//			for(double area : areas){
+//				System.out.println(area + " ");
+//			}
+//			System.out.println();
+//			Timer.delay(1);
+//		}
+		
 	}
 }
