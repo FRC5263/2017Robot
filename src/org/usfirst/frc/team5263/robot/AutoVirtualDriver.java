@@ -80,7 +80,7 @@ public class AutoVirtualDriver {
 		//SmartDashboard.putInt("Encoder1", encoder1.get()); 
 		
 
-		(distance[step])
+		
 		
 		switch (autoRunner){
 
