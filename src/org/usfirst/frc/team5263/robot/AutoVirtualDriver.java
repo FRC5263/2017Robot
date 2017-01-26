@@ -23,13 +23,13 @@ public class AutoVirtualDriver {
 	int biggerDegrees = turnDegrees + 5;
 	int after;
 	int autoRunner;
-	int encoderSet;
+	int encoderSet; // delete
 	
 	int step = 0; //this will go up, for every completed step
 	double[] turn = {90, 90, 90};
 	double[] distance = {200, 200, 200};
 	int steps = Array.getLength(turn); //This variable is a finite number, the number of tasks to complete
-	double encoder1Val;
+	double encoder1Val; //delete
 	double angle;
 	
 	public AutoVirtualDriver(Sensing sensing, CameraMan cameraMan, CameraMonitor cameraMonitor, Manipulators manipulators, DashboardCommunication dashComm) {
@@ -74,6 +74,10 @@ public class AutoVirtualDriver {
 		switch (autoRunner){
 
 		case 1: 
+			Object drive = new DriveStraight(10, sensing, manipulators);
+			
+			
+			
 			encoder1Val = sensing.getEncoder1();
 			angleOffset = sensing.getGyroAngle();
 			angle = angleOffset - firstAngle;
@@ -148,13 +152,18 @@ public class AutoVirtualDriver {
 				if(step < steps - 1){ //whats happening is that this is repeated over and over and always defaults to the else, and the condition is true
 					step = step + 1;
 					System.out.println("STEP HIGHER");
-					autoRunner = 1;
+					autoRunner = 4;
+					
 				}
 			}
 		
 		
 		
 			break;
+		case 4: autoRunner = 1;
+			break;
+		default: 
+			break; 
 		}
 		
 		
@@ -251,4 +260,8 @@ public class AutoVirtualDriver {
 		
 		**/
 	}
-}
+
+
+		
+	}
+	}
