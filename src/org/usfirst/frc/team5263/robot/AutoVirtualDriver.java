@@ -13,8 +13,8 @@ public class AutoVirtualDriver {
 	Sensing sensing;
 	Manipulators manipulators;
 	double rep = 0;
-	double angleOffset;
-	double firstAngle;
+	double angleOffset; //delete
+	double firstAngle; //delete
 	double encoderMin;
 	double encoderMax;
 	
@@ -23,7 +23,7 @@ public class AutoVirtualDriver {
 	int biggerDegrees = turnDegrees + 5;
 	int after;
 	int autoRunner;
-	int encoderSet; // delete
+	//int encoderSet; // delete
 
 	int step = 0; //this will go up, for every completed step
 	
@@ -32,16 +32,7 @@ public class AutoVirtualDriver {
 	double[] distance = {200, 200, 200};
 	int steps = Array.getLength(turn); //This variable is a finite number, the number of tasks to complete
 	double encoder1Val; //delete
-	double angle;
-	
-
-	public Double step() {
-		return (double) step;
-	}
-	public Double steps() {
-		return (double) steps;
-	}
-	
+	double angle; //delete
 	
 	public AutoVirtualDriver(Sensing sensing, CameraMan cameraMan, CameraMonitor cameraMonitor, Manipulators manipulators, DashboardCommunication dashComm) {
 		
