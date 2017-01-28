@@ -24,7 +24,7 @@ public class AutoVirtualDriver {
 
 	double[] turn = { 90, 90, 90 };
 	double[] distance = { 5, 5, 5 };
-	double[] drivePower = { 0.5, 1, 0.5 };
+	double[] drivePower = { 0.5, 0.5, 0.5 };
 	int steps = Array.getLength(turn); // This variable is a finite number, the
 										// number of tasks to complete
 
@@ -300,13 +300,13 @@ public class AutoVirtualDriver {
 		angle = sensing.getGyroAngle();
 
 		if (angle < degrees) {
-			manipulators.myRobot.tankDrive(-0.6, 0.6);
+			manipulators.myRobot.tankDrive(0.6, -0.6);
 			System.out.println("angle " + angle + " less than specified " + degrees);
 		} else {
 			manipulators.myRobot.tankDrive(0, 0);
 			rotateBeenDone = rotateBeenDone + 1;
 			System.out.println("rotate been done " + rotateBeenDone);
-			if (rotateBeenDone > 500) {
+			if (rotateBeenDone > 50) {
 				return false;
 			}
 		}
