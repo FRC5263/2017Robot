@@ -40,7 +40,7 @@ public class Robot extends IterativeRobot {
 		dashComm.init();
 		sensing.reset();
 		sensing.init();
-		cameraMonitor.CameraInit();
+		//cameraMonitor.CameraInit();
 		diagnostics.init();
 		
 		
