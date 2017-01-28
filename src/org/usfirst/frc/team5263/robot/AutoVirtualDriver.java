@@ -15,8 +15,6 @@ public class AutoVirtualDriver {
 	double rep = 0;
 	double angleOffset; //delete
 	double firstAngle; //delete
-	double encoderMin;
-	double encoderMax;
 	
 	int turnDegrees = 90;
 	int smallerDegrees = turnDegrees - 5;
@@ -31,8 +29,23 @@ public class AutoVirtualDriver {
 	double[] turn = {90, 90, 90};
 	double[] distance = {200, 200, 200};
 	int steps = Array.getLength(turn); //This variable is a finite number, the number of tasks to complete
-	double encoder1Val; //delete
+	
 	double angle; //delete
+	
+	//=============================================== for driving straight
+	
+	double driveDistance;
+	int encoderSet;
+	double drivePulses;
+	double encoder1Val;
+	double pi = Math.PI;
+	double encoderMin;
+	double encoderMax;
+	double beenDone;
+	double power;
+	
+	//================================================
+	
 	
 	public AutoVirtualDriver(Sensing sensing, CameraMan cameraMan, CameraMonitor cameraMonitor, Manipulators manipulators, DashboardCommunication dashComm) {
 		
@@ -71,7 +84,7 @@ public class AutoVirtualDriver {
 		//SmartDashboard.putInt("Encoder1", encoder1.get()); 
 		
 
-		
+		/**
 		
 		switch (autoRunner){
 
@@ -173,7 +186,7 @@ public class AutoVirtualDriver {
 		
 		
 		
-		
+		**/
 		
 		
 		/**
@@ -257,6 +270,38 @@ public class AutoVirtualDriver {
 		
 		
 		**/
+	}
+	
+	
+	public boolean DriveStraight(double driveDistance, double power) {
+
+		drivePulses = (driveDistance * 12) / (pi * 6) * 1440;
+		System.out.println("distance: " + driveDistance);
+		System.out.println("drive pulses: " + drivePulses);
+
+		encoder1Val = sensing.getEncoder1();
+		System.out.println("running drive");
+		encoderSet = encoderSet + 1;
+		if (encoderSet == 1) {
+			sensing.encoder1.reset();
+			encoderMin = drivePulses - 50;
+			encoderMax = drivePulses + 50;
+		}
+		if (encoder1Val < encoderMin) {
+			System.out.println("encoder val " + encoder1Val + " less than " + drivePulses);
+			manipulators.myRobot.tankDrive(power, power);
+		} else if (encoder1Val > encoderMax) {
+			System.out.println("encoder val " + encoder1Val + " more than " + drivePulses);
+			manipulators.myRobot.tankDrive(-power, -power);
+		} else {
+			System.out.println("between margins, stopped.");
+			beenDone = beenDone + 1;
+			if(beenDone > 1000){
+				encoderSet = 0;
+				return false;
+			}
+		}
+		return true;
 	}
 
 

@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj.Encoder;
 public class DriveStraight {
 
 	double distance;
-
 	int encoderSet;
 	double drivePulses;
 	double encoder1Val;
