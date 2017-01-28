@@ -2,10 +2,10 @@ package org.usfirst.frc.team5263.robot;
 
 import java.lang.reflect.Array;
 
-//import java.lang.reflect.Array;
+import java.lang.reflect.Array;
 
-//import edu.wpi.first.wpilibj.RobotDrive;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AutoVirtualDriver {
 	
@@ -192,8 +192,6 @@ public class AutoVirtualDriver {
 		}
 		**/
 		
-		// =======================================================================================
-		
 		/**
 		if(angle < smallerDegrees && rep < 500){
 			manipulators.myRobot.tankDrive(0.6, -0.6); //try this
@@ -210,8 +208,6 @@ public class AutoVirtualDriver {
 			
 		}
 		**/
-		
-		//===================================================================================================
 		
 		/**
 		
