@@ -71,7 +71,7 @@ public class Robot extends IterativeRobot {
 		// TODO Auto-generated method stub
 		super.robotPeriodic();
 		dashComm.dashperiodic();
-		diagnostics.diagperiodic();
+		//diagnostics.diagperiodic();
 	}
 
 	@Override
