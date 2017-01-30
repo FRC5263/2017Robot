@@ -22,9 +22,9 @@ public class AutoVirtualDriver {
 
 	int step = 0; // this will go up, for every completed step
 
-	double[] turn = { 90, 90, 90 };
-	double[] distance = { 5, 5, 5 };
-	double[] drivePower = { 0.5, 0.5, 0.5 };
+	double[] turn = { 90, 90, 90, 90 };
+	double[] distance = { -5, -5, -5, -5 };
+	double[] drivePower = { 0.5, 0.5, 0.5, 0.5 };
 	int steps = Array.getLength(turn); // This variable is a finite number, the
 										// number of tasks to complete
 
@@ -40,6 +40,7 @@ public class AutoVirtualDriver {
 	double driveBeenDone;
 	double power;
 	boolean doRotate = false;
+	double Kp = 0.03;
 
 	// ================================================
 
@@ -55,6 +56,9 @@ public class AutoVirtualDriver {
 	double minMargin;
 	double maxMargin;
 	boolean doDrive = true;
+	int rotateRunner = 0;
+	
+	boolean overallRun = true;
 	// ===============================================
 
 	public AutoVirtualDriver(Sensing sensing, CameraMan cameraMan, CameraMonitor cameraMonitor,
@@ -82,29 +86,42 @@ public class AutoVirtualDriver {
 	public void periodicAuto() {
 
 		// SmartDashboard.putInt("Encoder1", encoder1.get());
-		if (doDrive == true) {
-			if (DriveStraightN(distance[step], drivePower[step])) {
+		if (overallRun == true) {
+			if (doDrive == true) {
+				if (DriveStraightN(distance[step], drivePower[step])) {
 
-			} else {
-				System.out.println("ran ELSE inside DRIVE STRAIGHT");
-				manipulators.myRobot.tankDrive(0, 0);
-				doRotate = true;
-				doDrive = false;
-			}
-		}
-		if (doRotate == true) {
-			if (Rotate(turn[step])) {
-
-			} else {
-				manipulators.myRobot.tankDrive(0, 0);
-				if (step < steps) {
-					step++;
+				} else {
+					System.out.println("ran ELSE inside DRIVE STRAIGHT");
+					manipulators.myRobot.tankDrive(0, 0);
+					doRotate = true;
+					doDrive = false;
 				}
-				System.out.println("ran ELSE inside ROTATE with steps at " + step);
-				doRotate = false;
-				doDrive = true;
+			}
+			if (doRotate == true) {
+				System.out.println("rotate runner " + rotateRunner + " rotateSet " + rotateSet);
+				rotateRunner++;
+				if (rotateRunner == 1) {
+					rotateSet = 0;
+				}
+				if (Rotate(turn[step])) {
+
+				} else {
+					manipulators.myRobot.tankDrive(0, 0);
+					if (step < steps - 1) {
+						step++;
+						System.out.println("STEPS UP AAAAAAAAAAAAAAAAAAAAAAAAAA");
+						rotateRunner = 0;
+					} else {//if (step == steps - 1) {
+						System.out.println("program done.");
+						overallRun = false;
+					}
+					System.out.println("ran ELSE inside ROTATE with steps at " + step);
+					doRotate = false;
+					doDrive = true;
+				}
 			}
 		}
+		System.out.println("program terminated.");
 
 	}
 
@@ -115,7 +132,8 @@ public class AutoVirtualDriver {
 	// step ++;
 	// }
 
-	/**
+	/** 
+myRobot.drive(-1.0, -angle*Kp);
 	 * 
 	 * switch (autoRunner){
 	 * 
@@ -255,20 +273,25 @@ public class AutoVirtualDriver {
 		System.out.println("distance: " + driveDistance);
 		System.out.println("drive pulses: " + drivePulses);
 
-		encoder1Val = sensing.getEncoder1();
+		encoder1Val = 	sensing.getEncoder1();
+		angle = sensing.getGyroAngle();
 		System.out.println("running drive");
 		encoderSet = encoderSet + 1;
 		if (encoderSet == 1) {
 			sensing.encoder1.reset();
+			sensing.gyro.reset();
 			encoderMin = drivePulses - 50;
 			encoderMax = drivePulses + 50;
 		}
 		if (encoder1Val < encoderMin) {
 			System.out.println("encoder val " + encoder1Val + " less than " + drivePulses);
-			manipulators.myRobot.tankDrive(power, power);
+			//manipulators.myRobot.tankDrive(power, power); //power, power
+			manipulators.myRobot.drive(power, -angle*Kp);
 		} else if (encoder1Val > encoderMax) {
 			System.out.println("encoder val " + encoder1Val + " more than " + drivePulses);
-			manipulators.myRobot.tankDrive(-power, -power);
+			//manipulators.myRobot.tankDrive(-power, -power);
+				manipulators.myRobot.drive(-power, -angle*Kp);
+				
 		} else {
 			System.out.println("between margins, stopped.");
 			driveBeenDone = driveBeenDone + 1;
@@ -290,17 +313,21 @@ public class AutoVirtualDriver {
 		rotateSet++;
 		if (rotateSet == 1) {
 			// firstAngle = angleOffset;
-			// minMargin = degrees - 5;
-			// maxMargin = degrees + 5;
+			minMargin = degrees - 5;
+			maxMargin = degrees + 5;
 			sensing.gyro.reset();
+			System.out.println("ROTATE INITAL SET");
 		}
 
 		// angle = angleOffset - firstAngle;
 
 		angle = sensing.getGyroAngle();
 
-		if (angle < degrees) {
+		if (angle < minMargin) {
 			manipulators.myRobot.tankDrive(0.6, -0.6);
+			System.out.println("angle " + angle + " less than specified " + degrees);
+		} else if (angle > maxMargin) {
+			manipulators.myRobot.tankDrive(-0.6, 0.6);
 			System.out.println("angle " + angle + " less than specified " + degrees);
 		} else {
 			manipulators.myRobot.tankDrive(0, 0);
