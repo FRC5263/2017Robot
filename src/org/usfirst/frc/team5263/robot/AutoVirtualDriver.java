@@ -23,7 +23,7 @@ public class AutoVirtualDriver {
 	int step = 0; // this will go up, for every completed step
 
 	double[] turn = { 90, 90, 90, 90 };
-	double[] distance = { -5, -5, -5, -5 };
+	double[] distance = { -7, -7, -7, -7 };
 	double[] drivePower = { 0.5, 0.5, 0.5, 0.5 };
 	int steps = Array.getLength(turn); // This variable is a finite number, the
 										// number of tasks to complete
@@ -143,7 +143,13 @@ public class AutoVirtualDriver {
 		}
 		if (encoder1Val < encoderMin) {
 			System.out.println("encoder val " + encoder1Val + " less than " + drivePulses);
-			manipulators.myRobot.tankDrive(power, power); 
+			if(angle < drivingMin){
+				manipulators.myRobot.tankDrive(power, 0.5 * power);
+			} else if (angle > drivingMax) {
+				manipulators.myRobot.tankDrive(0.5 *power, power); 
+			}else{
+				manipulators.myRobot.tankDrive(power, power); 
+			}
 		} else if (encoder1Val > encoderMax) {
 			System.out.println("encoder val " + encoder1Val + " more than " + drivePulses);
 			manipulators.myRobot.tankDrive(-power, -power);
