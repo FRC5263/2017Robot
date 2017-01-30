@@ -32,7 +32,7 @@ public class DashboardCommunication {
 		SmartDashboard.putNumber("Check Gyro", sensing.getGyroAngle());
 		SmartDashboard.putNumber("Encoder1", sensing.getEncoder1()); 
 //		SmartDashboard.putNumber("Counter: ", counter);
-		//SmartDashboard.putNumber("CAN Value", diagnostics.getLeftMotorCurrent()); 
+		SmartDashboard.putNumber("CAN Value", diagnostics.getLeftMotorCurrent());
 	}
 	public String getSelectedAutonMode() {
 		String selected = chooser.getSelected();

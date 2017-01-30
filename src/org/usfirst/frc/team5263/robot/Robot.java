@@ -27,8 +27,8 @@ public class Robot extends IterativeRobot {
 	DashboardCommunication dashComm = new DashboardCommunication(sensing, diagnostics);
 	AutoVirtualDriver virtualDriver = new AutoVirtualDriver(sensing, cameraMan, cameraMonitor, manipulators, dashComm);
 	TeleOperated teleOp = new TeleOperated(sensing, cameraMan, cameraMonitor, manipulators);
-	//Object drive = new DriveStraight(10, sensing, manipulators, virtualDriver);
-	//Object rotate = new Rotate(10, sensing, manipulators, virtualDriver);
+	Object drive = new DriveStraight(10, sensing, manipulators, virtualDriver);
+	Object rotate = new Rotate(10, sensing, manipulators, virtualDriver);
 	
 	
 	/**
@@ -40,7 +40,7 @@ public class Robot extends IterativeRobot {
 		dashComm.init();
 		sensing.reset();
 		sensing.init();
-		//cameraMonitor.CameraInit();
+		cameraMonitor.CameraInit();
 		diagnostics.init();
 		
 		
@@ -71,7 +71,7 @@ public class Robot extends IterativeRobot {
 		// TODO Auto-generated method stub
 		super.robotPeriodic();
 		dashComm.dashperiodic();
-		//diagnostics.diagperiodic();
+		diagnostics.diagperiodic();
 	}
 
 	@Override

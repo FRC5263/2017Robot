@@ -10,16 +10,16 @@ public class Diagnostics {
 
 	 	
 	}
-//	public void diagperiodic() { //temporary disable
-//		 current = pdp.getCurrent(14);
-//	}
-//	public double getLeftMotorCurrent() {
-//		// TODO Auto-generated method stub
-//		return pdp.getCurrent(14);
-//	}
-//	public double getRightMotorCurrent() {
-//		return pdp.getCurrent(15);
-//		
-//	}
+	public void diagperiodic() {
+		 current = pdp.getCurrent(14);
+	}
+	public double getLeftMotorCurrent() {
+		// TODO Auto-generated method stub
+		return pdp.getCurrent(14);
+	}
+	public double getRightMotorCurrent() {
+		return pdp.getCurrent(15);
+		
+	}
 	
 }
