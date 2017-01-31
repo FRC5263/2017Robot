@@ -145,10 +145,13 @@ public class AutoVirtualDriver {
 			System.out.println("encoder val " + encoder1Val + " less than " + drivePulses);
 			if(angle < drivingMin){
 				manipulators.myRobot.tankDrive(power, 0.5 * power);
+				System.out.println("angle " + angle + " less than driving min " + drivingMin);
 			} else if (angle > drivingMax) {
 				manipulators.myRobot.tankDrive(0.5 *power, power); 
+				System.out.println("angle " + angle + " more than driving max " + drivingMax);
 			}else{
 				manipulators.myRobot.tankDrive(power, power); 
+				System.out.println("UUUUUUUUUUUUGGGGGGGGGGGGHHHH Hthis ran");
 			}
 		} else if (encoder1Val > encoderMax) {
 			System.out.println("encoder val " + encoder1Val + " more than " + drivePulses);
