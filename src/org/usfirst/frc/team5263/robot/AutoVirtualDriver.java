@@ -43,15 +43,23 @@ public class AutoVirtualDriver {
 	double currentAngle;
 	double drivingMin;
 	double drivingMax;
+	
+	
+	
+	
+	
+	double leftSpeed;
+	double rightSpeed;
+	double targetAngle;
+	double driveAngle;
+	
+	
 
 	// ================================================
 
 	// ================================================ for rotate
 	double degrees;
-
-	double angleOffset;
-	double firstAngle;
-
+	double pastDegrees;
 	double angle;
 	int rotateBeenDone;
 	int rotateSet = 0;
@@ -72,9 +80,8 @@ public class AutoVirtualDriver {
 	}
 
 	public void init(String mode) {
-		angleOffset = sensing.getGyroAngle();
-		encoder1Val = sensing.getEncoder1();
-		sensing.gyro.calibrate();
+		sensing.gyro.reset();
+		sensing.encoder1.reset();
 	}
 
 	public void periodicAuto() {
@@ -123,39 +130,35 @@ public class AutoVirtualDriver {
 
 	public boolean DriveStraightN(double driveDistance, double power) {
 
-		drivePulses = (driveDistance * 12) / (pi * 6) * 1440 / 4;
-		System.out.println("distance: " + driveDistance);
-		System.out.println("drive pulses: " + drivePulses);
 
-		encoder1Val = 	sensing.getEncoder1();
-		angle = sensing.getGyroAngle();
-		System.out.println("running drive");
+		encoder1Val = sensing.getEncoder1();
+		driveAngle = sensing.getGyroAngle();
 		encoderSet = encoderSet + 1;
+		
 		if (encoderSet == 1) {
+		System.out.println("running drive");
+			drivePulses = (driveDistance * 12) / (pi * 6) * 1440 / 4;
 			sensing.encoder1.reset();
-			sensing.gyro.reset();
+			//sensing.gyro.reset();
 			encoderMin = drivePulses - 50;
 			encoderMax = drivePulses + 50;
-			currentAngle = sensing.getGyroAngle();
-			drivingMin = currentAngle - 5;
-			drivingMax = currentAngle + 5;
+			//drivingMin = currentAngle - 5;
+			//drivingMax = currentAngle + 5;
+			targetAngle = sensing.getGyroAngle();
+			
 			
 		}
-		if (encoder1Val < encoderMin) {
-			System.out.println("encoder val " + encoder1Val + " less than " + drivePulses);
-			if(angle < drivingMin){
-				manipulators.myRobot.tankDrive(power, 0.5 * power);
-				System.out.println("angle " + angle + " less than driving min " + drivingMin);
-			} else if (angle > drivingMax) {
-				manipulators.myRobot.tankDrive(0.5 *power, power); 
-				System.out.println("angle " + angle + " more than driving max " + drivingMax);
-			}else{
-				manipulators.myRobot.tankDrive(power, power); 
-				System.out.println("UUUUUUUUUUUUGGGGGGGGGGGGHHHH Hthis ran");
-			}
+		
+		
+		leftSpeed = power + (driveAngle - targetAngle) / 100; 
+        rightSpeed = power - (driveAngle - targetAngle) / 100; 
+        
+        if (encoder1Val < encoderMin) {
+			System.out.println("encoder val " + encoder1Val + " less than " + drivePulses + " power at " + power + " left speed at " + leftSpeed + " right speed at " + rightSpeed);
+			manipulators.myRobot.tankDrive(leftSpeed, rightSpeed);
 		} else if (encoder1Val > encoderMax) {
-			System.out.println("encoder val " + encoder1Val + " more than " + drivePulses);
-			manipulators.myRobot.tankDrive(-power, -power);
+			System.out.println("encoder val " + encoder1Val + " more than " + drivePulses + " power at " + power + " left speed at " + leftSpeed + " right speed at " + rightSpeed);
+			manipulators.myRobot.tankDrive(-leftSpeed, -rightSpeed);
 				
 		} else {
 			System.out.println("between margins, stopped.");
@@ -166,7 +169,10 @@ public class AutoVirtualDriver {
 
 				return false;
 			}
+			
 		}
+        
+		
 		return true;
 	}
 
@@ -176,14 +182,12 @@ public class AutoVirtualDriver {
 		
 		rotateSet++;
 		if (rotateSet == 1) {
-			// firstAngle = angleOffset;
-			minMargin = degrees - 5;
-			maxMargin = degrees + 5;
-			sensing.gyro.reset();
+			pastDegrees = pastDegrees + degrees;
+			minMargin = pastDegrees - 2;
+			maxMargin = pastDegrees + 2;
+			//sensing.gyro.reset();
 			System.out.println("ROTATE INITAL SET");
 		}
-
-		// angle = angleOffset - firstAngle;
 
 		angle = sensing.getGyroAngle();
 

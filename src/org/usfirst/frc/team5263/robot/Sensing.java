@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj.Encoder;
  * that the sensor data is in range and live.
  */
 public class Sensing {
+	
+	
 	/**
 	 * Resets gyroscope angle and encoders to 0.
 	 */
@@ -34,7 +36,8 @@ public class Sensing {
 	 * @return degrees rotated, or null if gyro is not healthy
 	 */
 	public Double getGyroAngle() {
-		return gyro.getAngle();
+		double gyroAngle = gyro.getAngle();
+		return gyroAngle * (360.0/330.0);
 	}
 	public Double getEncoder1() {
 		return (double) encoder1.get();
