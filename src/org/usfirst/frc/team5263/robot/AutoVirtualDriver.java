@@ -3,6 +3,7 @@ package org.usfirst.frc.team5263.robot;
 import java.lang.reflect.Array;
 
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
 
 //import java.lang.reflect.Array;
 
@@ -76,6 +77,10 @@ public class AutoVirtualDriver {
     static final double kI = 0.00;
     static final double kD = 0.00;
     static final double kF = 0.00;
+    boolean runPID;
+    double PIDTolerance = 2; //this is the "margin" of degrees the PID considers on target.
+
+	PIDController turnController;
 	
 	// ===============================================
 
@@ -191,21 +196,47 @@ public class AutoVirtualDriver {
 		rotateSet++;
 		if (rotateSet == 1) {
 			pastDegrees = pastDegrees + degrees;
-			minMargin = pastDegrees - 2;
-			maxMargin = pastDegrees + 2;
+			//minMargin = pastDegrees - 2;
+			//maxMargin = pastDegrees + 2;
 			//sensing.gyro.reset();
 			System.out.println("ROTATE INITAL SET");
+			
+			runPID = true;
+			turnController = new PIDController(kP, kD, kI, kF, sensing.getGyroPIDSource(), new PIDOutput() {
+				
+				@Override
+				public void pidWrite(double output) {
+					// TODO Auto-generated method stub
+					manipulators.myRobot.tankDrive(output, -output);
+					
+				}
+			});
+			
+			turnController.setInputRange(-360.0f,  360.0f); //was -180 180
+	        turnController.setOutputRange(-1.0, 1.0);
+	        turnController.setAbsoluteTolerance(PIDTolerance);
+			 
 		}
 
 		angle = sensing.getGyroAngle();
 		
 		
-
-		PIDController turnController;
+		if ( runPID ) {
+            turnController.enable();
+        }
+		System.out.println("runPID " + runPID);
+		if(turnController.onTarget()){
+			rotateBeenDone ++;
+		}else{
+			rotateBeenDone = 0;
+		}
+		System.out.println();
+		//if(rotateBeenDone > 50){
+		//	runPID = false;
+		//	return false;
+		//}
 		
 		
-		
-		 turnController = new PIDController(kP, kD, kI, kF, null, null);
 		 
 		 
 		 
@@ -223,6 +254,7 @@ public class AutoVirtualDriver {
 			rotateBeenDone = rotateBeenDone + 1;
 			System.out.println("rotate been done " + rotateBeenDone);
 			if (rotateBeenDone > 50) {
+				runPID = false;
 				return false;
 			}
 		}
