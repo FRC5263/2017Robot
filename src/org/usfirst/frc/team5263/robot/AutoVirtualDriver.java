@@ -42,7 +42,7 @@ public class AutoVirtualDriver {
 	double encoderMax;
 	double driveBeenDone;
 	double power;
-	boolean doRotate = false;
+	boolean doRotate;
 	double currentAngle;
 	double drivingMin;
 	double drivingMax;
@@ -65,17 +65,17 @@ public class AutoVirtualDriver {
 	double pastDegrees;
 	double angle;
 	int rotateBeenDone;
-	int rotateSet = 0;
+	int rotateSet;
 	double minMargin;
 	double maxMargin;
-	boolean doDrive = true;
-	int rotateRunner = 0;
+	boolean doDrive;
+	int rotateRunner;
 	
-	boolean overallRun = true;
+	boolean overallRun;
 	
 	static final double kP = 0.05;
-    static final double kI = 0.02;
-    static final double kD = 0.05;
+    static final double kI = 0.00;
+    static final double kD = 0.00;
     static final double kF = 0.00;
     boolean runPID;
     double PIDTolerance = 2; //this is the "margin" of degrees the PID considers on target.
@@ -95,6 +95,37 @@ public class AutoVirtualDriver {
 	public void init(String mode) {
 		sensing.gyro.reset();
 		sensing.encoder1.reset();
+		
+		//===========================================
+		//drive
+		
+		doRotate = false;
+		
+		//===========================================
+		//rotate 
+		
+		rotateSet = 0;
+		doDrive = true;
+		rotateRunner = 0;
+		overallRun = true;
+		
+		//===========================================
+	}
+	
+	public void clean() {
+		sensing.gyro.reset();
+		sensing.encoder1.reset();
+		runPID = false;
+		overallRun = false;
+		doDrive = false;
+		doRotate = false;
+		step = 0;
+		encoderSet = 0;
+		try{
+			turnController.disable();
+		} catch (Exception e){
+			
+		}
 	}
 
 	public void periodicAuto() {
@@ -226,6 +257,8 @@ public class AutoVirtualDriver {
 		
 		if ( runPID ) {
             turnController.enable();
+        } else {
+        	turnController.disable();
         }
 		System.out.println("runPID " + runPID);
 		if(turnController.onTarget()){

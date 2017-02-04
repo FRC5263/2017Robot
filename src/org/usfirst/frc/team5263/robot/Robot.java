@@ -78,6 +78,7 @@ public class Robot extends IterativeRobot {
 		// TODO Auto-generated method stub
 		super.teleopInit();
 		cameraMan.lookForward();
+		virtualDriver.clean();
 	}
 
 	@Override
