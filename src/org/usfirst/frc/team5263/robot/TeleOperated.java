@@ -26,7 +26,7 @@ public class TeleOperated {
 	public void Periodic(){
 		left_pow = -main.getRawAxis(1) + main.getRawAxis(4);
 		right_pow = -main.getRawAxis(1) - main.getRawAxis(4);
-		System.out.println("HI");
+		
 		manipulators.myRobot.tankDrive(left_pow, right_pow);
 	}
 	

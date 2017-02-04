@@ -73,9 +73,9 @@ public class AutoVirtualDriver {
 	
 	boolean overallRun = true;
 	
-	static final double kP = 0.03;
-    static final double kI = 0.00;
-    static final double kD = 0.00;
+	static final double kP = 0.05;
+    static final double kI = 0.02;
+    static final double kD = 0.05;
     static final double kF = 0.00;
     boolean runPID;
     double PIDTolerance = 2; //this is the "margin" of degrees the PID considers on target.
@@ -168,10 +168,10 @@ public class AutoVirtualDriver {
         
         if (encoder1Val < encoderMin) {
 			System.out.println("encoder val " + encoder1Val + " less than " + drivePulses + " power at " + power + " left speed at " + leftSpeed + " right speed at " + rightSpeed);
-			manipulators.myRobot.tankDrive(leftSpeed, rightSpeed);
+			manipulators.myRobot.tankDrive(-rightSpeed, -leftSpeed);
 		} else if (encoder1Val > encoderMax) {
 			System.out.println("encoder val " + encoder1Val + " more than " + drivePulses + " power at " + power + " left speed at " + leftSpeed + " right speed at " + rightSpeed);
-			manipulators.myRobot.tankDrive(-leftSpeed, -rightSpeed);
+			manipulators.myRobot.tankDrive(rightSpeed, leftSpeed);
 				
 		} else {
 			System.out.println("between margins, stopped.");
@@ -211,7 +211,7 @@ public class AutoVirtualDriver {
 					
 				}
 			});
-			
+			turnController.setSetpoint(degrees);
 			turnController.setInputRange(-360.0f,  360.0f); //was -180 180
 	        turnController.setOutputRange(-1.0, 1.0);
 	        turnController.setAbsoluteTolerance(PIDTolerance);
@@ -219,6 +219,9 @@ public class AutoVirtualDriver {
 		}
 
 		angle = sensing.getGyroAngle();
+		System.out.println("output " + turnController.get());
+		System.out.println("error " + turnController.getError());
+		System.out.println("angle " + angle);
 		
 		
 		if ( runPID ) {
@@ -241,7 +244,7 @@ public class AutoVirtualDriver {
 		 
 		 
 
-		if (angle < minMargin) {
+		/**if (angle < minMargin) {
 			manipulators.myRobot.tankDrive(0.6, -0.6);
 			System.out.println("angle " + angle + " less than specified " + degrees);
 			rotateBeenDone = 0;
@@ -258,7 +261,7 @@ public class AutoVirtualDriver {
 				return false;
 			}
 		}
-		
+		**/
 		
 		return true;
 
