@@ -11,14 +11,16 @@ public class Diagnostics {
 	 	
 	}
 	public void diagperiodic() {
-		 current = pdp.getCurrent(14);
+		 //current = pdp.getCurrent(14);
 	}
 	public double getLeftMotorCurrent() {
 		// TODO Auto-generated method stub
-		return pdp.getCurrent(14);
+		//return pdp.getCurrent(14);
+		return 0; //delete this and uncomment above line
 	}
 	public double getRightMotorCurrent() {
-		return pdp.getCurrent(15);
+		//return pdp.getCurrent(15);
+		return 0; //delete this and uncomment above line
 		
 	}
 	

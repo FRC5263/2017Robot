@@ -29,8 +29,7 @@ public class Robot extends IterativeRobot {
 	TeleOperated teleOp = new TeleOperated(sensing, cameraMan, cameraMonitor, manipulators);
 //	Object drive = new DriveStraight(10, sensing, manipulators, virtualDriver);
 //	Object rotate = new Rotate(10, sensing, manipulators, virtualDriver);
-	
-	
+
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -101,6 +100,9 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		teleOp.Periodic();
+
+		dashComm.dashperiodic();
 	}
 
 	/**
