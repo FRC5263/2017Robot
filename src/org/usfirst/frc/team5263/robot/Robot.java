@@ -102,6 +102,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		teleOp.Periodic();
+
+		dashComm.dashperiodic();
 	}
 
 	/**

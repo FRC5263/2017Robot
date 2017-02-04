@@ -16,17 +16,17 @@ public class TeleOperated {
 
 		this.sensing = sensing;
 		this.manipulators = manipulators;
-	
-	}
-	
-	public void init(String mode) {
+
 		main = new Joystick(0);
 	}
 	
+	public void init(String mode) {
+	}
+	
 	public void Periodic(){
-		left_pow = main.getRawAxis(1) + main.getRawAxis(4);
-		right_pow = main.getRawAxis(1) - main.getRawAxis(4);
-		
+		left_pow = -main.getRawAxis(1) + main.getRawAxis(4);
+		right_pow = -main.getRawAxis(1) - main.getRawAxis(4);
+		System.out.println("HI");
 		manipulators.myRobot.tankDrive(left_pow, right_pow);
 	}
 	

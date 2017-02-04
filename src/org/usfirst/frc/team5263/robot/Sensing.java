@@ -2,6 +2,8 @@ package org.usfirst.frc.team5263.robot;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 
 /**
  * This class is responsible for all sensors except the camera.
@@ -17,6 +19,7 @@ public class Sensing {
 	 */
 	ADXRS450_Gyro gyro;
 	Encoder encoder1;
+	Encoder encoder2;
 	
 	public void reset() {
 		
@@ -25,7 +28,7 @@ public class Sensing {
 	public void init(){
 		gyro = new ADXRS450_Gyro();
 		encoder1 = new Encoder(0, 1);
-		
+		encoder2 = new Encoder(2, 3);
 		
 		
 	}
@@ -41,6 +44,34 @@ public class Sensing {
 	}
 	public Double getEncoder1() {
 		return (double) encoder1.get();
+	}
+	public Double getEncoder2() {
+		return (double) encoder2.get();
+	}
+	
+	public PIDSource getGyroPIDSource(){
+		return new PIDSource() {
+			
+			@Override
+			public void setPIDSourceType(PIDSourceType pidSource) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public double pidGet() {
+				
+				// TODO Auto-generated method stub
+				return getGyroAngle();
+			}
+			
+			@Override
+			public PIDSourceType getPIDSourceType() {
+				// TODO Auto-generated method stub
+				
+				return PIDSourceType.kDisplacement;
+			}
+		};
 	}
 	/**
 	 * Gets number of feet the given wheel has traveled since the last

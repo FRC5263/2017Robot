@@ -2,6 +2,8 @@ package org.usfirst.frc.team5263.robot;
 
 import java.lang.reflect.Array;
 
+import edu.wpi.first.wpilibj.PIDController;
+
 //import java.lang.reflect.Array;
 
 //import edu.wpi.first.wpilibj.RobotDrive;
@@ -69,6 +71,12 @@ public class AutoVirtualDriver {
 	int rotateRunner = 0;
 	
 	boolean overallRun = true;
+	
+	static final double kP = 0.03;
+    static final double kI = 0.00;
+    static final double kD = 0.00;
+    static final double kF = 0.00;
+	
 	// ===============================================
 
 	public AutoVirtualDriver(Sensing sensing, CameraMan cameraMan, CameraMonitor cameraMonitor,
@@ -190,6 +198,17 @@ public class AutoVirtualDriver {
 		}
 
 		angle = sensing.getGyroAngle();
+		
+		
+
+		PIDController turnController;
+		
+		
+		
+		 turnController = new PIDController(kP, kD, kI, kF, null, null);
+		 
+		 
+		 
 
 		if (angle < minMargin) {
 			manipulators.myRobot.tankDrive(0.6, -0.6);
