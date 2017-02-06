@@ -19,8 +19,8 @@ public class Robot extends IterativeRobot {
 	
 	Command autonomousCommand;
 	SendableChooser autoChooser; 
-	Manipulators manipulators = new Manipulators();
 	Sensing sensing = new Sensing();
+	Manipulators manipulators = new Manipulators(sensing);
 	CameraMan cameraMan = new CameraMan(sensing, manipulators);
 	CameraMonitor cameraMonitor = new CameraMonitor(cameraMan);
 	Diagnostics diagnostics = new Diagnostics();
@@ -41,7 +41,7 @@ public class Robot extends IterativeRobot {
 		sensing.init();
 		cameraMonitor.CameraInit();
 		diagnostics.init();
-		
+		manipulators.init();
 		
 	
 		

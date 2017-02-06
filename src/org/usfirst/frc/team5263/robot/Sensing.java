@@ -20,6 +20,7 @@ public class Sensing {
 	ADXRS450_Gyro gyro;
 	Encoder encoder1;
 	Encoder encoder2;
+	Encoder encoFlywheel;
 	
 	public void reset() {
 		
@@ -29,6 +30,11 @@ public class Sensing {
 		gyro = new ADXRS450_Gyro();
 		encoder1 = new Encoder(0, 1);
 		encoder2 = new Encoder(2, 3);
+
+		encoFlywheel = new Encoder(8, 9);
+		encoFlywheel.setPIDSourceType(PIDSourceType.kRate);
+		encoFlywheel.setDistancePerPulse(2.9);
+		encoFlywheel.setReverseDirection(true);
 		
 		
 	}
@@ -47,6 +53,9 @@ public class Sensing {
 	}
 	public Double getEncoder2() {
 		return (double) encoder2.get();
+	}
+	public Double getFlywheelEncoder() {
+		return (double) encoFlywheel.get();
 	}
 	
 	public PIDSource getGyroPIDSource(){
@@ -72,6 +81,10 @@ public class Sensing {
 				return PIDSourceType.kDisplacement;
 			}
 		};
+	}
+	
+	public PIDSource getFlywheelPIDSource(){
+		return encoFlywheel;
 	}
 	/**
 	 * Gets number of feet the given wheel has traveled since the last

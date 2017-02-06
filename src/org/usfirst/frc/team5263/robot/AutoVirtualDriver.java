@@ -180,7 +180,7 @@ public class AutoVirtualDriver {
 		encoderSet = encoderSet + 1;
 		
 		if (encoderSet == 1) {
-		System.out.println("running drive");
+			System.out.println("running drive");
 			drivePulses = (driveDistance * 12) / (pi * 6) * 1440 / 4;
 			sensing.encoder1.reset();
 			//sensing.gyro.reset();
