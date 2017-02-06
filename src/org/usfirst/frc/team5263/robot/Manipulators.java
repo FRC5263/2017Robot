@@ -23,12 +23,11 @@ public class Manipulators {
 	public Manipulators(Sensing sensing) {
 
 		this.sensing = sensing;
-		sensing.getFlywheelEncoder();
 
 	}
 
 	public RobotDrive myRobot = new RobotDrive(0, 1);
-
+	
 	public class MyPIDOutputEncoder implements PIDOutput {
 		@Override
 		public void pidWrite(double output) {
@@ -39,31 +38,41 @@ public class Manipulators {
 	}
 
 	public void init() {
-
+		System.out.println("running manipulators");
+		flywheel = new Victor(2);
+		flywheel.setInverted(true);
+		
 		pidMotor = new PIDController(0, 0, 10, 0, sensing.getFlywheelPIDSource(), new MyPIDOutputEncoder());
 		pidMotor.disable();
 
-		flywheel = new Victor(2);
-		flywheel.setInverted(true);
 		// pidMotor.setOutputRange(-1, 0);
 		pidMotor.initTable(NetworkTable.getTable("pidtable"));
+
 
 	}
 
 	public void flywheelEnabled(boolean flywheelRun) {
 		if (flywheelRun = true) {
 			flywheelPIDEnbled = true;
+			System.out.println("flywheelrun true");
 		} else if (flywheelRun = false){
+			System.out.println("flywheelrun false");
 			flywheelPIDEnbled = false;
 		}
 	}
 	public void flywheelSetPoint(double setpoint){
+
+		System.out.println("flywheel set setpoint");
 		pidMotor.setSetpoint(setpoint);
 	}
 	public boolean flywheelDone (){
 		if(pidMotor.onTarget()){
+
+			System.out.println("flywheel on target");
 			return true;
 		} else {
+
+			System.out.println("flywheel not on target");
 			return false;
 		}
 	}
