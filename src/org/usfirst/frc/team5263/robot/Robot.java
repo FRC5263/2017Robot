@@ -71,6 +71,8 @@ public class Robot extends IterativeRobot {
 		super.robotPeriodic();
 		dashComm.dashperiodic();
 		diagnostics.diagperiodic();
+		cameraMonitor.periodicFunction();
+		
 	}
 
 	@Override
@@ -113,6 +115,10 @@ public class Robot extends IterativeRobot {
 	public void testPeriodic() {
 	}
 	
+	
+//	public void testDrive(){
+//		manipulators.myRobot.tankDrive(0.2, 0.2);
+//	}
 
 }
 

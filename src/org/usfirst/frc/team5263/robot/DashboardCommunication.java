@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * teleop assist communication, etc.
  */
 public class DashboardCommunication {
+	double AutoKey;
 	final String defaultAuto = "Default";
 	final String customAuto = "My Auto";
 	final String gyroAuto = "Gyro";
@@ -32,7 +33,8 @@ public class DashboardCommunication {
 		SmartDashboard.putNumber("Check Gyro", sensing.getGyroAngle());
 		SmartDashboard.putNumber("Encoder1: ", sensing.getEncoder1()); 
 		SmartDashboard.putNumber("Encoder2: ", sensing.getEncoder2());
-//		SmartDashboard.putNumber("Counter: ", counter);
+		SmartDashboard.getNumber("Counter: ", 0);
+		//		SmartDashboard.putNumber("Counter: ", counter);
 		SmartDashboard.putNumber("CAN Value", diagnostics.getLeftMotorCurrent());
 	}
 	public String getSelectedAutonMode() {
@@ -42,5 +44,9 @@ public class DashboardCommunication {
 		//selected on the dashboard); figure out how to behave in that case
 		//Return something useful here
 		return selected;
+	
 	}
+//	public Double getFoo(){
+//		                                                                                                                                                                         
+//	}
 }

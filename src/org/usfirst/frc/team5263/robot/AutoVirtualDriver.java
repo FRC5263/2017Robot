@@ -14,6 +14,7 @@ public class AutoVirtualDriver {
 
 	Sensing sensing;
 	Manipulators manipulators;
+	DashboardCommunication dashComm;
 	// double rep = 0;
 
 	// int turnDegrees = 90;
@@ -89,6 +90,7 @@ public class AutoVirtualDriver {
 
 		this.sensing = sensing;
 		this.manipulators = manipulators;
+		this.dashComm = dashComm;
 
 	}
 

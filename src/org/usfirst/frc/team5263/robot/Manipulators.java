@@ -10,6 +10,6 @@ import edu.wpi.first.wpilibj.RobotDrive;
 public class Manipulators {
 
 	public RobotDrive myRobot = new RobotDrive(0, 1);
-
+	
 }
 
