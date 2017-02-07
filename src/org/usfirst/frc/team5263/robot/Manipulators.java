@@ -27,13 +27,19 @@ public class Manipulators {
 	}
 
 	public RobotDrive myRobot = new RobotDrive(0, 1);
+	 
+	
+	
 	
 	public class MyPIDOutputEncoder implements PIDOutput {
 		@Override
 		public void pidWrite(double output) {
-			System.out.println("my out " + output);
+			System.out.println("outout " + output);
+			System.out.println("error " + pidMotor.getError());
+			System.out.println("rate " + sensing.encoFlywheel.getRate());
 			flywheel.setInverted(false);
 			flywheel.set(output);
+			
 		}
 	}
 
@@ -42,39 +48,42 @@ public class Manipulators {
 		flywheel = new Victor(2);
 		flywheel.setInverted(true);
 		
-		pidMotor = new PIDController(0, 0, 10, 0, sensing.getFlywheelPIDSource(), new MyPIDOutputEncoder());
+		pidMotor = new PIDController(0.0001, 0, 0, 0, sensing.getFlywheelPIDSource(), new MyPIDOutputEncoder());
 		pidMotor.disable();
-
+		pidMotor.setAbsoluteTolerance(20);
 		// pidMotor.setOutputRange(-1, 0);
 		pidMotor.initTable(NetworkTable.getTable("pidtable"));
 
 
-	}
-
+	} 
+	
 	public void flywheelEnabled(boolean flywheelRun) {
-		if (flywheelRun = true) {
-			flywheelPIDEnbled = true;
-			System.out.println("flywheelrun true");
-		} else if (flywheelRun = false){
-			System.out.println("flywheelrun false");
-			flywheelPIDEnbled = false;
+		if  (flywheelRun == true) {
+			flywheelPIDEnbled = true;  
+			pidMotor.enable();
+			//System.out.println("flywheelrun true");
+		} else if (flywheelRun == false){
+			//System.out.println("flywheelrun false");
+			flywheelPIDEnbled = false; 
+			pidMotor.disable();
 		}
 	}
 	public void flywheelSetPoint(double setpoint){
 
-		System.out.println("flywheel set setpoint");
+		//System.out.println("flywheel set setpoint");
 		pidMotor.setSetpoint(setpoint);
 	}
 	public boolean flywheelDone (){
 		if(pidMotor.onTarget()){
 
-			System.out.println("flywheel on target");
+			//System.out.println("flywheel on target");
 			return true;
 		} else {
 
-			System.out.println("flywheel not on target");
+			//System.out.println("flywheel not on target");
 			return false;
 		}
 	}
+	
 	
 }
