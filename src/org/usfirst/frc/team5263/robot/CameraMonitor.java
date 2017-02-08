@@ -1,5 +1,6 @@
 package org.usfirst.frc.team5263.robot;
 
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
@@ -13,9 +14,11 @@ import edu.wpi.first.wpilibj.tables.ITableListener;
  */
 public class CameraMonitor {
 	NetworkTable table;
-	public CameraMonitor(ICameraTelemetryReceiver listener) {
+	CameraMan cameraMan;
+	public CameraMonitor(CameraMan cameraMan) {
 		//TODO: save the listener, register for NetworkTable's notifications when updates
 		//happen, and call back on the listener when updates are received
+		this.cameraMan = cameraMan;
 	}
 	
 	@SuppressWarnings("null")
@@ -40,6 +43,7 @@ public class CameraMonitor {
 		//array1[1] = 53.0;
 		if (centerXS.length <= 0){
 			System.out.println("Cannot see a vision target");
+			cameraMan.lookForward();
 		}else{
 			if (centerXS[0] == arraytest[0]){
 			System.out.println("CENTERX RAN");
@@ -50,7 +54,8 @@ public class CameraMonitor {
 		
 	}
 	public void CameraInit (){
-		CameraServer.getInstance().startAutomaticCapture();
+		UsbCamera Camera = CameraServer.getInstance().startAutomaticCapture();
+		Camera.setExposureManual(5);
 		table = NetworkTable.getTable("GRIP/myContoursReport");
 		int inches = 18;
 		int feet = (int) 1.5;
