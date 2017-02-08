@@ -27,10 +27,6 @@ public class Manipulators {
 	}
 
 	public RobotDrive myRobot = new RobotDrive(0, 1);
-<<<<<<< HEAD
-=======
-	 
-	
 	
 	
 	public class MyPIDOutputEncoder implements PIDOutput {
@@ -86,7 +82,6 @@ public class Manipulators {
 			return false;
 		}
 	}
-	
->>>>>>> branch 'master' of https://github.com/FRC5263/2017Robot.git
+
 	
 }
