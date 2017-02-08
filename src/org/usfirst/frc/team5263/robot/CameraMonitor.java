@@ -38,9 +38,14 @@ public class CameraMonitor {
 		double[] arraytest = new double[1];
 		arraytest[0] = 109.0;
 		//array1[1] = 53.0;
-		if (centerXS[0] <= arraytest[0]){
+		if (centerXS.length <= 0){
+			System.out.println("Cannot see a vision target");
+		}else{
+			if (centerXS[0] == arraytest[0]){
 			System.out.println("CENTERX RAN");
 		}
+		}
+		
 		
 		
 	}

@@ -23,12 +23,26 @@ public class AutoVirtualDriver {
 	// int after;
 	// int autoRunner;
 	// int encoderSet; // delete
-
+	private class drivestraight{
+		double distance;
+		double drivePower;
+		drivestraight(double distance, double drivePower){
+			this.distance = distance;
+			this.drivePower = drivePower;
+		}
+	}
+	private class rotate{
+		double turn;
+		rotate (double turn){
+			this.turn = turn;
+		}
+	}
 	int step = 0; // this will go up, for every completed step
 
 	double[] turn = { 90, 90, 90, 90 };
 	double[] distance = { -7, -7, -7, -7 };
 	double[] drivePower = { 0.6, 0.6, 0.6, 0.6 };
+	Object[] autosteps = {new rotate(90), new drivestraight(-7, .6)};
 	int steps = Array.getLength(turn); // This variable is a finite number, the
 										// number of tasks to complete
 
