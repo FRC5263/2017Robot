@@ -39,11 +39,11 @@ public class AutoVirtualDriver {
 	}
 	int step = 0; // this will go up, for every completed step
 
-	double[] turn = { 90, 90, 90, 90 };
-	double[] distance = { -7, -7, -7, -7 };
-	double[] drivePower = { 0.6, 0.6, 0.6, 0.6 };
-	Object[] autosteps = {new rotate(90), new drivestraight(-7, .6)};
-	int steps = Array.getLength(turn); // This variable is a finite number, the
+	//double[] turn = { 90, 90, 90, 90 };
+	//double[] distance = { -7, -7, -7, -7 };
+	//double[] drivePower = { 0.6, 0.6, 0.6, 0.6 };
+	Object[] autosteps = {new rotate(90), new drivestraight(-7, 0.4)};
+	//int steps = Array.getLength(turn); // This variable is a finite number, the
 										// number of tasks to complete
 
 	// =============================================== for driving straight
@@ -56,11 +56,11 @@ public class AutoVirtualDriver {
 	double encoderMin;
 	double encoderMax;
 	double driveBeenDone;
-	double power;
+	//double power;
 	boolean doRotate;
-	double currentAngle;
-	double drivingMin;
-	double drivingMax;
+	//double currentAngle;
+	//double drivingMin;
+	//double drivingMax;
 	
 	
 	
@@ -76,21 +76,21 @@ public class AutoVirtualDriver {
 	// ================================================
 
 	// ================================================ for rotate
-	double degrees;
+	//double degrees;
 	double pastDegrees;
 	double angle;
 	int rotateBeenDone;
 	int rotateSet;
 	double minMargin;
 	double maxMargin;
-	boolean doDrive;
-	int rotateRunner;
+	//boolean doDrive;
+	//int rotateRunner;
 	
-	boolean overallRun;
+	//boolean overallRun;
 	
 	static final double kP = 0.05;
-    static final double kI = 0.00;
-    static final double kD = 0.00;
+    static final double kI = 0.0005;
+    static final double kD = 0.0005;
     static final double kF = 0.00;
     boolean runPID;
     double PIDTolerance = 2; //this is the "margin" of degrees the PID considers on target.
@@ -115,15 +115,15 @@ public class AutoVirtualDriver {
 		//===========================================
 		//drive
 		
-		doRotate = false;
+		//doRotate = false;
 		
 		//===========================================
 		//rotate 
 		
 		rotateSet = 0;
-		doDrive = true;
-		rotateRunner = 0;
-		overallRun = true;
+		//doDrive = true;
+		//rotateRunner = 0;
+		//overallRun = true;
 		
 		//===========================================
 	}
@@ -132,9 +132,9 @@ public class AutoVirtualDriver {
 		sensing.gyro.reset();
 		sensing.encoder1.reset();
 		runPID = false;
-		overallRun = false;
-		doDrive = false;
-		doRotate = false;
+		//overallRun = false;
+		//doDrive = false;
+		//doRotate = false;
 		step = 0;
 		encoderSet = 0;
 		try{
@@ -146,6 +146,33 @@ public class AutoVirtualDriver {
 
 	public void periodicAuto() {
 
+		
+		
+		
+		if(autosteps[step] instanceof drivestraight){
+			double drivingStraightDistance = ((drivestraight)autosteps[step]).distance;
+			double drivingStraightPower = ((drivestraight)autosteps[step]).drivePower;
+			if(!DriveStraightN(drivingStraightDistance, drivingStraightPower)){
+				System.out.println("ran drive, starting next object");
+				if(step < Array.getLength(autosteps) - 1){
+					step++;
+				}
+			}
+		}
+		
+		if(autosteps[step] instanceof rotate){
+			double rotateDegrees = ((rotate)autosteps[step]).turn;
+			if(!Rotate(rotateDegrees)){
+				System.out.println("rotate done, staring next object");
+				if(step < Array.getLength(autosteps) - 1){
+					step++;
+				}
+			}
+		}
+		
+		
+		
+		/**
 		// SmartDashboard.putInt("Encoder1", encoder1.get());
 		if (overallRun == true) {
 			if (doDrive == true) {
@@ -164,6 +191,7 @@ public class AutoVirtualDriver {
 				if (rotateRunner == 1) {
 					rotateSet = 0;
 				}
+				
 				if (Rotate(turn[step])) {
 
 				} else {
@@ -183,6 +211,8 @@ public class AutoVirtualDriver {
 			}
 		}
 		//System.out.println("program terminated.");
+		 
+		 **/
 
 	}
 
