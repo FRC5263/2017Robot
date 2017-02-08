@@ -9,11 +9,12 @@ package org.usfirst.frc.team5263.robot;
  * camera stabilization, i.e. the camera can pan as the robot rotates to
  * fixate on target.
  */
+
 public class CameraMan implements ICameraTelemetryReceiver {
+	Manipulators manipulators;
 	public CameraMan(Sensing sensing, Manipulators manipulators) {
-		
+		this.manipulators = manipulators;
 	}
-	
 	/**
 	 * Called by CameraMonitor when GRIP sends us new data.
 	 * TODO: needs parameters added
@@ -44,10 +45,8 @@ public class CameraMan implements ICameraTelemetryReceiver {
 	 * TODO: Might change exposure settings to human-viewable?
 	 */
 	public void lookForward() {
-		
-	}
-	
-	
+		manipulators.servo1.setAngle(95);
+	}	
 	public Double getTargetAngle() {
 		return 0.0;
 	}

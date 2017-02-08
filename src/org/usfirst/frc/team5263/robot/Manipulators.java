@@ -3,6 +3,7 @@ package org.usfirst.frc.team5263.robot;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
@@ -16,6 +17,7 @@ public class Manipulators {
 	Sensing sensing;
 
 	Victor flywheel;
+	Servo servo1;
 	PIDController pidMotor;
 	boolean isAutoFlywheel = false;
 	boolean flywheelPIDEnbled;
@@ -45,6 +47,7 @@ public class Manipulators {
 		System.out.println("running manipulators");
 		flywheel = new Victor(2);
 		flywheel.setInverted(true);
+		servo1 = new Servo(5);
 		
 		pidMotor = new PIDController(0.0001, 0, 0, 0, sensing.getFlywheelPIDSource(), new MyPIDOutputEncoder());
 		pidMotor.disable();
