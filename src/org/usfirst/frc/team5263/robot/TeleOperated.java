@@ -15,8 +15,8 @@ public class TeleOperated {
 	int buttonX = 3;
 	int buttonY = 4;
 	boolean buttonAtoggle = false;
-	boolean buttonDisable = false;
-	int buttonBeenDisabled;
+	boolean buttonDisableA = false;
+	int buttonBeenDisabledA;
 
 	boolean isAutoFlywheel = false;
 
@@ -44,16 +44,16 @@ public class TeleOperated {
 		 * manipulators.flywheelEnabled(false); System.out.println("Stopping
 		 * loop"); }
 		 **/
-		if (main.getRawButton(buttonA) && buttonDisable == false) {
+		if (main.getRawButton(buttonA) && buttonDisableA == false) {
 			buttonAtoggle = !buttonAtoggle;
-			buttonDisable = true;
+			buttonDisableA = true;
 		}
 
-		if (buttonDisable) {
-			buttonBeenDisabled++;
-			if (buttonBeenDisabled > 20) {
-				buttonBeenDisabled = 0;
-				buttonDisable = false;
+		if (buttonDisableA) {
+			buttonBeenDisabledA++;
+			if (buttonBeenDisabledA > 20) {
+				buttonBeenDisabledA = 0;
+				buttonDisableA = false;
 			}
 		}
 
