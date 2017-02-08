@@ -67,7 +67,6 @@ public class TeleOperated {
 			manipulators.flywheelEnabled(false);
 			//System.out.println("Stopping loop");
 		}
-
 		if (isAutoFlywheel == false) {
 
 			System.out.println("is auto flywheel false");
