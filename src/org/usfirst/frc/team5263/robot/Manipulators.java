@@ -72,7 +72,7 @@ public class Manipulators {
 	public void flywheelSetPoint(double setpoint){
 
 		//System.out.println("flywheel set setpoint");
-		pidMotor.setSetpoint(setpoint);
+		pidMotor.setSetpoint(-setpoint);
 	}
 	public boolean flywheelDone (){
 		if(pidMotor.onTarget()){

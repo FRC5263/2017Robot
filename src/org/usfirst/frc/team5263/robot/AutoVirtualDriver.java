@@ -42,7 +42,7 @@ public class AutoVirtualDriver {
 	//double[] turn = { 90, 90, 90, 90 };
 	//double[] distance = { -7, -7, -7, -7 };
 	//double[] drivePower = { 0.6, 0.6, 0.6, 0.6 };
-	Object[] autosteps = {new drivestraight(-5, 0.6), new rotate(90), new drivestraight(-7, 0.6)};
+	Object[] autosteps = {new drivestraight(-5, 0.6), new rotate(90), new drivestraight(-5, 0.6), new rotate(90), new drivestraight(-5, 0.6), new rotate(90)};
 	//int steps = Array.getLength(turn); // This variable is a finite number, the
 										// number of tasks to complete
 
