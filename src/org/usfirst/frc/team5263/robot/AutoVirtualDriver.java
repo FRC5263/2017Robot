@@ -37,6 +37,11 @@ public class AutoVirtualDriver {
 			this.turn = turn;
 		}
 	}
+	
+	public class cameraDrive{
+		
+	}
+	
 	int step = 0; // this will go up, for every completed step
 
 	//double[] turn = { 90, 90, 90, 90 };
