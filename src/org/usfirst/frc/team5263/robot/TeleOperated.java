@@ -21,7 +21,6 @@ public class TeleOperated {
 	boolean buttonDisableX = false;
 	int buttonBeenDisabledX;
 	int servo1angle;
-	int servo2angle;
 	boolean servodone = false;
 	boolean isAutoFlywheel = false;
 
@@ -35,7 +34,6 @@ public class TeleOperated {
 
 	public void init(String mode) {
 		manipulators.servo1.setAngle(0);
-		manipulators.servo2.setAngle(95);
 	}
 
 	public void Periodic() {
@@ -109,9 +107,7 @@ public class TeleOperated {
 		} else if (!buttonXtoggle) {
 			servo1angle = servo1angle;
 		}
-		manipulators.servo1.setAngle(servo1angle);
-		manipulators.servo2.setAngle(servo1angle);
-		
+		manipulators.servo1.setAngle(servo1angle);		
 		if (isAutoFlywheel == false) {
 
 			System.out.println("is auto flywheel false");
