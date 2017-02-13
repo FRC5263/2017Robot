@@ -17,7 +17,12 @@ public class TeleOperated {
 	boolean buttonAtoggle = false;
 	boolean buttonDisableA = false;
 	int buttonBeenDisabledA;
-
+	boolean buttonXtoggle = false;
+	boolean buttonDisableX = false;
+	int buttonBeenDisabledX;
+	int servo1angle;
+	int servo2angle;
+	boolean servodone = false;
 	boolean isAutoFlywheel = false;
 
 	public TeleOperated(Sensing sensing, CameraMan cameraMan, CameraMonitor cameraMonitor, Manipulators manipulators) {
@@ -29,6 +34,8 @@ public class TeleOperated {
 	}
 
 	public void init(String mode) {
+		manipulators.servo1.setAngle(0);
+		manipulators.servo2.setAngle(95);
 	}
 
 	public void Periodic() {
@@ -67,6 +74,44 @@ public class TeleOperated {
 			manipulators.flywheelEnabled(false);
 			//System.out.println("Stopping loop");
 		}
+
+
+		if (main.getRawButton(buttonX) && buttonDisableX == false) {
+			buttonXtoggle = !buttonXtoggle;
+			buttonDisableX = true;
+		}
+		
+		
+		
+		if (buttonDisableX) {
+			buttonBeenDisabledX++;
+			if (buttonBeenDisabledX > 20) {
+				buttonBeenDisabledX = 0;
+				buttonDisableA = false;
+			}
+		}
+		if (buttonXtoggle) {
+			if(servo1angle < 180 && servodone == false){
+				System.out.println("MAX!!!!!!!!!!!!!!!!!!!!");
+				servo1angle++;
+				if (servo1angle >= 180){
+					servodone = true;
+				}
+				
+			} 
+			if (servodone == true) {
+				servo1angle = servo1angle - 1;
+				if (servo1angle < 5) {
+					servodone = false;
+				}
+			}
+			
+		} else if (!buttonXtoggle) {
+			servo1angle = servo1angle;
+		}
+		manipulators.servo1.setAngle(servo1angle);
+		manipulators.servo2.setAngle(servo1angle);
+		
 		if (isAutoFlywheel == false) {
 
 			System.out.println("is auto flywheel false");
