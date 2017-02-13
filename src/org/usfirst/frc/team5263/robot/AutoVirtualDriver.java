@@ -37,12 +37,17 @@ public class AutoVirtualDriver {
 			this.turn = turn;
 		}
 	}
+	
+	public class cameraDrive{
+		
+	}
+	
 	int step = 0; // this will go up, for every completed step
 
 	//double[] turn = { 90, 90, 90, 90 };
 	//double[] distance = { -7, -7, -7, -7 };
 	//double[] drivePower = { 0.6, 0.6, 0.6, 0.6 };
-	Object[] autosteps = {new rotate(90), new drivestraight(-7, 0.4)};
+	Object[] autosteps = {new drivestraight(-5, 0.6), new rotate(90), new drivestraight(-5, 0.6), new rotate(90), new drivestraight(-5, 0.6), new rotate(90)};
 	//int steps = Array.getLength(turn); // This variable is a finite number, the
 										// number of tasks to complete
 
@@ -312,7 +317,12 @@ public class AutoVirtualDriver {
 		}else{
 			rotateBeenDone = 0;
 		}
-		System.out.println();
+		
+		
+		if (rotateBeenDone > 50) {
+			runPID = false;
+			return false;
+		}
 		//if(rotateBeenDone > 50){
 		//	runPID = false;
 		//	return false;

@@ -40,7 +40,7 @@ public class TeleOperated {
 		left_pow = -main.getRawAxis(1) + main.getRawAxis(4);
 		right_pow = -main.getRawAxis(1) - main.getRawAxis(4);
 
-		manipulators.myRobot.tankDrive(left_pow, right_pow);
+		manipulators.myRobot.tankDrive(left_pow * 0.5, right_pow * 0.5);
 		/**
 		 * if(main.getRawButton(buttonA)){ isAutoFlywheel = true;
 		 * manipulators.flywheelSetPoint(1000);
@@ -115,9 +115,9 @@ public class TeleOperated {
 			manipulators.flywheel.set(main.getRawAxis(3));
 		}
 		
-		if(manipulators.flywheelDone()){
-			manipulators.flywheelSetPoint(4500);
-		}
+		//if(manipulators.flywheelDone()){
+		//	manipulators.flywheelSetPoint(4500);
+		//}
 	}
 
 	// left_pow = main.getRawAxis(1);
