@@ -44,6 +44,13 @@ public class TeleOperated {
 		 * manipulators.flywheelEnabled(false); System.out.println("Stopping
 		 * loop"); }
 		 **/
+		
+		if (main.getPOV() == 0){
+			manipulators.climber.set(1);
+		} else {
+			manipulators.climber.set(0.0);
+		}
+		
 		if (main.getRawButton(buttonA) && buttonDisableA == false) {
 			buttonAtoggle = !buttonAtoggle;
 			buttonDisableA = true;
@@ -57,6 +64,9 @@ public class TeleOperated {
 			}
 		}
 
+		
+		
+		
 		if (buttonAtoggle) {
 			isAutoFlywheel = true;
 			manipulators.flywheelSetPoint(4500);

@@ -17,6 +17,7 @@ public class Manipulators {
 	Sensing sensing;
 
 	Victor flywheel;
+	Victor climber;
 	Servo servo1;
 	PIDController pidMotor;
 	boolean isAutoFlywheel = false;
@@ -34,9 +35,9 @@ public class Manipulators {
 	public class MyPIDOutputEncoder implements PIDOutput {
 		@Override
 		public void pidWrite(double output) {
-			System.out.println("outout " + output);
-			System.out.println("error " + pidMotor.getError());
-			System.out.println("rate " + sensing.encoFlywheel.getRate());
+			//System.out.println("outout " + output);
+			//System.out.println("error " + pidMotor.getError());
+			//System.out.println("rate " + sensing.encoFlywheel.getRate());
 			flywheel.setInverted(false);
 			flywheel.set(output);
 			
@@ -46,6 +47,7 @@ public class Manipulators {
 	public void init() {
 		System.out.println("running manipulators");
 		flywheel = new Victor(2);
+		climber = new Victor(3);
 		flywheel.setInverted(true);
 		servo1 = new Servo(5);
 		
