@@ -47,7 +47,7 @@ public class AutoVirtualDriver {
 	//double[] turn = { 90, 90, 90, 90 };
 	//double[] distance = { -7, -7, -7, -7 };
 	//double[] drivePower = { 0.6, 0.6, 0.6, 0.6 };
-	Object[] autosteps = {new drivestraight(-5, 0.6), new rotate(90), new drivestraight(-5, 0.6), new rotate(90), new drivestraight(-5, 0.6), new rotate(90)};
+	Object[] autosteps = {new drivestraight(-5, 0.6), new rotate(90), new drivestraight(-5, 0.6), new rotate(90), new drivestraight(-5, 0.6), new rotate(90), new drivestraight(-5, 0.6), new rotate(90)};
 	//int steps = Array.getLength(turn); // This variable is a finite number, the
 										// number of tasks to complete
 
@@ -89,13 +89,14 @@ public class AutoVirtualDriver {
 	double minMargin;
 	double maxMargin;
 	//boolean doDrive;
-	//int rotateRunner;
+	int rotateRunner;
+	double currentDegrees;
 	
 	//boolean overallRun;
 	
-	static final double kP = 0.05;
-    static final double kI = 0.0005;
-    static final double kD = 0.0005;
+	static final double kP = 0.005;
+    static final double kI = 0.005;
+    static final double kD = 0.002;
     static final double kF = 0.00;
     boolean runPID;
     double PIDTolerance = 2; //this is the "margin" of degrees the PID considers on target.
@@ -168,9 +169,15 @@ public class AutoVirtualDriver {
 		if(autosteps[step] instanceof rotate){
 			double rotateDegrees = ((rotate)autosteps[step]).turn;
 			if(!Rotate(rotateDegrees)){
-				System.out.println("rotate done, staring next object");
+				System.out.println("rotate done, staring next object. STEP " + step + " steps " + (Array.getLength(autosteps) - 1));
 				if(step < Array.getLength(autosteps) - 1){
 					step++;
+					rotateSet = 0;
+					//try{
+					//	turnController.reset();
+					//} catch (Exception e){
+						
+					//}
 				}
 			}
 		}
@@ -245,8 +252,23 @@ public class AutoVirtualDriver {
 		}
 		
 		
-		leftSpeed = power + (driveAngle - targetAngle) / 100; 
-        rightSpeed = power - (driveAngle - targetAngle) / 100; 
+		leftSpeed = power + (driveAngle - targetAngle) / 50; 
+        rightSpeed = power - (driveAngle - targetAngle) / 50; 
+        
+        double remainingDistance = drivePulses - encoder1Val;
+        System.out.println("remaining distance " + remainingDistance);
+        if(remainingDistance < 0){
+        	if(remainingDistance > drivePulses + 150){
+            	leftSpeed = leftSpeed * 0.65;
+            	rightSpeed = rightSpeed * 0.65;
+        	}
+        	System.out.println("Approaching target angle! Decreasing power. Negative distance");
+        } else if(remainingDistance > 0){
+        	if(remainingDistance < drivePulses - 150){
+            	leftSpeed = leftSpeed * 0.65;
+            	rightSpeed = rightSpeed * 0.65;
+        	}
+        }
         
         if (encoder1Val < encoderMin) {
 			System.out.println("encoder val " + encoder1Val + " less than " + drivePulses + " power at " + power + " left speed at " + leftSpeed + " right speed at " + rightSpeed);
@@ -275,15 +297,18 @@ public class AutoVirtualDriver {
 	
 	public boolean Rotate(double degrees) {
 		
+		
+		
+		
 		rotateSet++;
 		if (rotateSet == 1) {
 			pastDegrees = pastDegrees + degrees;
-			//minMargin = pastDegrees - 2;
-			//maxMargin = pastDegrees + 2;
-			//sensing.gyro.reset();
-			System.out.println("ROTATE INITAL SET");
 			
 			runPID = true;
+			if(!(turnController == null)){
+				turnController.reset();
+				turnController.disable();
+			}
 			turnController = new PIDController(kP, kD, kI, kF, sensing.getGyroPIDSource(), new PIDOutput() {
 				
 				@Override
@@ -293,13 +318,15 @@ public class AutoVirtualDriver {
 					
 				}
 			});
-			turnController.setSetpoint(degrees);
+			
+			turnController.setSetpoint(pastDegrees);
 			turnController.setInputRange(-360.0f,  360.0f); //was -180 180
 	        turnController.setOutputRange(-1.0, 1.0);
 	        turnController.setAbsoluteTolerance(PIDTolerance);
 			 
 		}
-
+		
+		
 		angle = sensing.getGyroAngle();
 		System.out.println("output " + turnController.get());
 		System.out.println("error " + turnController.getError());
@@ -318,9 +345,12 @@ public class AutoVirtualDriver {
 			rotateBeenDone = 0;
 		}
 		
-		
-		if (rotateBeenDone > 50) {
+		if (rotateBeenDone > 20) {
+
 			runPID = false;
+		}
+		if (rotateBeenDone > 50) {
+			currentDegrees = 0;
 			return false;
 		}
 		//if(rotateBeenDone > 50){
@@ -353,7 +383,11 @@ public class AutoVirtualDriver {
 		**/
 		
 		return true;
+		
+		
 
 	}
 
+	
+	
 }
