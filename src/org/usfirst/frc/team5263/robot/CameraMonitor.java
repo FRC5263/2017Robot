@@ -21,6 +21,7 @@ public class CameraMonitor {
 		//TODO: save the listener, register for NetworkTable's notifications when updates
 		//happen, and call back on the listener when updates are received
 		this.cameraMan = cameraMan;
+		
 	}
 	
 	
