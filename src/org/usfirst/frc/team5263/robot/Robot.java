@@ -71,6 +71,7 @@ public class Robot extends IterativeRobot {
 		super.robotPeriodic();
 		dashComm.dashperiodic();
 		diagnostics.diagperiodic();
+		cameraMonitor.periodicFunction();
 	}
 
 	@Override

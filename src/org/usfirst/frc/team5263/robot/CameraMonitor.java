@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj.tables.ITableListener;
 public class CameraMonitor {
 	NetworkTable table;
 	CameraMan cameraMan;
+	UsbCamera Camera;
+	int counter = 0;
 	public CameraMonitor(CameraMan cameraMan) {
 		//TODO: save the listener, register for NetworkTable's notifications when updates
 		//happen, and call back on the listener when updates are received
@@ -24,9 +26,15 @@ public class CameraMonitor {
 	@SuppressWarnings("null")
 	public void periodicFunction() {
 		//TODO: check that the camera is actively streaming and we're getting live telemetry from GRIP.
+		if (counter < 1){
+			counter++;
+			Camera.setExposureManual(20);
+			System.out.println(counter);
+		}
 		double[] areas = table.getNumberArray("area", (double[])null);
 		double[] centerXS = table.getNumberArray("centerX", (double[])null);
 		double[] centerYS = table.getNumberArray("centerY", (double[])null);
+		double[] widthS = table.getNumberArray("width", (double[])null);
 		for (double area : areas){
 			System.out.println("AREA: " + area);
 		}
@@ -37,25 +45,14 @@ public class CameraMonitor {
 		{
 			System.out.println("CENTERY: " + centerY);
 		}
-		
-		double[] arraytest = new double[1];
-		arraytest[0] = 109.0;
-		//array1[1] = 53.0;
-		if (centerXS.length <= 0){
-			System.out.println("Cannot see a vision target");
-			cameraMan.lookForward();
-		}else{
-			if (centerXS[0] == arraytest[0]){
-			System.out.println("CENTERX RAN");
+		for (double width: widthS)
+		{
+			System.out.println("Width: " + width);
 		}
-		}
-		
-		
 		
 	}
 	public void CameraInit (){
-		UsbCamera Camera = CameraServer.getInstance().startAutomaticCapture();
-		Camera.setExposureManual(5);
+		Camera = CameraServer.getInstance().startAutomaticCapture();
 		table = NetworkTable.getTable("GRIP/myContoursReport");
 		int inches = 18;
 		int feet = (int) 1.5;
