@@ -47,7 +47,7 @@ public class AutoVirtualDriver {
 	//double[] turn = { 90, 90, 90, 90 };
 	//double[] distance = { -7, -7, -7, -7 };
 	//double[] drivePower = { 0.6, 0.6, 0.6, 0.6 };
-	Object[] autosteps = {new rotate(360)/**new drivestraight(-10, 0.6), new rotate(90), new drivestraight(-5, 0.6), new rotate(90), new drivestraight(-5, 0.6), new rotate(90), new drivestraight(-5, 0.6), new rotate(90)**/};
+	Object[] autosteps = {new drivestraight(-5, 0.6), new rotate(90), new drivestraight(-5, 0.6), new rotate(90), new drivestraight(-5, 0.6), new rotate(90), new drivestraight(-5, 0.6), new rotate(90)};
 	//int steps = Array.getLength(turn); // This variable is a finite number, the
 										// number of tasks to complete
 
@@ -94,9 +94,9 @@ public class AutoVirtualDriver {
 	
 	//boolean overallRun;
 	
-	static final double kP = 0.05;
+	static final double kP = 0.005;
     static final double kI = 0.005;
-    static final double kD = 0.005;
+    static final double kD = 0.002;
     static final double kF = 0.00;
     boolean runPID;
     double PIDTolerance = 2; //this is the "margin" of degrees the PID considers on target.
@@ -252,8 +252,23 @@ public class AutoVirtualDriver {
 		}
 		
 		
-		leftSpeed = power + (driveAngle - targetAngle) / 100; 
-        rightSpeed = power - (driveAngle - targetAngle) / 100; 
+		leftSpeed = power + (driveAngle - targetAngle) / 50; 
+        rightSpeed = power - (driveAngle - targetAngle) / 50; 
+        
+        double remainingDistance = drivePulses - encoder1Val;
+        System.out.println("remaining distance " + remainingDistance);
+        if(remainingDistance < 0){
+        	if(remainingDistance > drivePulses + 150){
+            	leftSpeed = leftSpeed * 0.65;
+            	rightSpeed = rightSpeed * 0.65;
+        	}
+        	System.out.println("Approaching target angle! Decreasing power. Negative distance");
+        } else if(remainingDistance > 0){
+        	if(remainingDistance < drivePulses - 150){
+            	leftSpeed = leftSpeed * 0.65;
+            	rightSpeed = rightSpeed * 0.65;
+        	}
+        }
         
         if (encoder1Val < encoderMin) {
 			System.out.println("encoder val " + encoder1Val + " less than " + drivePulses + " power at " + power + " left speed at " + leftSpeed + " right speed at " + rightSpeed);
@@ -291,6 +306,7 @@ public class AutoVirtualDriver {
 			
 			runPID = true;
 			if(!(turnController == null)){
+				turnController.reset();
 				turnController.disable();
 			}
 			turnController = new PIDController(kP, kD, kI, kF, sensing.getGyroPIDSource(), new PIDOutput() {
