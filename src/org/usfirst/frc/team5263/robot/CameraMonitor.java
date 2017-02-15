@@ -23,6 +23,7 @@ public class CameraMonitor {
 		this.cameraMan = cameraMan;
 	}
 	
+	
 	@SuppressWarnings("null")
 	public void periodicFunction() {
 		//TODO: check that the camera is actively streaming and we're getting live telemetry from GRIP.
@@ -49,6 +50,29 @@ public class CameraMonitor {
 		{
 			System.out.println("Width: " + width);
 		}
+			double[] centerXarray = new double[1];
+			double[] widtharray = new double[1];
+			centerXarray[0] = 109.0;
+			widtharray[0] = 32.0;
+			
+			//array1[1] = 53.0;
+			if (centerXS.length <= 0){
+				System.out.println("Cannot see a vision target");
+			}else{
+	 		System.out.println("Can see a vision target");
+				if (centerXS[0] == centerXarray[0]){
+					
+				}	
+			}
+			if (widthS.length <= 0){
+				System.out.println("");
+			}else {
+				if(widthS[0] == widtharray[0])
+				{
+					System.out.println("");
+				}
+		}
+		
 		
 	}
 	public void CameraInit (){
@@ -58,16 +82,6 @@ public class CameraMonitor {
 		int feet = (int) 1.5;
 		inches  = feet;
 		double [] defaultValue = new double[0];
-//		while(true){
-//			double [] areas = table.getNumberArray("area", defaultValue);
-//			System.out.println("Areas: ");
-//			for(double area : areas){
-//				System.out.println(area + " ");
-//			}
-//			System.out.println();
-//			Timer.delay(1);
-//		}
-		
 		
 	}
 	
