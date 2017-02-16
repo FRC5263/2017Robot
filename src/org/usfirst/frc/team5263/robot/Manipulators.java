@@ -18,6 +18,7 @@ public class Manipulators {
 
 	Victor flywheel;
 	Victor climber;
+	Victor sweeper;
 	Servo servo1;
 	PIDController pidMotor;
 	boolean isAutoFlywheel = false;
@@ -48,6 +49,8 @@ public class Manipulators {
 		System.out.println("running manipulators");
 		flywheel = new Victor(2);
 		climber = new Victor(3);
+		sweeper = new Victor(4);
+		sweeper.setInverted(true);
 		flywheel.setInverted(true);
 		servo1 = new Servo(5);
 		
