@@ -17,19 +17,16 @@ public class TeleOperated {
 	boolean buttonAtoggle = false;
 	boolean buttonDisableA = false;
 	int buttonBeenDisabledA;
-<<<<<<< HEAD
 	
 	boolean buttonBtoggle = false;
 	boolean buttonDisableB = false;
 	int buttonBeenDisabledB;
 
-=======
 	boolean buttonXtoggle = false;
 	boolean buttonDisableX = false;
 	int buttonBeenDisabledX;
 	int servo1angle;
 	boolean servodone = false;
->>>>>>> branch 'master' of https://github.com/FRC5263/2017Robot.git
 	boolean isAutoFlywheel = false;
 
 	public TeleOperated(Sensing sensing, CameraMan cameraMan, CameraMonitor cameraMonitor, Manipulators manipulators) {
@@ -88,10 +85,6 @@ public class TeleOperated {
 			manipulators.flywheelEnabled(false);
 			//System.out.println("Stopping loop");
 		}
-<<<<<<< HEAD
-		
-		
-=======
 
 
 		if (main.getRawButton(buttonX) && buttonDisableX == false) {
@@ -128,7 +121,7 @@ public class TeleOperated {
 			servo1angle = servo1angle;
 		}
 		manipulators.servo1.setAngle(servo1angle);		
->>>>>>> branch 'master' of https://github.com/FRC5263/2017Robot.git
+		
 		if (isAutoFlywheel == false) {
 
 			//System.out.println("is auto flywheel false");
