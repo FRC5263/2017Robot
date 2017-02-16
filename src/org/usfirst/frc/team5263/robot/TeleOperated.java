@@ -17,6 +17,11 @@ public class TeleOperated {
 	boolean buttonAtoggle = false;
 	boolean buttonDisableA = false;
 	int buttonBeenDisabledA;
+	
+	boolean buttonBtoggle = false;
+	boolean buttonDisableB = false;
+	int buttonBeenDisabledB;
+
 	boolean buttonXtoggle = false;
 	boolean buttonDisableX = false;
 	int buttonBeenDisabledX;
@@ -68,10 +73,8 @@ public class TeleOperated {
 				buttonDisableA = false;
 			}
 		}
+		
 
-		
-		
-		
 		if (buttonAtoggle) {
 			isAutoFlywheel = true;
 			manipulators.flywheelSetPoint(4500);
@@ -118,12 +121,36 @@ public class TeleOperated {
 			servo1angle = servo1angle;
 		}
 		manipulators.servo1.setAngle(servo1angle);		
+		
 		if (isAutoFlywheel == false) {
 
-			System.out.println("is auto flywheel false");
+			//System.out.println("is auto flywheel false");
 			// flywheel.set(main.getRawAxis(3));
 			manipulators.flywheel.set(main.getRawAxis(3));
 		}
+		
+		
+		if (main.getRawButton(buttonB) && buttonDisableB == false) {
+			buttonBtoggle = !buttonBtoggle;
+			buttonDisableB = true;
+		}
+
+		if (buttonDisableB) {
+			buttonBeenDisabledB++;
+			if (buttonBeenDisabledB > 20) {
+				buttonBeenDisabledB = 0;
+				buttonDisableB = false;
+			}
+		}
+
+		
+		if (buttonBtoggle) {
+			manipulators.sweeper.set(1.0);
+		} else if (!buttonAtoggle) {
+			manipulators.sweeper.set(0.0);
+		}
+		
+		
 		
 		//if(manipulators.flywheelDone()){
 		//	manipulators.flywheelSetPoint(4500);
