@@ -51,7 +51,7 @@ public class AutoVirtualDriver {
 	// double[] turn = { 90, 90, 90, 90 };
 	// double[] distance = { -7, -7, -7, -7 };
 	// double[] drivePower = { 0.6, 0.6, 0.6, 0.6 };\
-	Object[] autosteps = { new drivestraight(-10, 0.7), new rotate(-135) };
+	Object[] autosteps = { new drivestraight(-5, 0.7), new rotate(-90), new drivestraight(-5, 0.7), new rotate(-90), new drivestraight(-5, 0.7), new rotate(-90) ,new drivestraight(-5, 0.7), new rotate(-90) };
 	// int steps = Array.getLength(turn); // This variable is a finite number,
 	// the
 	// number of tasks to complete
@@ -93,9 +93,9 @@ public class AutoVirtualDriver {
 
 	// boolean overallRun;
 
-	static final double kP = 0.01;
-	static final double kI = 0.005;
-	static final double kD = 0.001;
+	static final double kP = 0.005;
+	static final double kI = 0.0003;
+	static final double kD = 0.0001;
 	static final double kF = 0.00;
 	boolean runPID;
 	double PIDTolerance = 2; // this is the "margin" of degrees the PID
@@ -254,13 +254,13 @@ public class AutoVirtualDriver {
 		double remainingDistancePulses = encoderTargetPulses - encoder1Val;
 		System.out.println("remaining distance " + remainingDistancePulses + " target pulses " + encoderTargetPulses);
 		if (remainingDistancePulses < 0) {
-			if (remainingDistancePulses > encoderTargetPulses + 150) {
+			if (remainingDistancePulses > encoderTargetPulses + 25) {
 				leftSpeed = leftSpeed * 0.65;
 				rightSpeed = rightSpeed * 0.65;
 			}
 			System.out.println("Approaching target angle! Decreasing power. Negative distance");
 		} else if (remainingDistancePulses > 0) {
-			if (remainingDistancePulses < encoderTargetPulses - 150) {
+			if (remainingDistancePulses < encoderTargetPulses - 25) {
 				leftSpeed = leftSpeed * 0.65;
 				rightSpeed = rightSpeed * 0.65;
 			}
