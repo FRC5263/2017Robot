@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.Ultrasonic;
 
 /**
  * This class is responsible for all sensors except the camera.
@@ -21,17 +22,20 @@ public class Sensing {
 	Encoder encoder1;
 	Encoder encoder2;
 	Encoder encoFlywheel;
-	
+	Ultrasonic ultra;
 	
 	public void reset() {
 		
 	}
 	
 	public void init(){
+		
+		Ultrasonic ultra = new Ultrasonic(1,1); //output, input
+		ultra.setAutomaticMode(true);
 		gyro = new ADXRS450_Gyro();
 		encoder1 = new Encoder(0, 1);
 		encoder2 = new Encoder(2, 3);
-
+		
 		encoFlywheel = new Encoder(8, 9);
 		encoFlywheel.setPIDSourceType(PIDSourceType.kRate);
 		encoFlywheel.setDistancePerPulse(2.9);
@@ -58,6 +62,11 @@ public class Sensing {
 	public Double getFlywheelEncoder() {
 		return (double) encoFlywheel.get();
 	}
+	public Double getUltraRange() {
+		return (double) ultra.getRangeInches(); 
+	}
+	
+	
 	
 	public PIDSource getGyroPIDSource(){
 		return new PIDSource() {

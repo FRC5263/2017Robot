@@ -43,7 +43,7 @@ public class AutoVirtualDriver {
 	}
 
 	public class cameraDrive {
-		
+
 	}
 
 	int step = 0; // this will go up, for every completed step
@@ -51,7 +51,8 @@ public class AutoVirtualDriver {
 	// double[] turn = { 90, 90, 90, 90 };
 	// double[] distance = { -7, -7, -7, -7 };
 	// double[] drivePower = { 0.6, 0.6, 0.6, 0.6 };\
-	Object[] autosteps = { new drivestraight(-5, 0.7), new rotate(-90), new drivestraight(-5, 0.7), new rotate(-90), new drivestraight(-5, 0.7), new rotate(-90) ,new drivestraight(-5, 0.7), new rotate(-90) };
+	Object[] autosteps = { new drivestraight(-5, 0.7), new rotate(-90), new drivestraight(-5, 0.7), new rotate(-90),
+			new drivestraight(-5, 0.7), new rotate(-90), new drivestraight(-5, 0.7), new rotate(-90) };
 	// int steps = Array.getLength(turn); // This variable is a finite number,
 	// the
 	// number of tasks to complete
@@ -105,6 +106,12 @@ public class AutoVirtualDriver {
 
 	// ===============================================
 	// for camera
+	double ultraRange = sensing.getUltraRange();
+	boolean keepCamDrive;
+	double visionX1val;
+	double visionX2val;
+	double averageXval;
+	boolean ranForVision = false;
 
 	// ==============================================
 	public AutoVirtualDriver(Sensing sensing, CameraMan cameraMan, CameraMonitor cameraMonitor,
@@ -182,9 +189,7 @@ public class AutoVirtualDriver {
 				}
 			}
 		}
-		
-		
-		
+
 		if (autosteps[step] instanceof cameraDrive) {
 			boolean visible = cameraMonitor.visible;
 			if (!cameraDrive(visible)) {
@@ -251,20 +256,22 @@ public class AutoVirtualDriver {
 		leftSpeed = power + (driveAngle - targetAngle) / 50;
 		rightSpeed = power - (driveAngle - targetAngle) / 50;
 
-//		double remainingDistancePulses = encoderTargetPulses - encoder1Val;
-//		System.out.println("remaining distance " + remainingDistancePulses + " target pulses " + encoderTargetPulses);
-//		if (remainingDistancePulses < 0) {
-//			if (remainingDistancePulses > encoderTargetPulses + 25) {
-//				leftSpeed = leftSpeed * 0.65;
-//				rightSpeed = rightSpeed * 0.65;
-//			}
-//			System.out.println("Approaching target angle! Decreasing power. Negative distance");
-//		} else if (remainingDistancePulses > 0) {
-//			if (remainingDistancePulses < encoderTargetPulses - 25) {
-//				leftSpeed = leftSpeed * 0.65;
-//				rightSpeed = rightSpeed * 0.65;
-//			}
-//		}
+		// double remainingDistancePulses = encoderTargetPulses - encoder1Val;
+		// System.out.println("remaining distance " + remainingDistancePulses +
+		// " target pulses " + encoderTargetPulses);
+		// if (remainingDistancePulses < 0) {
+		// if (remainingDistancePulses > encoderTargetPulses + 25) {
+		// leftSpeed = leftSpeed * 0.65;
+		// rightSpeed = rightSpeed * 0.65;
+		// }
+		// System.out.println("Approaching target angle! Decreasing power.
+		// Negative distance");
+		// } else if (remainingDistancePulses > 0) {
+		// if (remainingDistancePulses < encoderTargetPulses - 25) {
+		// leftSpeed = leftSpeed * 0.65;
+		// rightSpeed = rightSpeed * 0.65;
+		// }
+		// }
 
 		if (encoder1Val < encoderMin) {
 			System.out.println("encoder val " + encoder1Val + " less than " + encoderTargetPulses + " power at " + power
@@ -372,17 +379,50 @@ public class AutoVirtualDriver {
 		//
 		// }
 
-//		if (cameraMonitor.centerXS.length < 2) {
-//			System.out.println("2 Vision targets not found");
-//		} else if (cameraMonitor.centerXS.length == 2) {
-//			// if(widthS[0] == widtharray[0])
-//			// {
-//			System.out.println("2 Vision targets found");
-//			// }
-//		} else {
-//			System.out.println("NOPEEE NOPPEEE NOPEEEE");
-//		}
-		if(visible){
+		// if (cameraMonitor.centerXS.length < 2) {
+		// System.out.println("2 Vision targets not found");
+		// } else if (cameraMonitor.centerXS.length == 2) {
+		// // if(widthS[0] == widtharray[0])
+		// // {
+		// System.out.println("2 Vision targets found");
+		// // }
+		// } else {
+		// System.out.println("NOPEEE NOPPEEE NOPEEEE");
+		// }
+		ultraRange = sensing.getUltraRange(); // this is in inches
+		if (visible) {
+			int checkVision;
+			if(ranForVision == false){
+				for (checkVision = 0; checkVision < Array.getLength(cameraMonitor.centerXS); checkVision++) {
+					if (checkVision == 1) {
+						visionX1val = cameraMonitor.centerXS[checkVision];
+					} else if(checkVision == 2){
+						visionX2val = cameraMonitor.centerXS[checkVision];
+					} else if (checkVision == 3){
+						return true;
+					}
+					ranForVision = true;
+				}
+			}
+			averageXval = (visionX1val + visionX2val)/2;
+			if(averageXval > 180){
+				manipulators.myRobot.tankDrive(0.3, -0.3);
+			}else if(averageXval < 150){
+				manipulators.myRobot.tankDrive(-0.3, 0.3);
+				
+			}else{
+				keepCamDrive = true;
+				if (ultraRange <= 10) {
+					keepCamDrive = false;
+				}
+			}
+			
+
+		} else {
+			
+		}
+
+		if (keepCamDrive == true) {
 			manipulators.myRobot.tankDrive(0.5, 0.5);
 		}
 
