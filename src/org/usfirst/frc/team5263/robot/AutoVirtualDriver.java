@@ -50,9 +50,9 @@ public class AutoVirtualDriver {
 
 	// double[] turn = { 90, 90, 90, 90 };
 	// double[] distance = { -7, -7, -7, -7 };
-	// double[] drivePower = { 0.6, 0.6, 0.6, 0.6 };\
-	Object[] autosteps = { new drivestraight(-5, 0.7), new rotate(-90), new drivestraight(-5, 0.7), new rotate(-90),
-			new drivestraight(-5, 0.7), new rotate(-90), new drivestraight(-5, 0.7), new rotate(-90) };
+
+	// double[] drivePower = { 0.6, 0.6, 0.6, 0.6 };
+	Object[] autosteps = { new cameraDrive() };
 	// int steps = Array.getLength(turn); // This variable is a finite number,
 	// the
 	// number of tasks to complete
@@ -192,7 +192,7 @@ public class AutoVirtualDriver {
 
 		if (autosteps[step] instanceof cameraDrive) {
 			boolean visible = cameraMonitor.visible;
-			if (!cameraDrive(visible)) {
+			if (cameraDrive(visible)) { //!cameraDrive
 				System.out.println("rotate done, staring next object. STEP " + step + " steps "
 						+ (Array.getLength(autosteps) - 1));
 				if (step < Array.getLength(autosteps) - 1) {
@@ -424,8 +424,9 @@ public class AutoVirtualDriver {
 
 		if (keepCamDrive == true) {
 			manipulators.myRobot.tankDrive(0.5, 0.5);
+		}else if(!visible){
+			manipulators.myRobot.tankDrive(0.5, -0.5);
 		}
-
 		return false;
 	}
 
