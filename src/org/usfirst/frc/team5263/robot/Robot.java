@@ -69,17 +69,28 @@ public class Robot extends IterativeRobot {
 	public void robotPeriodic() {
 		// TODO Auto-generated method stub
 		super.robotPeriodic();
-		dashComm.dashperiodic();
-		diagnostics.diagperiodic();
-		cameraMonitor.periodicFunction();
+		try {
+			dashComm.dashperiodic();
+		} catch (Exception e) {}
+		try {
+			diagnostics.diagperiodic();
+		} catch (Exception e) {}
+		try {
+			cameraMonitor.periodicFunction();			
+		} catch (Exception e) {}
+		
 	}
 
 	@Override
 	public void teleopInit() {
 		// TODO Auto-generated method stub
 		super.teleopInit();
-		cameraMan.lookForward();
-		virtualDriver.clean();
+		try {
+			cameraMan.lookForward();
+		} catch (Exception e) {}
+		try {
+			virtualDriver.clean();
+		} catch (Exception e) {}
 	}
 
 	@Override
@@ -94,7 +105,9 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		virtualDriver.periodicAuto();
+		try {
+			virtualDriver.periodicAuto();
+		} catch (Exception e) {}
 	}
 
 	/**
@@ -102,9 +115,13 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		teleOp.Periodic();
+		try {
+			teleOp.Periodic();
+		} catch (Exception e) {}
 
-		dashComm.dashperiodic();
+		try {
+			dashComm.dashperiodic();
+		} catch (Exception e) {}
 	}
 
 	/**

@@ -77,7 +77,7 @@ public class TeleOperated {
 
 		if (buttonAtoggle) {
 			isAutoFlywheel = true;
-			manipulators.flywheelSetPoint(4500);
+			manipulators.flywheelSetPoint(4000);
 			manipulators.flywheelEnabled(true);
 			//System.out.println("starting loop");
 		} else if (!buttonAtoggle) {
