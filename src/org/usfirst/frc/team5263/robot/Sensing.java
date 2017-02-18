@@ -30,7 +30,7 @@ public class Sensing {
 	
 	public void init(){
 		
-		Ultrasonic ultra = new Ultrasonic(1,1); //output, input
+		Ultrasonic ultra = new Ultrasonic(4,5); //output, input
 		ultra.setAutomaticMode(true);
 		gyro = new ADXRS450_Gyro();
 		encoder1 = new Encoder(0, 1);

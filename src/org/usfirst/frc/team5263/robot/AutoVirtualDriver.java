@@ -405,9 +405,9 @@ public class AutoVirtualDriver {
 				}
 			}
 			averageXval = (visionX1val + visionX2val)/2;
-			if(averageXval > 180){
+			if(averageXval > 280){
 				manipulators.myRobot.tankDrive(0.3, -0.3);
-			}else if(averageXval < 150){
+			}else if(averageXval < 250){
 				manipulators.myRobot.tankDrive(-0.3, 0.3);
 				
 			}else{
