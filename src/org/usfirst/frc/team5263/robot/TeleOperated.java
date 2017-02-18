@@ -25,9 +25,16 @@ public class TeleOperated {
 	boolean buttonXtoggle = false;
 	boolean buttonDisableX = false;
 	int buttonBeenDisabledX;
+	
+
+	boolean buttonYtoggle = false;
+	boolean buttonDisableY = false;
+	int buttonBeenDisabledY;
+	
 	int servo1angle;
 	boolean servodone = false;
 	boolean isAutoFlywheel = false;
+	double speedMultiplier = 0.7;
 
 	public TeleOperated(Sensing sensing, CameraMan cameraMan, CameraMonitor cameraMonitor, Manipulators manipulators) {
 
@@ -45,7 +52,7 @@ public class TeleOperated {
 		left_pow = -main.getRawAxis(1) + main.getRawAxis(4);
 		right_pow = -main.getRawAxis(1) - main.getRawAxis(4);
 
-		manipulators.myRobot.tankDrive(left_pow * 0.7, right_pow * 0.7);
+		manipulators.myRobot.tankDrive(left_pow * speedMultiplier, right_pow * speedMultiplier);
 		/**
 		 * if(main.getRawButton(buttonA)){ isAutoFlywheel = true;
 		 * manipulators.flywheelSetPoint(1000);
@@ -82,7 +89,10 @@ public class TeleOperated {
 			//System.out.println("starting loop");
 		} else if (!buttonAtoggle) {
 			isAutoFlywheel = false;
-			manipulators.flywheelEnabled(false);
+			//manipulators.flywheelEnabled(false);
+			if(manipulators.pidMotor.isEnabled()){
+				manipulators.pidMotor.disable();
+			}
 			//System.out.println("Stopping loop");
 		}
 
@@ -121,6 +131,47 @@ public class TeleOperated {
 			servo1angle = servo1angle;
 		}
 		manipulators.servo1.setAngle(servo1angle);		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		if (main.getRawButton(buttonY) && buttonDisableY == false) {
+			buttonYtoggle = !buttonYtoggle;
+			buttonDisableY = true;
+		}
+		
+		
+		
+		if (buttonDisableY) {
+			buttonBeenDisabledY++;
+			if (buttonBeenDisabledY > 20) {
+				buttonBeenDisabledY = 0;
+				buttonDisableY = false;
+			}
+		}
+		if (buttonYtoggle) {
+			
+			speedMultiplier = 1.0;
+			
+		} else if (!buttonYtoggle) {
+
+			speedMultiplier = 0.7;
+		}
+		
+		System.out.println("speed multiplier " + speedMultiplier);
+		
+		
+		
+		
+		
+		
 		
 		if (isAutoFlywheel == false) {
 

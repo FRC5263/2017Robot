@@ -71,13 +71,22 @@ public class Robot extends IterativeRobot {
 		super.robotPeriodic();
 		try {
 			dashComm.dashperiodic();
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			System.out.println("dash periodic failed!");
+			e.printStackTrace();
+		}
 		try {
 			diagnostics.diagperiodic();
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			System.out.println("diagnostics periodic failed!");
+			e.printStackTrace();
+		}
 		try {
 			cameraMonitor.periodicFunction();			
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			System.out.println("camera monitor periodic failed!");
+			e.printStackTrace();
+		}
 		
 	}
 
@@ -87,10 +96,16 @@ public class Robot extends IterativeRobot {
 		super.teleopInit();
 		try {
 			cameraMan.lookForward();
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			System.out.println("camera man teleop init failed");
+			e.printStackTrace();
+		}
 		try {
 			virtualDriver.clean();
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			System.out.println("virtual driver init failed! (clean)");
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -107,7 +122,10 @@ public class Robot extends IterativeRobot {
 	public void autonomousPeriodic() {
 		try {
 			virtualDriver.periodicAuto();
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			System.out.println("virtual driver periodic failed!");
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -117,11 +135,17 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		try {
 			teleOp.Periodic();
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			System.out.println("teleop periodic failed!");
+			e.printStackTrace();
+		}
 
 		try {
 			dashComm.dashperiodic();
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			System.out.println("dash periodic inside teleop periodic failed!");
+			e.printStackTrace();
+		}
 	}
 
 	/**

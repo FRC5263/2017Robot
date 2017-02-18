@@ -161,7 +161,6 @@ public class AutoVirtualDriver {
 	}
 
 	public void periodicAuto() {
-		ultraRange = sensing.getUltraRange();
 		if (autosteps[step] instanceof drivestraight) {
 			double drivingStraightDistance = ((drivestraight) autosteps[step]).distance;
 			double drivingStraightPower = ((drivestraight) autosteps[step]).drivePower;
@@ -206,6 +205,10 @@ public class AutoVirtualDriver {
 				}
 			}
 		}
+		
+		
+		
+		System.out.println("is this running at all");
 
 		/**
 		 * // SmartDashboard.putInt("Encoder1", encoder1.get()); if (overallRun
@@ -391,37 +394,45 @@ public class AutoVirtualDriver {
 		// }
 		ultraRange = sensing.getUltraRange(); // this is in inches
 		if (visible) {
+			System.out.println("visible");
 			int checkVision;
 			if(ranForVision == false){
+				System.out.println("running for");
 				for (checkVision = 0; checkVision < Array.getLength(cameraMonitor.centerXS); checkVision++) {
 					if (checkVision == 1) {
 						visionX1val = cameraMonitor.centerXS[checkVision];
 					} else if(checkVision == 2){
 						visionX2val = cameraMonitor.centerXS[checkVision];
 					} else if (checkVision == 3){
-						return true;
+						System.out.println("more than 2 objects");
+					} else {
+						System.out.println("no objects or more than 3");
 					}
 					ranForVision = true;
 				}
 			}
 			averageXval = (visionX1val + visionX2val)/2;
 			if(averageXval > 280){
+				System.out.println("avg x val more than 280, turning");
 				manipulators.myRobot.tankDrive(0.3, -0.3);
 			}else if(averageXval < 250){
+				System.out.println("avg x val less than 250, turning");
 				manipulators.myRobot.tankDrive(-0.3, 0.3);
 				
 			}else{
 				keepCamDrive = true;
 				if (ultraRange <= 10) {
+					System.out.println("ultrarange less than 10, stopped");
+					
 					keepCamDrive = false;
 				}
 			}
 			
 
 		} else {
-			
+			System.out.println("not visible.");
 		}
-
+		System.out.println("distance (inches)" + ultraRange);
 		if (keepCamDrive == true) {
 			manipulators.myRobot.tankDrive(0.5, 0.5);
 		}else if(!visible){

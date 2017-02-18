@@ -50,18 +50,15 @@ public class CameraMonitor {
 		//TODO: check that the camera is actively streaming and we're getting live telemetry from GRIP.
 		if (counter == 50){
 			try {
-				Camera.setExposureManual(20);
+				Camera.setExposureManual(5);
 			}catch(Exception E){
 				System.out.println("Setting Manual Exposure fuction failed");
-				Camera.setExposureManual(20);
 			}
 			try{
 				Camera.setResolution(160, 120);
 				Camera.setFPS(15);
 			}catch(Exception E){
 				System.out.println("FPS & RESOLUTION FAILED");
-				Camera.setResolution(160, 120);
-				Camera.setFPS(15);
 			}
 		}
 
