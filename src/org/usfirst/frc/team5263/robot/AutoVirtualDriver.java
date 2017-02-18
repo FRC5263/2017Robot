@@ -378,66 +378,71 @@ public class AutoVirtualDriver {
 
 	// =====================================================================
 	public boolean cameraDrive(boolean visible) {
-		// if (cameraMonitor.centerXS[0] == cameraMonitor.centerXS[1]){
-		//
-		// }
-
-		// if (cameraMonitor.centerXS.length < 2) {
-		// System.out.println("2 Vision targets not found");
-		// } else if (cameraMonitor.centerXS.length == 2) {
-		// // if(widthS[0] == widtharray[0])
-		// // {
-		// System.out.println("2 Vision targets found");
-		// // }
-		// } else {
-		// System.out.println("NOPEEE NOPPEEE NOPEEEE");
-		// }
-		ultraRange = sensing.getUltraRange(); // this is in inches
-		if (visible) {
-			System.out.println("visible");
-			int checkVision;
-			if(ranForVision == false){
-				System.out.println("running for");
-				for (checkVision = 0; checkVision < Array.getLength(cameraMonitor.centerXS); checkVision++) {
-					if (checkVision == 1) {
-						visionX1val = cameraMonitor.centerXS[checkVision];
-					} else if(checkVision == 2){
-						visionX2val = cameraMonitor.centerXS[checkVision];
-					} else if (checkVision == 3){
-						System.out.println("more than 2 objects");
-					} else {
-						System.out.println("no objects or more than 3");
-					}
-					ranForVision = true;
-				}
-			}
-			averageXval = (visionX1val + visionX2val)/2;
-			if(averageXval > 280){
-				System.out.println("avg x val more than 280, turning");
-				manipulators.myRobot.tankDrive(0.3, -0.3);
-			}else if(averageXval < 250){
-				System.out.println("avg x val less than 250, turning");
-				manipulators.myRobot.tankDrive(-0.3, 0.3);
-				
-			}else{
-				keepCamDrive = true;
-				if (ultraRange <= 10) {
-					System.out.println("ultrarange less than 10, stopped");
-					
-					keepCamDrive = false;
-				}
-			}
-			
-
-		} else {
-			System.out.println("not visible.");
+		if(visible){
+			manipulators.myRobot.tankDrive(.5, .5);
+		}else {
+			manipulators.myRobot.tankDrive(.5, -.5);
 		}
-		System.out.println("distance (inches)" + ultraRange);
-		if (keepCamDrive == true) {
-			manipulators.myRobot.tankDrive(0.5, 0.5);
-		}else if(!visible){
-			manipulators.myRobot.tankDrive(0.5, -0.5);
-		}
+//		// if (cameraMonitor.centerXS[0] == cameraMonitor.centerXS[1]){
+//		//
+//		// }
+//
+//		// if (cameraMonitor.centerXS.length < 2) {
+//		// System.out.println("2 Vision targets not found");
+//		// } else if (cameraMonitor.centerXS.length == 2) {
+//		// // if(widthS[0] == widtharray[0])
+//		// // {
+//		// System.out.println("2 Vision targets found");
+//		// // }
+//		// } else {
+//		// System.out.println("NOPEEE NOPPEEE NOPEEEE");
+//		// }
+//		ultraRange = sensing.getUltraRange(); // this is in inches
+//		if (visible) {
+//			System.out.println("visible");
+//			int checkVision;
+//			if(ranForVision == false){
+//				System.out.println("running for");
+//				for (checkVision = 0; checkVision < Array.getLength(cameraMonitor.centerXS); checkVision++) {
+//					if (checkVision == 1) {
+//						visionX1val = cameraMonitor.centerXS[checkVision];
+//					} else if(checkVision == 2){
+//						visionX2val = cameraMonitor.centerXS[checkVision];
+//					} else if (checkVision == 3){
+//						System.out.println("more than 2 objects");
+//					} else {
+//						System.out.println("no objects or more than 3");
+//					}
+//					ranForVision = true;
+//				}
+//			}
+//			averageXval = (visionX1val + visionX2val)/2;
+//			if(averageXval > 280){
+//				System.out.println("avg x val more than 280, turning");
+//				manipulators.myRobot.tankDrive(-0.5, 0.5);
+//			}else if(averageXval < 250){
+//				System.out.println("avg x val less than 250, turning");
+//				manipulators.myRobot.tankDrive(0.5, -0.5);
+//				
+//			}else{
+//				keepCamDrive = true;
+////				if (ultraRange <= 10) {
+////					System.out.println("ultrarange less than 10, stopped");
+////					
+////					keepCamDrive = false;
+////				}
+//			}
+//			
+//
+//		} else {
+//			System.out.println("not visible.");
+//		}
+//		System.out.println("distance (inches)" + ultraRange);
+//		if (keepCamDrive == true) {
+//			manipulators.myRobot.tankDrive(0.5, 0.5);
+//		}else if(!visible){
+//			//manipulators.myRobot.tankDrive(0.5, -0.5);
+//		}
 		return false;
 	}
 

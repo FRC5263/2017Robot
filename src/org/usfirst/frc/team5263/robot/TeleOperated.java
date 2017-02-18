@@ -35,6 +35,7 @@ public class TeleOperated {
 	boolean servodone = false;
 	boolean isAutoFlywheel = false;
 	double speedMultiplier = 0.7;
+	double ultraRange;
 
 	public TeleOperated(Sensing sensing, CameraMan cameraMan, CameraMonitor cameraMonitor, Manipulators manipulators) {
 
@@ -49,6 +50,9 @@ public class TeleOperated {
 	}
 
 	public void Periodic() {
+		
+		ultraRange = sensing.getUltraRange();
+		System.out.println("ultra range " + ultraRange);
 		left_pow = -main.getRawAxis(1) + main.getRawAxis(4);
 		right_pow = -main.getRawAxis(1) - main.getRawAxis(4);
 
