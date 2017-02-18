@@ -24,6 +24,7 @@ public class CameraMonitor {
 	double[] centerXarray;
 	double[] widtharray;
 	boolean visible;
+	int counter = 0;
 	
 	public CameraMonitor(CameraMan cameraMan) {
 		//TODO: save the listener, register for NetworkTable's notifications when updates
@@ -37,7 +38,7 @@ public class CameraMonitor {
 	public void periodicFunction() {
 		
 		
-		int counter = 0;
+		
 		areas = table.getNumberArray("area", (double[])null);
 		centerXS = table.getNumberArray("centerX", (double[])null);
 		centerYS = table.getNumberArray("centerY", (double[])null);
@@ -47,29 +48,37 @@ public class CameraMonitor {
 		
 		
 		//TODO: check that the camera is actively streaming and we're getting live telemetry from GRIP.
-		if (counter < 1){
-			counter++;
+		if (counter == 50){
 			try {
 				Camera.setExposureManual(20);
 			}catch(Exception E){
 				System.out.println("Setting Manual Exposure fuction failed");
+				Camera.setExposureManual(20);
+			}
+			try{
+				Camera.setResolution(160, 120);
+				Camera.setFPS(15);
+			}catch(Exception E){
+				System.out.println("FPS & RESOLUTION FAILED");
+				Camera.setResolution(160, 120);
+				Camera.setFPS(15);
 			}
 		}
 
-		for (double area : areas){
-			//System.out.println("AREA: " + area);
-		}
-		for (double centerX : centerXS){
-			//System.out.println("CENTERX: " + centerX);
-		}
-		for (double centerY : centerYS)
-		{
-			//System.out.println("CENTERY: " + centerY);
-		}
-		for (double width: widthS)
-		{
-			//System.out.println("Width: " + width);
-		}
+//		for (double area : areas){
+//			//System.out.println("AREA: " + area);
+//		}
+//		for (double centerX : centerXS){
+//			//System.out.println("CENTERX: " + centerX);
+//		}
+//		for (double centerY : centerYS)
+//		{
+//			//System.out.println("CENTERY: " + centerY);
+//		}
+//		for (double width: widthS)
+//		{
+//			//System.out.println("Width: " + width);
+//		}
 			
 			centerXarray[0] = 109.0;
 			widtharray[0] = 32.0;
@@ -81,17 +90,14 @@ public class CameraMonitor {
 			}else{
 	 		//System.out.println("Can see a vision target");
 	 			visible = true;
-				if (centerXS[0] == centerXarray[0]){
-					
-				}	
+				
 			}
 			
 		
-		
+		counter++;
 	}
 	public void CameraInit (){
 		Camera = CameraServer.getInstance().startAutomaticCapture();
-		
 		table = NetworkTable.getTable("GRIP/myContoursReport");
 		int inches = 18;
 		int feet = (int) 1.5;

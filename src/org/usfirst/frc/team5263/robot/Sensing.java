@@ -50,7 +50,7 @@ public class Sensing {
 		return gyroAngle * (360.0/340.0); //(360.0/330.0);
 	}
 	public Double getEncoder1() {
-		return (double) encoder1.get();
+		return (double) -encoder1.get();
 	}
 	public Double getEncoder2() {
 		return (double) encoder2.get();
