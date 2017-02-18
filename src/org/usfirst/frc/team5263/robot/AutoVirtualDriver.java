@@ -251,20 +251,20 @@ public class AutoVirtualDriver {
 		leftSpeed = power + (driveAngle - targetAngle) / 50;
 		rightSpeed = power - (driveAngle - targetAngle) / 50;
 
-		double remainingDistancePulses = encoderTargetPulses - encoder1Val;
-		System.out.println("remaining distance " + remainingDistancePulses + " target pulses " + encoderTargetPulses);
-		if (remainingDistancePulses < 0) {
-			if (remainingDistancePulses > encoderTargetPulses + 25) {
-				leftSpeed = leftSpeed * 0.65;
-				rightSpeed = rightSpeed * 0.65;
-			}
-			System.out.println("Approaching target angle! Decreasing power. Negative distance");
-		} else if (remainingDistancePulses > 0) {
-			if (remainingDistancePulses < encoderTargetPulses - 25) {
-				leftSpeed = leftSpeed * 0.65;
-				rightSpeed = rightSpeed * 0.65;
-			}
-		}
+//		double remainingDistancePulses = encoderTargetPulses - encoder1Val;
+//		System.out.println("remaining distance " + remainingDistancePulses + " target pulses " + encoderTargetPulses);
+//		if (remainingDistancePulses < 0) {
+//			if (remainingDistancePulses > encoderTargetPulses + 25) {
+//				leftSpeed = leftSpeed * 0.65;
+//				rightSpeed = rightSpeed * 0.65;
+//			}
+//			System.out.println("Approaching target angle! Decreasing power. Negative distance");
+//		} else if (remainingDistancePulses > 0) {
+//			if (remainingDistancePulses < encoderTargetPulses - 25) {
+//				leftSpeed = leftSpeed * 0.65;
+//				rightSpeed = rightSpeed * 0.65;
+//			}
+//		}
 
 		if (encoder1Val < encoderMin) {
 			System.out.println("encoder val " + encoder1Val + " less than " + encoderTargetPulses + " power at " + power
