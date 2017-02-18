@@ -106,8 +106,8 @@ public class AutoVirtualDriver {
 
 	// ===============================================
 	// for camera
-	double ultraRange = sensing.getUltraRange();
 	boolean keepCamDrive;
+	double ultraRange;
 	double visionX1val;
 	double visionX2val;
 	double averageXval;
@@ -161,7 +161,7 @@ public class AutoVirtualDriver {
 	}
 
 	public void periodicAuto() {
-
+		ultraRange = sensing.getUltraRange();
 		if (autosteps[step] instanceof drivestraight) {
 			double drivingStraightDistance = ((drivestraight) autosteps[step]).distance;
 			double drivingStraightPower = ((drivestraight) autosteps[step]).drivePower;
