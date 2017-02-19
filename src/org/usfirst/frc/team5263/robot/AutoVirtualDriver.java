@@ -279,11 +279,11 @@ public class AutoVirtualDriver {
 		if (encoder1Val < encoderMin) {
 			System.out.println("encoder val " + encoder1Val + " less than " + encoderTargetPulses + " power at " + power
 					+ " left speed at " + leftSpeed + " right speed at " + rightSpeed);
-			manipulators.myRobot.tankDrive(-rightSpeed, -leftSpeed);
+			manipulators.driveRobot(-rightSpeed, -leftSpeed);
 		} else if (encoder1Val > encoderMax) {
 			System.out.println("encoder val " + encoder1Val + " more than " + encoderTargetPulses + " power at " + power
 					+ " left speed at " + leftSpeed + " right speed at " + rightSpeed);
-			manipulators.myRobot.tankDrive(rightSpeed, leftSpeed);
+			manipulators.driveRobot(rightSpeed, leftSpeed);
 
 		} else {
 			System.out.println("between margins, stopped.");
@@ -351,9 +351,11 @@ public class AutoVirtualDriver {
 	// =====================================================================
 	public boolean cameraDrive(boolean visible) {
 		if(visible){
-			manipulators.myRobot.tankDrive(.5, .5);
+			//manipulators.myRobot.tankDrive(.5, .5);
+			manipulators.driveRobot(0.5, 0.5);
 		}else {
-			manipulators.myRobot.tankDrive(.5, -.5);
+			//manipulators.myRobot.tankDrive(.5, -.5);
+			manipulators.driveRobot(0.5, -0.5);
 		}
 //		// if (cameraMonitor.centerXS[0] == cameraMonitor.centerXS[1]){
 //		//
