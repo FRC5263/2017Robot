@@ -94,15 +94,15 @@ public class AutoVirtualDriver {
 
 	// boolean overallRun;
 
-	static final double kP = 0.005;
-	static final double kI = 0.0003;
-	static final double kD = 0.0001;
-	static final double kF = 0.00;
+//	static final double kP = 0.005;
+//	static final double kI = 0.0003;
+//	static final double kD = 0.0001;
+//	static final double kF = 0.00;
 	boolean runPID;
-	double PIDTolerance = 2; // this is the "margin" of degrees the PID
-								// considers on target.
-
-	PIDController turnController;
+//	double PIDTolerance = 2; // this is the "margin" of degrees the PID
+//								// considers on target.
+//
+//	PIDController turnController;
 
 	// ===============================================
 	// for camera
@@ -154,7 +154,7 @@ public class AutoVirtualDriver {
 		step = 0;
 		encoderSet = 0;
 		try {
-			turnController.disable();
+			manipulators.rotateEnabled(false);
 		} catch (Exception e) {
 
 		}
@@ -309,39 +309,26 @@ public class AutoVirtualDriver {
 			pastDegrees = pastDegrees + degrees;
 
 			runPID = true;
-			if (!(turnController == null)) {
-				turnController.reset();
-				turnController.disable();
+			if (!(manipulators.turnController == null)) {
+				manipulators.turnController.reset();
+				manipulators.turnController.disable();
 			}
-			turnController = new PIDController(kP, kD, kI, kF, sensing.getGyroPIDSource(), new PIDOutput() {
-
-				@Override
-				public void pidWrite(double output) {
-					// TODO Auto-generated method stub
-					manipulators.myRobot.tankDrive(output, -output);
-
-				}
-			});
-
-			turnController.setSetpoint(pastDegrees);
-			turnController.setInputRange(-360.0f, 360.0f); // was -180 180
-			turnController.setOutputRange(-1.0, 1.0);
-			turnController.setAbsoluteTolerance(PIDTolerance);
+			manipulators.rotateSetPoint(pastDegrees);
 
 		}
 
 		angle = sensing.getGyroAngle();
-		System.out.println("output " + turnController.get());
-		System.out.println("error " + turnController.getError());
+		System.out.println("output " + manipulators.turnController.get());
+		System.out.println("error " + manipulators.turnController.getError());
 		System.out.println("angle " + angle);
 
 		if (runPID) {
-			turnController.enable();
+			manipulators.rotateEnabled(true);
 		} else {
-			turnController.disable();
+			manipulators.rotateEnabled(false);
 		}
 		System.out.println("runPID " + runPID);
-		if (turnController.onTarget()) {
+		if (manipulators.rotateDone()) {
 			rotateBeenDone++;
 		} else {
 			rotateBeenDone = 0;
@@ -355,22 +342,7 @@ public class AutoVirtualDriver {
 			currentDegrees = 0;
 			return false;
 		}
-		// if(rotateBeenDone > 50){
-		// runPID = false;
-		// return false;
-		// }
 
-		/**
-		 * if (angle < minMargin) { manipulators.myRobot.tankDrive(0.6, -0.6);
-		 * System.out.println("angle " + angle + " less than specified " +
-		 * degrees); rotateBeenDone = 0; } else if (angle > maxMargin) {
-		 * manipulators.myRobot.tankDrive(-0.6, 0.6); System.out.println("angle
-		 * " + angle + " less than specified " + degrees); rotateBeenDone = 0; }
-		 * else { manipulators.myRobot.tankDrive(0, 0); rotateBeenDone =
-		 * rotateBeenDone + 1; System.out.println("rotate been done " +
-		 * rotateBeenDone); if (rotateBeenDone > 50) { runPID = false; return
-		 * false; } }
-		 **/
 
 		return true;
 
