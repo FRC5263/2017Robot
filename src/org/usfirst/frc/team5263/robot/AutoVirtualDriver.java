@@ -350,7 +350,6 @@ public class AutoVirtualDriver {
 
 	// =====================================================================
 	public boolean cameraDrive(boolean visible) {
-<<<<<<< HEAD
 //		if(visible){
 //			manipulators.myRobot.tankDrive(.5, .5);
 //		}else {
@@ -394,46 +393,7 @@ public class AutoVirtualDriver {
 //					System.out.println("ultrarange less than 10, stopped");
 //					
 //					keepCamDrive = false;
-=======
-		if(visible){
-			//manipulators.myRobot.tankDrive(.5, .5);
-			manipulators.driveRobot(0.5, 0.5);
-		}else {
-			//manipulators.myRobot.tankDrive(.5, -.5);
-			manipulators.driveRobot(0.5, -0.5);
-		}
-//		// if (cameraMonitor.centerXS[0] == cameraMonitor.centerXS[1]){
-//		//
-//		// }
-//
-//		// if (cameraMonitor.centerXS.length < 2) {
-//		// System.out.println("2 Vision targets not found");
-//		// } else if (cameraMonitor.centerXS.length == 2) {
-//		// // if(widthS[0] == widtharray[0])
-//		// // {
-//		// System.out.println("2 Vision targets found");
-//		// // }
-//		// } else {
-//		// System.out.println("NOPEEE NOPPEEE NOPEEEE");
-//		// }
-//		ultraRange = sensing.getUltraRange(); // this is in inches
-//		if (visible) {
-//			System.out.println("visible");
-//			int checkVision;
-//			if(ranForVision == false){
-//				System.out.println("running for");
-//				for (checkVision = 0; checkVision < Array.getLength(cameraMonitor.centerXS); checkVision++) {
-//					if (checkVision == 1) {
-//						visionX1val = cameraMonitor.centerXS[checkVision];
-//					} else if(checkVision == 2){
-//						visionX2val = cameraMonitor.centerXS[checkVision];
-//					} else if (checkVision == 3){
-//						System.out.println("more than 2 objects");
-//					} else {
-//						System.out.println("no objects or more than 3");
-//					}
-//					ranForVision = true;
->>>>>>> branch 'master' of https://github.com/FRC5263/2017Robot.git
+
 //				}
 			}
 			
