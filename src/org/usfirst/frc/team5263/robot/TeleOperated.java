@@ -1,11 +1,11 @@
 package org.usfirst.frc.team5263.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Timer;
 
 public class TeleOperated {
 
 	Joystick main;
+	Joystick main2;
 	double left_pow;
 	double right_pow;
 	Sensing sensing;
@@ -43,6 +43,7 @@ public class TeleOperated {
 		this.manipulators = manipulators;
 
 		main = new Joystick(0);
+		main2 = new Joystick(1);
 	}
 
 	public void init(String mode) {
@@ -51,8 +52,6 @@ public class TeleOperated {
 
 	public void Periodic() {
 		
-		ultraRange = sensing.getUltraRange();
-		System.out.println("ultra range " + ultraRange);
 		left_pow = -main.getRawAxis(1) + main.getRawAxis(4);
 		right_pow = -main.getRawAxis(1) - main.getRawAxis(4);
 
@@ -66,13 +65,9 @@ public class TeleOperated {
 		 * loop"); }
 		 **/
 		
-		if (main.getPOV() == 0){
-			manipulators.climber.set(1);
-		} else {
-			manipulators.climber.set(0.0);
-		}
 		
-		if (main.getRawButton(buttonA) && buttonDisableA == false) {
+		
+		if (main2.getRawButton(buttonA) && buttonDisableA == false) {
 			buttonAtoggle = !buttonAtoggle;
 			buttonDisableA = true;
 		}
@@ -94,46 +89,60 @@ public class TeleOperated {
 		} else if (!buttonAtoggle) {
 			isAutoFlywheel = false;
 			//manipulators.flywheelEnabled(false);
-			if(manipulators.pidMotor.isEnabled()){
+ 			if(manipulators.pidMotor.isEnabled()){
 				manipulators.pidMotor.disable();
 			}
 			//System.out.println("Stopping loop");
 		}
 
 
-		if (main.getRawButton(buttonX) && buttonDisableX == false) {
-			buttonXtoggle = !buttonXtoggle;
-			buttonDisableX = true;
+//		if (main2.getRawButton(buttonX) && buttonDisableX == false) {
+//			buttonXtoggle = !buttonXtoggle;
+//			buttonDisableX = true;
+//		}
+//		
+//		
+//		
+//		if (buttonDisableX) {
+//			buttonBeenDisabledX++;
+//			if (buttonBeenDisabledX > 20) {
+//				buttonBeenDisabledX = 0;
+//				buttonDisableA = false;
+//			}
+//		}
+//		if (buttonXtoggle) {
+//			if(servo1angle < 180 && servodone == false){
+//				System.out.println("MAX!!!!!!!!!!!!!!!!!!!!");
+//				servo1angle++;
+//				if (servo1angle >= 180){
+//					servodone = true;
+//				}
+//				
+//			} 
+//			if (servodone == true) {
+//				servo1angle = servo1angle - 1;
+//				if (servo1angle < 5) {
+//					servodone = false;
+//				}
+//			}
+//			
+//		} else if (!buttonXtoggle) {
+//			servo1angle = servo1angle;
+//		}
+		
+		if(main2.getTrigger()){
+			manipulators.climber.set(1);
+		} else {
+			manipulators.climber.set(0);
+		}
+		
+		if (main2.getPOV() == 0){
+			servo1angle++;
+		} else if (main2.getPOV() == 180) {
+			servo1angle--;
 		}
 		
 		
-		
-		if (buttonDisableX) {
-			buttonBeenDisabledX++;
-			if (buttonBeenDisabledX > 20) {
-				buttonBeenDisabledX = 0;
-				buttonDisableA = false;
-			}
-		}
-		if (buttonXtoggle) {
-			if(servo1angle < 180 && servodone == false){
-				System.out.println("MAX!!!!!!!!!!!!!!!!!!!!");
-				servo1angle++;
-				if (servo1angle >= 180){
-					servodone = true;
-				}
-				
-			} 
-			if (servodone == true) {
-				servo1angle = servo1angle - 1;
-				if (servo1angle < 5) {
-					servodone = false;
-				}
-			}
-			
-		} else if (!buttonXtoggle) {
-			servo1angle = servo1angle;
-		}
 		manipulators.servo1.setAngle(servo1angle);		
 		
 		
@@ -146,7 +155,7 @@ public class TeleOperated {
 		
 		
 		
-		if (main.getRawButton(buttonY) && buttonDisableY == false) {
+		if (main2.getRawButton(buttonY) && buttonDisableY == false) {
 			buttonYtoggle = !buttonYtoggle;
 			buttonDisableY = true;
 		}
@@ -169,7 +178,7 @@ public class TeleOperated {
 			speedMultiplier = 0.7;
 		}
 		
-		System.out.println("speed multiplier " + speedMultiplier);
+		//System.out.println("speed multiplier " + speedMultiplier);
 		
 		
 		
@@ -181,11 +190,11 @@ public class TeleOperated {
 
 			//System.out.println("is auto flywheel false");
 			// flywheel.set(main.getRawAxis(3));
-			manipulators.flywheel.set(main.getRawAxis(3));
+			manipulators.flywheel.set(main2.getRawAxis(3));
 		}
 		
 		
-		if (main.getRawButton(buttonB) && buttonDisableB == false) {
+		if (main2.getRawButton(buttonB) && buttonDisableB == false) {
 			buttonBtoggle = !buttonBtoggle;
 			buttonDisableB = true;
 		}
