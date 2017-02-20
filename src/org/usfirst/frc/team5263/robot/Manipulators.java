@@ -22,7 +22,17 @@ public class Manipulators {
 	Servo servo1;
 	PIDController pidMotor;
 	boolean isAutoFlywheel = false;
-	boolean flywheelPIDEnbled;
+	
+	
+	static final double kP = 0.005;
+	static final double kI = 0.0003;
+	static final double kD = 0.0001;
+	static final double kF = 0.00;
+	boolean runPID; //may not need this
+	double PIDTolerance = 2; // this is the "margin" of degrees the PID
+								// considers on target.
+
+	PIDController turnController;
 
 	public Manipulators(Sensing sensing) {
 
@@ -60,17 +70,37 @@ public class Manipulators {
 		// pidMotor.setOutputRange(-1, 0);
 		pidMotor.initTable(NetworkTable.getTable("pidtable"));
 
+		
+		turnController = new PIDController(kP, kD, kI, kF, sensing.getGyroPIDSource(), new PIDOutput() {
+
+			@Override
+			public void pidWrite(double output) {
+				// TODO Auto-generated method stub
+				//manipulators.myRobot.tankDrive(output, -output);
+				driveRobot(output, -output);
+			}
+		});
+		
+		turnController.setInputRange(-360.0f, 360.0f); // was -180 180
+		turnController.setOutputRange(-1.0, 1.0);
+		turnController.setAbsoluteTolerance(PIDTolerance);
 
 	} 
 	
+	
+	
+	
+	public void driveRobot(double leftspeed, double rightspeed){
+		
+		myRobot.tankDrive(leftspeed, rightspeed);
+	}
+	
 	public void flywheelEnabled(boolean flywheelRun) {
 		if  (flywheelRun == true) {
-			flywheelPIDEnbled = true;  
 			pidMotor.enable();
 			//System.out.println("flywheelrun true");
 		} else if (flywheelRun == false){
 			//System.out.println("flywheelrun false");
-			flywheelPIDEnbled = false; 
 			pidMotor.disable();
 		}
 	}
@@ -90,6 +120,38 @@ public class Manipulators {
 			return false;
 		}
 	}
+	
+	
+	//===================================================================
+	//rotate pid
+	
+	public void rotateEnabled(boolean rotateRun) {
+		if  (rotateRun == true) {
+			turnController.enable();
+			//System.out.println("rotate run true");
+		} else if (rotateRun == false){
+			//System.out.println("rotate run false");
+			turnController.disable();
+		}
+	}
+	public void rotateSetPoint(double setpoint){
+
+		//System.out.println("rotate set setpoint");
+		turnController.setSetpoint(-setpoint);
+	}
+	public boolean rotateDone (){
+		if(turnController.onTarget()){
+
+			//System.out.println("rotate on target");
+			return true;
+		} else {
+
+			//System.out.println("rotate not on target");
+			return false;
+		}
+	}
+	
+	
 
 	
 }

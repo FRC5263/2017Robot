@@ -94,15 +94,15 @@ public class AutoVirtualDriver {
 
 	// boolean overallRun;
 
-	static final double kP = 0.005;
-	static final double kI = 0.0003;
-	static final double kD = 0.0001;
-	static final double kF = 0.00;
+//	static final double kP = 0.005;
+//	static final double kI = 0.0003;
+//	static final double kD = 0.0001;
+//	static final double kF = 0.00;
 	boolean runPID;
-	double PIDTolerance = 2; // this is the "margin" of degrees the PID
-								// considers on target.
-
-	PIDController turnController;
+//	double PIDTolerance = 2; // this is the "margin" of degrees the PID
+//								// considers on target.
+//
+//	PIDController turnController;
 
 	// ===============================================
 	// for camera
@@ -154,7 +154,7 @@ public class AutoVirtualDriver {
 		step = 0;
 		encoderSet = 0;
 		try {
-			turnController.disable();
+			manipulators.rotateEnabled(false);
 		} catch (Exception e) {
 
 		}
@@ -279,11 +279,11 @@ public class AutoVirtualDriver {
 		if (encoder1Val < encoderMin) {
 			System.out.println("encoder val " + encoder1Val + " less than " + encoderTargetPulses + " power at " + power
 					+ " left speed at " + leftSpeed + " right speed at " + rightSpeed);
-			manipulators.myRobot.tankDrive(-rightSpeed, -leftSpeed);
+			manipulators.driveRobot(-rightSpeed, -leftSpeed);
 		} else if (encoder1Val > encoderMax) {
 			System.out.println("encoder val " + encoder1Val + " more than " + encoderTargetPulses + " power at " + power
 					+ " left speed at " + leftSpeed + " right speed at " + rightSpeed);
-			manipulators.myRobot.tankDrive(rightSpeed, leftSpeed);
+			manipulators.driveRobot(rightSpeed, leftSpeed);
 
 		} else {
 			System.out.println("between margins, stopped.");
@@ -309,39 +309,26 @@ public class AutoVirtualDriver {
 			pastDegrees = pastDegrees + degrees;
 
 			runPID = true;
-			if (!(turnController == null)) {
-				turnController.reset();
-				turnController.disable();
+			if (!(manipulators.turnController == null)) {
+				manipulators.turnController.reset();
+				manipulators.turnController.disable();
 			}
-			turnController = new PIDController(kP, kD, kI, kF, sensing.getGyroPIDSource(), new PIDOutput() {
-
-				@Override
-				public void pidWrite(double output) {
-					// TODO Auto-generated method stub
-					manipulators.myRobot.tankDrive(output, -output);
-
-				}
-			});
-
-			turnController.setSetpoint(pastDegrees);
-			turnController.setInputRange(-360.0f, 360.0f); // was -180 180
-			turnController.setOutputRange(-1.0, 1.0);
-			turnController.setAbsoluteTolerance(PIDTolerance);
+			manipulators.rotateSetPoint(pastDegrees);
 
 		}
 
 		angle = sensing.getGyroAngle();
-		System.out.println("output " + turnController.get());
-		System.out.println("error " + turnController.getError());
+		System.out.println("output " + manipulators.turnController.get());
+		System.out.println("error " + manipulators.turnController.getError());
 		System.out.println("angle " + angle);
 
 		if (runPID) {
-			turnController.enable();
+			manipulators.rotateEnabled(true);
 		} else {
-			turnController.disable();
+			manipulators.rotateEnabled(false);
 		}
 		System.out.println("runPID " + runPID);
-		if (turnController.onTarget()) {
+		if (manipulators.rotateDone()) {
 			rotateBeenDone++;
 		} else {
 			rotateBeenDone = 0;
@@ -355,22 +342,7 @@ public class AutoVirtualDriver {
 			currentDegrees = 0;
 			return false;
 		}
-		// if(rotateBeenDone > 50){
-		// runPID = false;
-		// return false;
-		// }
 
-		/**
-		 * if (angle < minMargin) { manipulators.myRobot.tankDrive(0.6, -0.6);
-		 * System.out.println("angle " + angle + " less than specified " +
-		 * degrees); rotateBeenDone = 0; } else if (angle > maxMargin) {
-		 * manipulators.myRobot.tankDrive(-0.6, 0.6); System.out.println("angle
-		 * " + angle + " less than specified " + degrees); rotateBeenDone = 0; }
-		 * else { manipulators.myRobot.tankDrive(0, 0); rotateBeenDone =
-		 * rotateBeenDone + 1; System.out.println("rotate been done " +
-		 * rotateBeenDone); if (rotateBeenDone > 50) { runPID = false; return
-		 * false; } }
-		 **/
 
 		return true;
 
@@ -378,6 +350,7 @@ public class AutoVirtualDriver {
 
 	// =====================================================================
 	public boolean cameraDrive(boolean visible) {
+<<<<<<< HEAD
 //		if(visible){
 //			manipulators.myRobot.tankDrive(.5, .5);
 //		}else {
@@ -421,6 +394,46 @@ public class AutoVirtualDriver {
 //					System.out.println("ultrarange less than 10, stopped");
 //					
 //					keepCamDrive = false;
+=======
+		if(visible){
+			//manipulators.myRobot.tankDrive(.5, .5);
+			manipulators.driveRobot(0.5, 0.5);
+		}else {
+			//manipulators.myRobot.tankDrive(.5, -.5);
+			manipulators.driveRobot(0.5, -0.5);
+		}
+//		// if (cameraMonitor.centerXS[0] == cameraMonitor.centerXS[1]){
+//		//
+//		// }
+//
+//		// if (cameraMonitor.centerXS.length < 2) {
+//		// System.out.println("2 Vision targets not found");
+//		// } else if (cameraMonitor.centerXS.length == 2) {
+//		// // if(widthS[0] == widtharray[0])
+//		// // {
+//		// System.out.println("2 Vision targets found");
+//		// // }
+//		// } else {
+//		// System.out.println("NOPEEE NOPPEEE NOPEEEE");
+//		// }
+//		ultraRange = sensing.getUltraRange(); // this is in inches
+//		if (visible) {
+//			System.out.println("visible");
+//			int checkVision;
+//			if(ranForVision == false){
+//				System.out.println("running for");
+//				for (checkVision = 0; checkVision < Array.getLength(cameraMonitor.centerXS); checkVision++) {
+//					if (checkVision == 1) {
+//						visionX1val = cameraMonitor.centerXS[checkVision];
+//					} else if(checkVision == 2){
+//						visionX2val = cameraMonitor.centerXS[checkVision];
+//					} else if (checkVision == 3){
+//						System.out.println("more than 2 objects");
+//					} else {
+//						System.out.println("no objects or more than 3");
+//					}
+//					ranForVision = true;
+>>>>>>> branch 'master' of https://github.com/FRC5263/2017Robot.git
 //				}
 			}
 			
