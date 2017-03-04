@@ -190,7 +190,7 @@ public class TeleOperated {
 
 			//System.out.println("is auto flywheel false");
 			// flywheel.set(main.getRawAxis(3));
-			manipulators.flywheel.set(main2.getRawAxis(3));
+			manipulators.flywheel.set(-main2.getRawAxis(3));
 		}
 		
 		
