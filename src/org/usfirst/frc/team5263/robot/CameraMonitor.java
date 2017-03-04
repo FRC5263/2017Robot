@@ -1,16 +1,8 @@
 package org.usfirst.frc.team5263.robot;
 
-import java.util.ArrayList;
-
-import org.opencv.core.Mat;
-import org.opencv.core.MatOfPoint;
-
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
-import edu.wpi.first.wpilibj.tables.ITable;
-import edu.wpi.first.wpilibj.tables.ITableListener;
 
 /**
  * This class starts up the camera, sets appropriate camera settings,
@@ -100,8 +92,6 @@ public class CameraMonitor {
 	}
 	public void CameraInit (){
 		Camera = CameraServer.getInstance().startAutomaticCapture();
-		Thread t = new Thread(new CameraThread());
-		t.start();
 		table = NetworkTable.getTable("GRIP/myContoursReport");
 		int inches = 18;
 		int feet = (int) 1.5;
@@ -110,37 +100,4 @@ public class CameraMonitor {
 		
 	}
 	
-	class CameraThread implements Runnable {
-
-		@Override
-		public void run() {
-			Mat m = new Mat();
-			int consecutiveErrors = 0;
-			GripPipeline pipeline = new GripPipeline();
-			while (true) {
-				long res = CameraServer.getInstance().getVideo().grabFrame(m);
-				//grabFrame can fail. If it fails repeatedly, this will quickly become
-				//an infinite loop, consuming 100% CPU. We don't want that, so
-				//this logic watches for X consecutive failures and starts sleeping
-				//for a time between requests for getting a frame.
-				if (res == 0) {
-					consecutiveErrors++;
-					if (consecutiveErrors > 10) {
-						System.out.println("Camera thread had many consecutive failures to get frame; backing off.");
-						try {
-							Thread.sleep(1000);
-						} catch (InterruptedException e) {}
-					}
-				} else {
-					consecutiveErrors = 0;
-					pipeline.process(m);
-					//TODO: we may want to save the timestamp of the frame? That's what res contains.
-					ArrayList<MatOfPoint> output = pipeline.filterContoursOutput();
-					System.out.println(output.size());
-				}
-				
-			}
-		}
-		
-	}
 }

@@ -380,14 +380,20 @@ public class AutoVirtualDriver {
 				System.out.println("objects not equal to 2");
 			}
 			averageXval = (visionX1val + visionX2val)/2;
-			if(averageXval > 280){
+			if(averageXval > 280 && manipulators.rotateDone()){
 				System.out.println("avg x val more than 280, turning");
-				manipulators.myRobot.tankDrive(0.55, -0.55);
-			}else if(averageXval < 250){
+				//manipulators.myRobot.tankDrive(0.55, -0.55);
+				manipulators.rotateEnabled(true);
+				manipulators.rotateSetPoint(20);
+			}else if(averageXval < 250 && manipulators.rotateDone()){
 				System.out.println("avg x val less than 250, turning");
-				manipulators.myRobot.tankDrive(-0.55, 0.55);
-				
+				//manipulators.myRobot.tankDrive(-0.55, 0.55);
+				manipulators.rotateEnabled(true);
+				manipulators.rotateSetPoint(-20);
 			}else{
+				if(manipulators.turnController.isEnabled()){
+					manipulators.rotateEnabled(false);
+				}
 				keepCamDrive = true;
 //				if (ultraRange <= 10) {
 //					System.out.println("ultrarange less than 10, stopped");
@@ -405,8 +411,6 @@ public class AutoVirtualDriver {
 		System.out.println("distance (inches)" + ultraRange);
 		if (keepCamDrive == true) {
 			manipulators.myRobot.tankDrive(0.5, 0.5);
-		}else if(!visible){
-			//manipulators.myRobot.tankDrive(0.5, -0.5);
 		}
 		return false;
 	}
