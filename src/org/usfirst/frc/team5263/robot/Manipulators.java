@@ -25,8 +25,8 @@ public class Manipulators {
 	
 	
 	static final double kP = 0.005;
-	static final double kI = 0.0003;
-	static final double kD = 0.0001;
+	static final double kI = 0.00035;
+	static final double kD = 0.00027;
 	static final double kF = 0.00;
 	boolean runPID; //may not need this
 	double PIDTolerance = 2; // this is the "margin" of degrees the PID

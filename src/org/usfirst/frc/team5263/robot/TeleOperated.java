@@ -17,7 +17,7 @@ public class TeleOperated {
 	boolean buttonAtoggle = false;
 	boolean buttonDisableA = false;
 	int buttonBeenDisabledA;
-	
+
 	boolean buttonBtoggle = false;
 	boolean buttonDisableB = false;
 	int buttonBeenDisabledB;
@@ -25,12 +25,11 @@ public class TeleOperated {
 	boolean buttonXtoggle = false;
 	boolean buttonDisableX = false;
 	int buttonBeenDisabledX;
-	
 
 	boolean buttonYtoggle = false;
 	boolean buttonDisableY = false;
 	int buttonBeenDisabledY;
-	
+
 	int servo1angle;
 	boolean servodone = false;
 	boolean isAutoFlywheel = false;
@@ -47,11 +46,12 @@ public class TeleOperated {
 	}
 
 	public void init(String mode) {
-		manipulators.servo1.setAngle(0);
+		manipulators.servo1.setAngle(90);
+		servo1angle = 90;
 	}
 
 	public void Periodic() {
-		
+
 		left_pow = -main.getRawAxis(1) + main.getRawAxis(4);
 		right_pow = -main.getRawAxis(1) - main.getRawAxis(4);
 
@@ -64,9 +64,7 @@ public class TeleOperated {
 		 * manipulators.flywheelEnabled(false); System.out.println("Stopping
 		 * loop"); }
 		 **/
-		
-		
-		
+
 		if (main2.getRawButton(buttonA) && buttonDisableA == false) {
 			buttonAtoggle = !buttonAtoggle;
 			buttonDisableA = true;
@@ -79,89 +77,74 @@ public class TeleOperated {
 				buttonDisableA = false;
 			}
 		}
-		
 
 		if (buttonAtoggle) {
 			isAutoFlywheel = true;
 			manipulators.flywheelSetPoint(4000);
 			manipulators.flywheelEnabled(true);
-			//System.out.println("starting loop");
+			// System.out.println("starting loop");
 		} else if (!buttonAtoggle) {
 			isAutoFlywheel = false;
-			//manipulators.flywheelEnabled(false);
- 			if(manipulators.pidMotor.isEnabled()){
+			// manipulators.flywheelEnabled(false);
+			if (manipulators.pidMotor.isEnabled()) {
 				manipulators.pidMotor.disable();
 			}
-			//System.out.println("Stopping loop");
+			// System.out.println("Stopping loop");
 		}
 
+		// if (main2.getRawButton(buttonX) && buttonDisableX == false) {
+		// buttonXtoggle = !buttonXtoggle;
+		// buttonDisableX = true;
+		// }
+		//
+		//
+		//
+		// if (buttonDisableX) {
+		// buttonBeenDisabledX++;
+		// if (buttonBeenDisabledX > 20) {
+		// buttonBeenDisabledX = 0;
+		// buttonDisableA = false;
+		// }
+		// }
+		// if (buttonXtoggle) {
+		// if(servo1angle < 180 && servodone == false){
+		// System.out.println("MAX!!!!!!!!!!!!!!!!!!!!");
+		// servo1angle++;
+		// if (servo1angle >= 180){
+		// servodone = true;
+		// }
+		//
+		// }
+		// if (servodone == true) {
+		// servo1angle = servo1angle - 1;
+		// if (servo1angle < 5) {
+		// servodone = false;
+		// }
+		// }
+		//
+		// } else if (!buttonXtoggle) {
+		// servo1angle = servo1angle;
+		// }
 
-//		if (main2.getRawButton(buttonX) && buttonDisableX == false) {
-//			buttonXtoggle = !buttonXtoggle;
-//			buttonDisableX = true;
-//		}
-//		
-//		
-//		
-//		if (buttonDisableX) {
-//			buttonBeenDisabledX++;
-//			if (buttonBeenDisabledX > 20) {
-//				buttonBeenDisabledX = 0;
-//				buttonDisableA = false;
-//			}
-//		}
-//		if (buttonXtoggle) {
-//			if(servo1angle < 180 && servodone == false){
-//				System.out.println("MAX!!!!!!!!!!!!!!!!!!!!");
-//				servo1angle++;
-//				if (servo1angle >= 180){
-//					servodone = true;
-//				}
-//				
-//			} 
-//			if (servodone == true) {
-//				servo1angle = servo1angle - 1;
-//				if (servo1angle < 5) {
-//					servodone = false;
-//				}
-//			}
-//			
-//		} else if (!buttonXtoggle) {
-//			servo1angle = servo1angle;
-//		}
-		
-		if(main2.getTrigger()){
-			manipulators.climber.set(1);
-		} else {
-			manipulators.climber.set(0);
-		}
-		
-		if (main2.getPOV() == 0){
-			servo1angle++;
+		manipulators.climber.set(main2.getRawAxis(2));
+
+		if (main2.getPOV() == 0) {
+			if (servo1angle < 180) {
+				servo1angle++;
+			}
 		} else if (main2.getPOV() == 180) {
-			servo1angle--;
+			if (servo1angle > 0) {
+				servo1angle--;
+			}
 		}
-		
-		
-		manipulators.servo1.setAngle(servo1angle);		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
+		manipulators.servo1.setAngle(servo1angle);
+
 		if (main2.getRawButton(buttonY) && buttonDisableY == false) {
 			buttonYtoggle = !buttonYtoggle;
 			buttonDisableY = true;
 		}
-		
-		
-		
+
 		if (buttonDisableY) {
 			buttonBeenDisabledY++;
 			if (buttonBeenDisabledY > 20) {
@@ -170,30 +153,23 @@ public class TeleOperated {
 			}
 		}
 		if (buttonYtoggle) {
-			
+
 			speedMultiplier = 1.0;
-			
+
 		} else if (!buttonYtoggle) {
 
 			speedMultiplier = 0.7;
 		}
-		
-		//System.out.println("speed multiplier " + speedMultiplier);
-		
-		
-		
-		
-		
-		
-		
+
+		// System.out.println("speed multiplier " + speedMultiplier);
+
 		if (isAutoFlywheel == false) {
 
-			//System.out.println("is auto flywheel false");
+			// System.out.println("is auto flywheel false");
 			// flywheel.set(main.getRawAxis(3));
 			manipulators.flywheel.set(main2.getRawAxis(3));
 		}
-		
-		
+
 		if (main2.getRawButton(buttonB) && buttonDisableB == false) {
 			buttonBtoggle = !buttonBtoggle;
 			buttonDisableB = true;
@@ -207,18 +183,15 @@ public class TeleOperated {
 			}
 		}
 
-		
 		if (buttonBtoggle) {
 			manipulators.sweeper.set(1.0);
 		} else if (!buttonAtoggle) {
 			manipulators.sweeper.set(0.0);
 		}
-		
-		
-		
-		//if(manipulators.flywheelDone()){
-		//	manipulators.flywheelSetPoint(4500);
-		//}
+
+		// if(manipulators.flywheelDone()){
+		// manipulators.flywheelSetPoint(4500);
+		// }
 	}
 
 	// left_pow = main.getRawAxis(1);
