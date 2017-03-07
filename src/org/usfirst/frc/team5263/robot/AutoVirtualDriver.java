@@ -42,6 +42,14 @@ public class AutoVirtualDriver {
 		}
 	}
 
+	private class OLDrotate {
+		double OLDturn;
+
+		OLDrotate(double OLDturn) {
+			this.OLDturn = OLDturn;
+		}
+	}
+
 	public class cameraDrive {
 
 	}
@@ -114,6 +122,28 @@ public class AutoVirtualDriver {
 	boolean ranForVision = false;
 
 	// ==============================================
+	//for old rotate
+	
+	double OLDdegrees;
+	double OLDpastDegrees;
+	double OLDangle;
+	int OLDrotateBeenDone;
+	int OLDrotateSet = 0;
+	double OLDminMargin;
+	double OLDmaxMargin;
+	boolean OLDdoDrive = true;
+	int OLDrotateRunner = 0;
+	
+	boolean overallRun = true;
+	
+	
+	
+	
+	//================================================
+	
+	
+	
+	
 	public AutoVirtualDriver(Sensing sensing, CameraMan cameraMan, CameraMonitor cameraMonitor,
 			Manipulators manipulators, DashboardCommunication dashComm) {
 
@@ -176,6 +206,23 @@ public class AutoVirtualDriver {
 			double rotateDegrees = ((rotate) autosteps[step]).turn;
 			if (!Rotate(rotateDegrees)) {
 				System.out.println("rotate done, staring next object. STEP " + step + " steps "
+						+ (Array.getLength(autosteps) - 1));
+				if (step < Array.getLength(autosteps) - 1) {
+					step++;
+					rotateSet = 0;
+					// try{
+					// turnController.reset();
+					// } catch (Exception e){
+
+					// }
+				}
+			}
+		}
+
+		if (autosteps[step] instanceof OLDrotate) {
+			double OLDrotateDegrees = ((OLDrotate) autosteps[step]).OLDturn;
+			if (!OLDRotate(OLDrotateDegrees)) {
+				System.out.println("OLDrotate done, staring next object. STEP " + step + " steps "
 						+ (Array.getLength(autosteps) - 1));
 				if (step < Array.getLength(autosteps) - 1) {
 					step++;
@@ -348,6 +395,47 @@ public class AutoVirtualDriver {
 
 	}
 
+
+	// ==================================================
+
+	public boolean OLDRotate(double degrees) {
+		
+		OLDrotateSet++;
+		if (OLDrotateSet == 1) {
+			OLDpastDegrees = OLDpastDegrees + degrees;
+			OLDminMargin = OLDpastDegrees - 2;
+			OLDmaxMargin = OLDpastDegrees + 2;
+			//sensing.gyro.reset();
+			System.out.println("ROTATE INITAL SET");
+		}
+
+		OLDangle = sensing.getGyroAngle();
+
+		if (OLDangle < OLDminMargin) {
+			manipulators.myRobot.tankDrive(0.6, -0.6);
+			System.out.println("angle " + OLDangle + " less than specified " + OLDdegrees);
+			OLDrotateBeenDone = 0;
+		} else if (OLDangle > OLDmaxMargin) {
+			manipulators.myRobot.tankDrive(-0.6, 0.6);
+			System.out.println("angle " + OLDangle + " less than specified " + OLDdegrees);
+			OLDrotateBeenDone = 0;
+		} else {
+			manipulators.myRobot.tankDrive(0, 0);
+			OLDrotateBeenDone = OLDrotateBeenDone + 1;
+			System.out.println("rotate been done " + OLDrotateBeenDone);
+			if (OLDrotateBeenDone > 50) {
+				return false;
+			}
+		}
+		
+		
+		return true;
+
+	}
+
+
+	
+	
 	// =====================================================================
 	public boolean cameraDrive(boolean visible) {
 //		if(visible){
