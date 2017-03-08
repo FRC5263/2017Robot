@@ -54,10 +54,10 @@ public class Sensing {
 		return gyroAngle * (360.0/325.0); //(360.0/330.0); //327 on comp bot, 340 on test bot
 	}
 	public Double getEncoder1() {
-		return (double) -encoder1.get();
+		return (double) encoder1.get();
 	}
 	public Double getEncoder2() {
-		return (double) encoder2.get();
+		return (double) -encoder2.get();
 	}
 	public Double getFlywheelEncoder() {
 		return (double) encoFlywheel.get();

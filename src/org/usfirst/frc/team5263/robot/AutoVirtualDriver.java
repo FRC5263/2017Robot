@@ -53,17 +53,16 @@ public class AutoVirtualDriver {
 	public class cameraDrive {
 
 	}
+	
+	public class stop {
+		
+	}
 
 	int step = 0; // this will go up, for every completed step
 
-	// double[] turn = { 90, 90, 90, 90 };
-	// double[] distance = { -7, -7, -7, -7 };
-
-	// double[] drivePower = { 0.6, 0.6, 0.6, 0.6 };
-	Object[] autosteps = { new cameraDrive() };
-	// int steps = Array.getLength(turn); // This variable is a finite number,
-	// the
-	// number of tasks to complete
+	//Object[] autosteps = { new cameraDrive() };
+	
+	Object[] autosteps = { new drivestraight(-5, 0.5), new stop()};
 
 	// =============================================== for driving straight
 
@@ -239,7 +238,7 @@ public class AutoVirtualDriver {
 		if (autosteps[step] instanceof cameraDrive) {
 			boolean visible = cameraMonitor.visible;
 			if (cameraDrive(visible)) { //!cameraDrive
-				System.out.println("rotate done, staring next object. STEP " + step + " steps "
+				System.out.println("camera drive done, staring next object. STEP " + step + " steps "
 						+ (Array.getLength(autosteps) - 1));
 				if (step < Array.getLength(autosteps) - 1) {
 					step++;
@@ -250,6 +249,14 @@ public class AutoVirtualDriver {
 
 					// }
 				}
+			}
+		}
+
+		if (autosteps[step] instanceof stop) {
+			if (stop()) { //if stop is false, 
+				System.out.println("autonomous stopped");
+			} else {
+				System.out.println("autonomous stopped");
 			}
 		}
 		
@@ -306,22 +313,6 @@ public class AutoVirtualDriver {
 		leftSpeed = power + (driveAngle - targetAngle) / 50;
 		rightSpeed = power - (driveAngle - targetAngle) / 50;
 
-		// double remainingDistancePulses = encoderTargetPulses - encoder1Val;
-		// System.out.println("remaining distance " + remainingDistancePulses +
-		// " target pulses " + encoderTargetPulses);
-		// if (remainingDistancePulses < 0) {
-		// if (remainingDistancePulses > encoderTargetPulses + 25) {
-		// leftSpeed = leftSpeed * 0.65;
-		// rightSpeed = rightSpeed * 0.65;
-		// }
-		// System.out.println("Approaching target angle! Decreasing power.
-		// Negative distance");
-		// } else if (remainingDistancePulses > 0) {
-		// if (remainingDistancePulses < encoderTargetPulses - 25) {
-		// leftSpeed = leftSpeed * 0.65;
-		// rightSpeed = rightSpeed * 0.65;
-		// }
-		// }
 
 		if (encoder1Val < encoderMin) {
 			System.out.println("encoder val " + encoder1Val + " less than " + encoderTargetPulses + " power at " + power
@@ -431,6 +422,12 @@ public class AutoVirtualDriver {
 		
 		return true;
 
+	}
+	
+	public boolean stop(){
+		manipulators.myRobot.tankDrive(0, 0);
+		return true;
+		
 	}
 
 

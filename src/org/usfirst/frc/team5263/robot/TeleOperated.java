@@ -140,7 +140,7 @@ public class TeleOperated {
 
 		manipulators.servo1.setAngle(servo1angle);
 
-		if (main2.getRawButton(buttonY) && buttonDisableY == false) {
+		if (main.getRawButton(buttonY) && buttonDisableY == false) {
 			buttonYtoggle = !buttonYtoggle;
 			buttonDisableY = true;
 		}
