@@ -92,40 +92,6 @@ public class TeleOperated {
 			// System.out.println("Stopping loop");
 		}
 
-		// if (main2.getRawButton(buttonX) && buttonDisableX == false) {
-		// buttonXtoggle = !buttonXtoggle;
-		// buttonDisableX = true;
-		// }
-		//
-		//
-		//
-		// if (buttonDisableX) {
-		// buttonBeenDisabledX++;
-		// if (buttonBeenDisabledX > 20) {
-		// buttonBeenDisabledX = 0;
-		// buttonDisableA = false;
-		// }
-		// }
-		// if (buttonXtoggle) {
-		// if(servo1angle < 180 && servodone == false){
-		// System.out.println("MAX!!!!!!!!!!!!!!!!!!!!");
-		// servo1angle++;
-		// if (servo1angle >= 180){
-		// servodone = true;
-		// }
-		//
-		// }
-		// if (servodone == true) {
-		// servo1angle = servo1angle - 1;
-		// if (servo1angle < 5) {
-		// servodone = false;
-		// }
-		// }
-		//
-		// } else if (!buttonXtoggle) {
-		// servo1angle = servo1angle;
-		// }
-
 		manipulators.climber.set(main2.getRawAxis(2));
 
 		if (main2.getPOV() == 0) {
@@ -185,8 +151,10 @@ public class TeleOperated {
 
 		if (buttonBtoggle) {
 			manipulators.sweeper.set(1.0);
+			manipulators.agitator.set(1.0);
 		} else if (!buttonAtoggle) {
 			manipulators.sweeper.set(0.0);
+			manipulators.agitator.set(0.0);
 		}
 
 		// if(manipulators.flywheelDone()){

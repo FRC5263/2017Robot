@@ -30,7 +30,7 @@ public class Sensing {
 	
 	public void init(){
 		
-		sonic = new Ultrasonic(4,5); //output, input
+		sonic = new Ultrasonic(4,5); //input, output on the sensor
 		sonic.setAutomaticMode(true);
 		gyro = new ADXRS450_Gyro();
 		encoder1 = new Encoder(0, 1);
@@ -63,6 +63,7 @@ public class Sensing {
 		return (double) encoFlywheel.get();
 	}
 	public Double getUltraRange() {
+		//System.out.println(sonic.getRangeInches()); 
 		return (double) sonic.getRangeInches(); 
 	}
 	

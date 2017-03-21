@@ -19,14 +19,15 @@ public class Manipulators {
 	Victor flywheel;
 	Victor climber;
 	Victor sweeper;
+	Victor agitator;
 	Servo servo1;
 	PIDController pidMotor;
 	boolean isAutoFlywheel = false;
 	
 	
-	static final double kP = 0.005;
-	static final double kI = 0.00035;
-	static final double kD = 0.00027;
+	static final double kP = 0.0034;
+	static final double kI = 0.0005;
+	static final double kD = 0.0004;
 	static final double kF = 0.00;
 	boolean runPID; //may not need this
 	double PIDTolerance = 2; // this is the "margin" of degrees the PID
@@ -60,7 +61,7 @@ public class Manipulators {
 		flywheel = new Victor(2);
 		climber = new Victor(3);
 		sweeper = new Victor(4);
-		sweeper.setInverted(true);
+		agitator = new Victor(6);
 		flywheel.setInverted(true);
 		servo1 = new Servo(5);
 		
@@ -134,10 +135,16 @@ public class Manipulators {
 			turnController.disable();
 		}
 	}
+	
+	/**
+	 * positive setpoint turns right
+	 * negative setpoint turns left
+	 * @param setpoint
+	 */
 	public void rotateSetPoint(double setpoint){
 
 		//System.out.println("rotate set setpoint");
-		turnController.setSetpoint(-setpoint);
+		turnController.setSetpoint(-setpoint); 
 	}
 	public boolean rotateDone (){
 		if(turnController.onTarget()){

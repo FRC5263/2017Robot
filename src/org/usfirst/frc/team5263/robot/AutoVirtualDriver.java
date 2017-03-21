@@ -2,6 +2,7 @@ package org.usfirst.frc.team5263.robot;
 
 import java.lang.reflect.Array;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 
@@ -16,14 +17,7 @@ public class AutoVirtualDriver {
 	Manipulators manipulators;
 	DashboardCommunication dashComm;
 	CameraMonitor cameraMonitor;
-	// double rep = 0;
 
-	// int turnDegrees = 90;
-	// int smallerDegrees = turnDegrees - 5;
-	// int biggerDegrees = turnDegrees + 5;
-	// int after;
-	// int autoRunner;
-	// int encoderSet; // delete
 	private class drivestraight {
 		double distance;
 		double drivePower;
@@ -31,6 +25,16 @@ public class AutoVirtualDriver {
 		drivestraight(double distance, double drivePower) {
 			this.distance = distance;
 			this.drivePower = drivePower;
+		}
+	}
+
+	public class sonicDrive {
+		double sonicDistance;
+		boolean faceGear;
+
+		sonicDrive(double sonicDistance, boolean faceGear) {
+			this.sonicDistance = sonicDistance;
+			this.faceGear = faceGear;
 		}
 	}
 
@@ -50,19 +54,42 @@ public class AutoVirtualDriver {
 		}
 	}
 
+	public class shooter {
+		double rpm;
+		double timer;
+
+		shooter(double rpm, double timer) {
+			this.rpm = rpm;
+			this.timer = timer;
+		}
+	}
+
 	public class cameraDrive {
 
 	}
-	
+
 	public class stop {
-		
+
+	}
+
+	public class record {
+
 	}
 
 	int step = 0; // this will go up, for every completed step
 
-	//Object[] autosteps = { new cameraDrive() };
-	
-	Object[] autosteps = { new drivestraight(-5, 0.5), new stop()};
+	// Object[] autosteps = { new drivestraight(4, 0.5), new rotate(135), new
+	// sonicDrive(18), new shooter(3500, 10), new stop()};
+
+	// Object[] autosteps = {
+	// //I thought it looked nice -Evan ;)
+	// new drivestraight(18, 0.5),
+	// //new shooter(4500, 15),
+	// new stop() };
+
+	 Object[] autosteps = { new sonicDrive(5, true), new stop() };
+
+	//Object[] autosteps = { new drivestraight(5, 0.5), new OLDrotate(60), new sonicDrive(8, true) };
 
 	// =============================================== for driving straight
 
@@ -101,15 +128,15 @@ public class AutoVirtualDriver {
 
 	// boolean overallRun;
 
-//	static final double kP = 0.005;
-//	static final double kI = 0.0003;
-//	static final double kD = 0.0001;
-//	static final double kF = 0.00;
+	// static final double kP = 0.005;
+	// static final double kI = 0.0003;
+	// static final double kD = 0.0001;
+	// static final double kF = 0.00;
 	boolean runPID;
-//	double PIDTolerance = 2; // this is the "margin" of degrees the PID
-//								// considers on target.
-//
-//	PIDController turnController;
+	// double PIDTolerance = 2; // this is the "margin" of degrees the PID
+	// // considers on target.
+	//
+	// PIDController turnController;
 
 	// ===============================================
 	// for camera
@@ -121,8 +148,8 @@ public class AutoVirtualDriver {
 	boolean ranForVision = false;
 
 	// ==============================================
-	//for old rotate
-	
+	// for old rotate
+
 	double OLDdegrees;
 	double OLDpastDegrees;
 	double OLDangle;
@@ -132,17 +159,19 @@ public class AutoVirtualDriver {
 	double OLDmaxMargin;
 	boolean OLDdoDrive = true;
 	int OLDrotateRunner = 0;
-	
+
 	boolean overallRun = true;
-	
-	
-	
-	
-	//================================================
-	
-	
-	
-	
+
+	// [================================================
+	// for shooter
+
+	boolean shooterSet = true;
+	double startTime;
+	double currentTime;
+	int shooterDone;
+
+	// ================================================
+
 	public AutoVirtualDriver(Sensing sensing, CameraMan cameraMan, CameraMonitor cameraMonitor,
 			Manipulators manipulators, DashboardCommunication dashComm) {
 
@@ -201,6 +230,17 @@ public class AutoVirtualDriver {
 			}
 		}
 
+		if (autosteps[step] instanceof sonicDrive) {
+			double driveSonicDist = ((sonicDrive) autosteps[step]).sonicDistance;
+			boolean doesFaceGear = ((sonicDrive) autosteps[step]).faceGear;
+			if (!sonicDrive(driveSonicDist, doesFaceGear)) {
+				System.out.println("ran sonic drive, starting next object");
+				if (step < Array.getLength(autosteps) - 1) {
+					step++;
+				}
+			}
+		}
+
 		if (autosteps[step] instanceof rotate) {
 			double rotateDegrees = ((rotate) autosteps[step]).turn;
 			if (!Rotate(rotateDegrees)) {
@@ -235,9 +275,20 @@ public class AutoVirtualDriver {
 			}
 		}
 
+		if (autosteps[step] instanceof shooter) {
+			double shooterRPM = ((shooter) autosteps[step]).rpm;
+			double shooterTimer = ((shooter) autosteps[step]).timer;
+			if (!shooter(shooterRPM, shooterTimer)) {
+				System.out.println("ran shooter, starting next object");
+				if (step < Array.getLength(autosteps) - 1) {
+					step++;
+				}
+			}
+		}
+
 		if (autosteps[step] instanceof cameraDrive) {
 			boolean visible = cameraMonitor.visible;
-			if (cameraDrive(visible)) { //!cameraDrive
+			if (cameraDrive(visible)) { // !cameraDrive
 				System.out.println("camera drive done, staring next object. STEP " + step + " steps "
 						+ (Array.getLength(autosteps) - 1));
 				if (step < Array.getLength(autosteps) - 1) {
@@ -253,16 +304,12 @@ public class AutoVirtualDriver {
 		}
 
 		if (autosteps[step] instanceof stop) {
-			if (stop()) { //if stop is false, 
+			if (stop()) { // if stop is false,
 				System.out.println("autonomous stopped");
 			} else {
 				System.out.println("autonomous stopped");
 			}
 		}
-		
-		
-		
-		System.out.println("is this running at all");
 
 		/**
 		 * // SmartDashboard.putInt("Encoder1", encoder1.get()); if (overallRun
@@ -309,11 +356,26 @@ public class AutoVirtualDriver {
 			targetAngle = sensing.getGyroAngle();
 
 		}
-
-		leftSpeed = power + (driveAngle - targetAngle) / 50;
-		rightSpeed = power - (driveAngle - targetAngle) / 50;
-
-
+		//experimental slow down code so we dont have that weird wiggle thing at the end
+		if (encoderTargetPulses > 0) {
+			if (encoder1Val > encoderTargetPulses - 500) {
+				leftSpeed = (power * 0.6) - (driveAngle - targetAngle) / 50;
+				rightSpeed = (power * 0.6) + (driveAngle - targetAngle) / 50;
+			} else {
+				leftSpeed = power - (driveAngle - targetAngle) / 50;
+				rightSpeed = power + (driveAngle - targetAngle) / 50;
+			}
+		} else if(encoderTargetPulses < 0){
+			if(encoder1Val < encoderTargetPulses + 500){
+				leftSpeed = (power * 0.6) - (driveAngle - targetAngle) / 50;
+				rightSpeed = (power * 0.6) + (driveAngle - targetAngle) / 50;
+			} else {
+				leftSpeed = power - (driveAngle - targetAngle) / 50;
+				rightSpeed = power + (driveAngle - targetAngle) / 50;
+			}
+		} 
+		
+		
 		if (encoder1Val < encoderMin) {
 			System.out.println("encoder val " + encoder1Val + " less than " + encoderTargetPulses + " power at " + power
 					+ " left speed at " + leftSpeed + " right speed at " + rightSpeed);
@@ -338,13 +400,83 @@ public class AutoVirtualDriver {
 		return true;
 	}
 
+	// ======================================================
+
+	public boolean sonicDrive(double sonicDistance, boolean faceGear) {
+
+		encoder1Val = sensing.getEncoder1();
+		driveAngle = sensing.getGyroAngle();
+		encoderSet = encoderSet + 1;
+		double ultraDistance = sensing.getUltraRange() - 11;
+
+		if (encoderSet == 1) {
+			System.out.println("running drive");
+			sensing.encoder1.reset();
+			targetAngle = sensing.getGyroAngle();
+
+		}
+
+//		if (encoderTargetPulses > 0) {
+//			if (encoder1Val > encoderTargetPulses - 500) {
+//				leftSpeed = (0.5 * 0.7) - (driveAngle - targetAngle) / 50;
+//				rightSpeed = (0.5 * 0.7) + (driveAngle - targetAngle) / 50;
+//				System.out.println("1");
+//			} else {
+//				leftSpeed = 0.5 - (driveAngle - targetAngle) / 50;
+//				rightSpeed = 0.5 + (driveAngle - targetAngle) / 50;
+//				System.out.println("2");
+//			}
+//		} else if(encoderTargetPulses < 0){
+//			if(encoder1Val < encoderTargetPulses + 500){
+//				leftSpeed = (0.5 * 0.7) - (driveAngle - targetAngle) / 50;
+//				rightSpeed = (0.5 * 0.7) + (driveAngle - targetAngle) / 50;
+//				System.out.println("3");
+//			} else {
+//				leftSpeed = 0.5 - (driveAngle - targetAngle) / 50;
+//				rightSpeed = 0.5 + (driveAngle - targetAngle) / 50;
+//				System.out.println("4");
+//			}
+//		} 
+
+
+		leftSpeed = 0.5 + (driveAngle - targetAngle) / 50;
+		rightSpeed = 0.5 - (driveAngle - targetAngle) / 50;
+		
+		if (ultraDistance < sonicDistance - 3) {
+
+			if (!faceGear) {
+				manipulators.driveRobot(rightSpeed, leftSpeed);
+			} else {
+				manipulators.driveRobot(-rightSpeed, -leftSpeed);
+			}
+		} else if (ultraDistance > sonicDistance + 3) {
+			if (!faceGear) {
+				manipulators.driveRobot(-rightSpeed, -leftSpeed);
+			} else {
+				manipulators.driveRobot(rightSpeed, leftSpeed);
+			}
+
+		} else {
+			System.out.println("between margins, stopped.");
+			driveBeenDone++;
+			if (driveBeenDone > 50) {
+				encoderSet = 0;
+
+				return false;
+			}
+
+		}
+
+		return true;
+	}
+
 	// ==================================================
 
 	public boolean Rotate(double degrees) {
 
 		rotateSet++;
 		if (rotateSet == 1) {
-			pastDegrees = pastDegrees + degrees;
+			pastDegrees = degrees;
 
 			runPID = true;
 			if (!(manipulators.turnController == null)) {
@@ -381,22 +513,20 @@ public class AutoVirtualDriver {
 			return false;
 		}
 
-
 		return true;
 
 	}
 
-
 	// ==================================================
 
 	public boolean OLDRotate(double degrees) {
-		
+
 		OLDrotateSet++;
 		if (OLDrotateSet == 1) {
 			OLDpastDegrees = OLDpastDegrees + degrees;
 			OLDminMargin = OLDpastDegrees - 2;
 			OLDmaxMargin = OLDpastDegrees + 2;
-			//sensing.gyro.reset();
+			// sensing.gyro.reset();
 			System.out.println("ROTATE INITAL SET");
 		}
 
@@ -418,28 +548,53 @@ public class AutoVirtualDriver {
 				return false;
 			}
 		}
-		
-		
+
 		return true;
 
 	}
-	
-	public boolean stop(){
+
+	public boolean stop() {
 		manipulators.myRobot.tankDrive(0, 0);
 		return true;
-		
+
 	}
 
+	// ======================================================================
 
-	
-	
+	public boolean shooter(double shootRPM, double shootTime) {
+
+		if (shooterSet) {
+			startTime = System.currentTimeMillis();
+			shooterSet = false;
+		}
+
+		currentTime = System.currentTimeMillis();
+
+		if (currentTime <= startTime + (shootTime * 1000)) {
+			manipulators.flywheelEnabled(true);
+			manipulators.flywheelSetPoint(shootRPM);
+		} else {
+			manipulators.flywheelEnabled(false);
+			manipulators.agitator.set(0.0);
+			shooterDone++;
+		}
+
+		if (shooterDone > 50) {
+			manipulators.agitator.set(0.0);
+			manipulators.flywheelEnabled(false);
+			return false;
+		}
+
+		return true;
+	}
+
 	// =====================================================================
 	public boolean cameraDrive(boolean visible) {
-//		if(visible){
-//			manipulators.myRobot.tankDrive(.5, .5);
-//		}else {
-//			manipulators.myRobot.tankDrive(.5, -.5);
-//		}
+		// if(visible){
+		// manipulators.myRobot.tankDrive(.5, .5);
+		// }else {
+		// manipulators.myRobot.tankDrive(.5, -.5);
+		// }
 		// if (cameraMonitor.centerXS[0] == cameraMonitor.centerXS[1]){
 		//
 		// }
@@ -457,44 +612,43 @@ public class AutoVirtualDriver {
 		ultraRange = sensing.getUltraRange(); // this is in inches
 		if (visible) {
 			System.out.println("visible");
-			
-			if(Array.getLength(cameraMonitor.centerXS) == 2){
+
+			if (Array.getLength(cameraMonitor.centerXS) == 2) {
 				visionX1val = cameraMonitor.centerXS[0];
 				visionX2val = cameraMonitor.centerXS[1];
 			} else {
 				System.out.println("objects not equal to 2");
 			}
-			averageXval = (visionX1val + visionX2val)/2;
-			if(averageXval > 280 && manipulators.rotateDone()){
+			averageXval = (visionX1val + visionX2val) / 2;
+			if (averageXval > 280 && manipulators.rotateDone()) {
 				System.out.println("avg x val more than 280, turning");
-				//manipulators.myRobot.tankDrive(0.55, -0.55);
+				// manipulators.myRobot.tankDrive(0.55, -0.55);
 				manipulators.rotateEnabled(true);
 				manipulators.rotateSetPoint(20);
-			}else if(averageXval < 250 && manipulators.rotateDone()){
+			} else if (averageXval < 250 && manipulators.rotateDone()) {
 				System.out.println("avg x val less than 250, turning");
-				//manipulators.myRobot.tankDrive(-0.55, 0.55);
+				// manipulators.myRobot.tankDrive(-0.55, 0.55);
 				manipulators.rotateEnabled(true);
 				manipulators.rotateSetPoint(-20);
-			}else{
-				if(manipulators.turnController.isEnabled()){
+			} else {
+				if (manipulators.turnController.isEnabled()) {
 					manipulators.rotateEnabled(false);
 				}
 				keepCamDrive = true;
-//				if (ultraRange <= 10) {
-//					System.out.println("ultrarange less than 10, stopped");
-//					
-//					keepCamDrive = false;
+				// if (ultraRange <= 10) {
+				// System.out.println("ultrarange less than 10, stopped");
+				//
+				// keepCamDrive = false;
 
-//				}
+				// }
 			}
-			
 
 		} else {
 			System.out.println("not visible.");
 			keepCamDrive = false;
 		}
-		System.out.println("distance (inches)" + ultraRange);
-		if (keepCamDrive == true) {
+		// System.out.println("distance (inches)" + ultraRange);
+		if (keepCamDrive == true && ultraRange > 5) {
 			manipulators.myRobot.tankDrive(0.5, 0.5);
 		}
 		return false;

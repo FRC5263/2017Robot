@@ -33,6 +33,8 @@ public class DashboardCommunication {
 		SmartDashboard.putNumber("Check Gyro", sensing.getGyroAngle());
 		SmartDashboard.putNumber("Encoder1: ", sensing.getEncoder1()); 
 		SmartDashboard.putNumber("Encoder2: ", sensing.getEncoder2());
+		SmartDashboard.putNumber("Ultra Range: ", sensing.getUltraRange());
+		//SmartDashboard.putNumber("feet traveled", (driveDistanceFeet * 12) / (pi * 6) * 1440 / 4;)
 		SmartDashboard.getNumber("Counter: ", 0);
 		//		SmartDashboard.putNumber("Counter: ", counter);
 		SmartDashboard.putNumber("CAN Value", diagnostics.getLeftMotorCurrent());
