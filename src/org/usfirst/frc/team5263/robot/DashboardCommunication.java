@@ -13,7 +13,7 @@ public class DashboardCommunication {
 	double AutoKey;
 	final String centGear = "centerGear";
 	final String stop = "stop";
-	final String gyroAuto = "Gyro";
+	final String baseline = "baseline";
 	Diagnostics diagnostics; 
 	String autoSelected;
 	SendableChooser<String> chooser = new SendableChooser<>(); 
@@ -26,7 +26,7 @@ public class DashboardCommunication {
 	public void init() {
 		chooser.addDefault("Center Gear", centGear);
 		chooser.addObject("Stop", stop);
-		chooser.addObject("Gyro", gyroAuto);
+		chooser.addObject("Break the baseline", baseline);
 		SmartDashboard.putData("Auto choices", chooser);
 	}
 	public void dashperiodic() {

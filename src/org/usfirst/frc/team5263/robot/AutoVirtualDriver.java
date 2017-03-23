@@ -198,6 +198,10 @@ public class AutoVirtualDriver {
 		case "stop":
 			autosteps.clear();
 			autosteps.add(new stop());
+		case "baseline": 
+			autosteps.clear();
+			autosteps.add(new drivestraight(16, 0.6));
+			autosteps.add(new stop());
 			default: 
 				autosteps.clear();
 				autosteps.add(new stop());
