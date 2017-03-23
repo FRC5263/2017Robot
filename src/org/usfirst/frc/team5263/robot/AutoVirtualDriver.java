@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5263.robot;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDController;
@@ -87,9 +88,11 @@ public class AutoVirtualDriver {
 	// //new shooter(4500, 15),
 	// new stop() };
 
-	 Object[] autosteps = { new sonicDrive(5, true), new stop() };
-
-	//Object[] autosteps = { new drivestraight(5, 0.5), new OLDrotate(60), new sonicDrive(8, true) };
+	// Object[] autosteps = { new sonicDrive(5, true), new stop() };
+//	Object[] autosteps = new Object[10];// { new shooter(2500, 10), new rotate(90), new drivestraight(8, 0.6) };
+	ArrayList<Object> autosteps = new ArrayList();
+	// Object[] autosteps = { new drivestraight(5, 0.5), new OLDrotate(60), new
+	// sonicDrive(8, true) };
 
 	// =============================================== for driving straight
 
@@ -183,6 +186,23 @@ public class AutoVirtualDriver {
 	}
 
 	public void init(String mode) {
+		
+		System.out.println("mode: " + mode);
+		
+		switch(mode){
+		case "centerGear": 
+			autosteps.clear();
+			autosteps.add(new sonicDrive(9, true));
+			autosteps.add(new stop());
+			break;
+		case "stop":
+			autosteps.clear();
+			autosteps.add(new stop());
+			default: 
+				autosteps.clear();
+				autosteps.add(new stop());
+		};
+		
 		sensing.gyro.reset();
 		sensing.encoder1.reset();
 
@@ -202,6 +222,7 @@ public class AutoVirtualDriver {
 		// ===========================================
 	}
 
+	
 	public void clean() {
 		sensing.gyro.reset();
 		sensing.encoder1.reset();
@@ -219,34 +240,34 @@ public class AutoVirtualDriver {
 	}
 
 	public void periodicAuto() {
-		if (autosteps[step] instanceof drivestraight) {
-			double drivingStraightDistance = ((drivestraight) autosteps[step]).distance;
-			double drivingStraightPower = ((drivestraight) autosteps[step]).drivePower;
+		if (autosteps.get(step) instanceof drivestraight) {
+			double drivingStraightDistance = ((drivestraight) autosteps.get(step)).distance;
+			double drivingStraightPower = ((drivestraight) autosteps.get(step)).drivePower;
 			if (!DriveStraightN(drivingStraightDistance, drivingStraightPower)) {
 				System.out.println("ran drive, starting next object");
-				if (step < Array.getLength(autosteps) - 1) {
+				if (step < autosteps.size() - 1) {
 					step++;
 				}
 			}
 		}
 
-		if (autosteps[step] instanceof sonicDrive) {
-			double driveSonicDist = ((sonicDrive) autosteps[step]).sonicDistance;
-			boolean doesFaceGear = ((sonicDrive) autosteps[step]).faceGear;
+		if (autosteps.get(step) instanceof sonicDrive) {
+			double driveSonicDist = ((sonicDrive) autosteps.get(step)).sonicDistance;
+			boolean doesFaceGear = ((sonicDrive) autosteps.get(step)).faceGear;
 			if (!sonicDrive(driveSonicDist, doesFaceGear)) {
 				System.out.println("ran sonic drive, starting next object");
-				if (step < Array.getLength(autosteps) - 1) {
+				if (step < autosteps.size() - 1) {
 					step++;
 				}
 			}
 		}
 
-		if (autosteps[step] instanceof rotate) {
-			double rotateDegrees = ((rotate) autosteps[step]).turn;
+		if (autosteps.get(step) instanceof rotate) {
+			double rotateDegrees = ((rotate) autosteps.get(step)).turn;
 			if (!Rotate(rotateDegrees)) {
 				System.out.println("rotate done, staring next object. STEP " + step + " steps "
-						+ (Array.getLength(autosteps) - 1));
-				if (step < Array.getLength(autosteps) - 1) {
+						+ (autosteps.size() - 1));
+				if (step < autosteps.size() - 1) {
 					step++;
 					rotateSet = 0;
 					// try{
@@ -258,12 +279,12 @@ public class AutoVirtualDriver {
 			}
 		}
 
-		if (autosteps[step] instanceof OLDrotate) {
-			double OLDrotateDegrees = ((OLDrotate) autosteps[step]).OLDturn;
+		if (autosteps.get(step) instanceof OLDrotate) {
+			double OLDrotateDegrees = ((OLDrotate) autosteps.get(step)).OLDturn;
 			if (!OLDRotate(OLDrotateDegrees)) {
 				System.out.println("OLDrotate done, staring next object. STEP " + step + " steps "
-						+ (Array.getLength(autosteps) - 1));
-				if (step < Array.getLength(autosteps) - 1) {
+						+ (autosteps.size() - 1));
+				if (step < autosteps.size() - 1) {
 					step++;
 					rotateSet = 0;
 					// try{
@@ -275,23 +296,23 @@ public class AutoVirtualDriver {
 			}
 		}
 
-		if (autosteps[step] instanceof shooter) {
-			double shooterRPM = ((shooter) autosteps[step]).rpm;
-			double shooterTimer = ((shooter) autosteps[step]).timer;
+		if (autosteps.get(step) instanceof shooter) {
+			double shooterRPM = ((shooter) autosteps.get(step)).rpm;
+			double shooterTimer = ((shooter) autosteps.get(step)).timer;
 			if (!shooter(shooterRPM, shooterTimer)) {
 				System.out.println("ran shooter, starting next object");
-				if (step < Array.getLength(autosteps) - 1) {
+				if (step < autosteps.size() - 1) {
 					step++;
 				}
 			}
 		}
 
-		if (autosteps[step] instanceof cameraDrive) {
+		if (autosteps.get(step) instanceof cameraDrive) {
 			boolean visible = cameraMonitor.visible;
 			if (cameraDrive(visible)) { // !cameraDrive
 				System.out.println("camera drive done, staring next object. STEP " + step + " steps "
-						+ (Array.getLength(autosteps) - 1));
-				if (step < Array.getLength(autosteps) - 1) {
+						+ (autosteps.size() - 1));
+				if (step < autosteps.size() - 1) {
 					step++;
 					rotateSet = 0;
 					// try{
@@ -303,11 +324,11 @@ public class AutoVirtualDriver {
 			}
 		}
 
-		if (autosteps[step] instanceof stop) {
+		if (autosteps.get(step) instanceof stop) {
 			if (stop()) { // if stop is false,
-				System.out.println("autonomous stopped");
+				//System.out.println("autonomous stopped");
 			} else {
-				System.out.println("autonomous stopped");
+				//System.out.println("autonomous stopped");
 			}
 		}
 
@@ -356,7 +377,8 @@ public class AutoVirtualDriver {
 			targetAngle = sensing.getGyroAngle();
 
 		}
-		//experimental slow down code so we dont have that weird wiggle thing at the end
+		// experimental slow down code so we dont have that weird wiggle thing
+		// at the end
 		if (encoderTargetPulses > 0) {
 			if (encoder1Val > encoderTargetPulses - 500) {
 				leftSpeed = (power * 0.6) - (driveAngle - targetAngle) / 50;
@@ -365,17 +387,16 @@ public class AutoVirtualDriver {
 				leftSpeed = power - (driveAngle - targetAngle) / 50;
 				rightSpeed = power + (driveAngle - targetAngle) / 50;
 			}
-		} else if(encoderTargetPulses < 0){
-			if(encoder1Val < encoderTargetPulses + 500){
+		} else if (encoderTargetPulses < 0) {
+			if (encoder1Val < encoderTargetPulses + 500) {
 				leftSpeed = (power * 0.6) - (driveAngle - targetAngle) / 50;
 				rightSpeed = (power * 0.6) + (driveAngle - targetAngle) / 50;
 			} else {
 				leftSpeed = power - (driveAngle - targetAngle) / 50;
 				rightSpeed = power + (driveAngle - targetAngle) / 50;
 			}
-		} 
-		
-		
+		}
+
 		if (encoder1Val < encoderMin) {
 			System.out.println("encoder val " + encoder1Val + " less than " + encoderTargetPulses + " power at " + power
 					+ " left speed at " + leftSpeed + " right speed at " + rightSpeed);
@@ -416,39 +437,24 @@ public class AutoVirtualDriver {
 
 		}
 
-//		if (encoderTargetPulses > 0) {
-//			if (encoder1Val > encoderTargetPulses - 500) {
-//				leftSpeed = (0.5 * 0.7) - (driveAngle - targetAngle) / 50;
-//				rightSpeed = (0.5 * 0.7) + (driveAngle - targetAngle) / 50;
-//				System.out.println("1");
-//			} else {
-//				leftSpeed = 0.5 - (driveAngle - targetAngle) / 50;
-//				rightSpeed = 0.5 + (driveAngle - targetAngle) / 50;
-//				System.out.println("2");
-//			}
-//		} else if(encoderTargetPulses < 0){
-//			if(encoder1Val < encoderTargetPulses + 500){
-//				leftSpeed = (0.5 * 0.7) - (driveAngle - targetAngle) / 50;
-//				rightSpeed = (0.5 * 0.7) + (driveAngle - targetAngle) / 50;
-//				System.out.println("3");
-//			} else {
-//				leftSpeed = 0.5 - (driveAngle - targetAngle) / 50;
-//				rightSpeed = 0.5 + (driveAngle - targetAngle) / 50;
-//				System.out.println("4");
-//			}
-//		} 
-
-
 		leftSpeed = 0.5 + (driveAngle - targetAngle) / 50;
 		rightSpeed = 0.5 - (driveAngle - targetAngle) / 50;
-		
+
 		if (ultraDistance < sonicDistance - 3) {
 
-			if (!faceGear) {
-				manipulators.driveRobot(rightSpeed, leftSpeed);
-			} else {
-				manipulators.driveRobot(-rightSpeed, -leftSpeed);
+//			if (!faceGear) {
+//				manipulators.driveRobot(rightSpeed, leftSpeed);
+//			} else {
+//				manipulators.driveRobot(-rightSpeed, -leftSpeed);
+//			}
+			driveBeenDone++;
+			if (driveBeenDone > 50) {
+				encoderSet = 0;
+
+				return false;
 			}
+			
+			
 		} else if (ultraDistance > sonicDistance + 3) {
 			if (!faceGear) {
 				manipulators.driveRobot(-rightSpeed, -leftSpeed);
@@ -558,6 +564,28 @@ public class AutoVirtualDriver {
 		return true;
 
 	}
+
+	// ======================================================================
+
+//	public boolean NEWrotate(double degrees) {
+//		
+//		boolean firstRotateRun = true;
+//		if (firstRotateRun) {
+//			firstRotateRun = false;
+//			sensing.gyro.reset();
+//			
+//		}
+//		double speed = 0.6;
+//		double angle = sensing.getGyroAngle();
+//		double difference = degrees - angle;
+//		
+//		if (degrees > 0) {
+//			manipulators.driveRobot(-speed * ( difference / 100), 0.6);
+//		} else if(degrees < 0){
+//			
+//		}
+//		return true;
+//	}
 
 	// ======================================================================
 

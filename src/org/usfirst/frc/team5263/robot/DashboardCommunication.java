@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class DashboardCommunication {
 	double AutoKey;
-	final String defaultAuto = "Default";
-	final String customAuto = "My Auto";
+	final String centGear = "centerGear";
+	final String stop = "stop";
 	final String gyroAuto = "Gyro";
 	Diagnostics diagnostics; 
 	String autoSelected;
@@ -24,8 +24,8 @@ public class DashboardCommunication {
 
 	 }
 	public void init() {
-		chooser.addDefault("Default Auto", defaultAuto);
-		chooser.addObject("My Auto", customAuto);
+		chooser.addDefault("Center Gear", centGear);
+		chooser.addObject("Stop", stop);
 		chooser.addObject("Gyro", gyroAuto);
 		SmartDashboard.putData("Auto choices", chooser);
 	}

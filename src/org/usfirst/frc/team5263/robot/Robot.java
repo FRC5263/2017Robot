@@ -39,11 +39,11 @@ public class Robot extends IterativeRobot {
 		dashComm.init();
 		sensing.reset();
 		sensing.init();
-		cameraMonitor.CameraInit();
+		//cameraMonitor.CameraInit();
 		diagnostics.init();
 		manipulators.init();
 		
-	
+		
 		
 	}
 
@@ -81,12 +81,12 @@ public class Robot extends IterativeRobot {
 			System.out.println("diagnostics periodic failed!");
 			e.printStackTrace();
 		}
-		try {
-			cameraMonitor.periodicFunction();			
-		} catch (Exception e) {
-			System.out.println("camera monitor periodic failed!");
-			e.printStackTrace();
-		}
+//		try {
+//			cameraMonitor.periodicFunction();			
+//		} catch (Exception e) {
+//			System.out.println("camera monitor periodic failed!");
+//			e.printStackTrace();
+//		}
 		
 	}
 
@@ -94,12 +94,12 @@ public class Robot extends IterativeRobot {
 	public void teleopInit() {
 		// TODO Auto-generated method stub
 		super.teleopInit();
-		try {
-			cameraMan.lookForward();
-		} catch (Exception e) {
-			System.out.println("camera man teleop init failed");
-			e.printStackTrace();
-		}
+//		try {
+//			cameraMan.lookForward();
+//		} catch (Exception e) {
+//			System.out.println("camera man teleop init failed");
+//			e.printStackTrace();
+//		}
 		try {
 			virtualDriver.clean();
 		} catch (Exception e) {
