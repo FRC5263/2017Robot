@@ -186,7 +186,7 @@ public class AutoVirtualDriver {
 	}
 
 	public void init(String mode) {
-		
+		clean();
 		System.out.println("mode: " + mode);
 		
 		switch(mode){
@@ -194,17 +194,23 @@ public class AutoVirtualDriver {
 			autosteps.clear();
 			autosteps.add(new sonicDrive(9, true));
 			autosteps.add(new stop());
+			System.out.println(autosteps);
 			break;
 		case "stop":
 			autosteps.clear();
 			autosteps.add(new stop());
+			break;
 		case "baseline": 
 			autosteps.clear();
 			autosteps.add(new drivestraight(16, 0.6));
 			autosteps.add(new stop());
-			default: 
+			break;
+		case "blueShoot":
+			break;
+		case "redShoot":
+			break;
+		default: 
 				autosteps.clear();
-				autosteps.add(new stop());
 		};
 		
 		sensing.gyro.reset();
@@ -432,7 +438,7 @@ public class AutoVirtualDriver {
 		encoder1Val = sensing.getEncoder1();
 		driveAngle = sensing.getGyroAngle();
 		encoderSet = encoderSet + 1;
-		double ultraDistance = sensing.getUltraRange() - 11;
+		double ultraDistance = sensing.getUltraRange() - 11; //offsets the ultrasonic readings to the front of the robot, not the sensor itself
 
 		if (encoderSet == 1) {
 			System.out.println("running drive");

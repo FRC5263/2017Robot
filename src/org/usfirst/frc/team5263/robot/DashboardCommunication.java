@@ -14,6 +14,8 @@ public class DashboardCommunication {
 	final String centGear = "centerGear";
 	final String stop = "stop";
 	final String baseline = "baseline";
+	final String redShoot = "redShoot";
+	final String blueShoot = "blueShoot";
 	Diagnostics diagnostics; 
 	String autoSelected;
 	SendableChooser<String> chooser = new SendableChooser<>(); 
@@ -27,6 +29,8 @@ public class DashboardCommunication {
 		chooser.addDefault("Center Gear", centGear);
 		chooser.addObject("Stop", stop);
 		chooser.addObject("Break the baseline", baseline);
+		chooser.addObject("Red Shoot", redShoot);
+		chooser.addObject("Blue Shoot", blueShoot);
 		SmartDashboard.putData("Auto choices", chooser);
 	}
 	public void dashperiodic() {
