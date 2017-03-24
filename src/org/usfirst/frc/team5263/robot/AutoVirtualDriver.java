@@ -189,21 +189,32 @@ public class AutoVirtualDriver {
 		
 		System.out.println("mode: " + mode);
 		
+		autosteps.clear();
 		switch(mode){
 		case "centerGear": 
-			autosteps.clear();
 			autosteps.add(new sonicDrive(9, true));
 			autosteps.add(new stop());
 			break;
 		case "stop":
-			autosteps.clear();
 			autosteps.add(new stop());
 		case "baseline": 
-			autosteps.clear();
 			autosteps.add(new drivestraight(16, 0.6));
 			autosteps.add(new stop());
-			default: 
-				autosteps.clear();
+		case "redShoot":
+			autosteps.add(new shooter(3500, 10));
+			autosteps.add(new drivestraight(1, .1));
+			autosteps.add(new rotate(95));
+			autosteps.add(new drivestraight(10, .1));
+			break;
+		case "blueShoot":
+			break;
+		case "Camdrive":
+			autosteps.add(new drivestraight(5, .5));
+			autosteps.add(new rotate(-45));
+			autosteps.add(new cameraDrive());
+			autosteps.add(new stop());
+			break;
+		default:
 				autosteps.add(new stop());
 		};
 		
@@ -605,14 +616,18 @@ public class AutoVirtualDriver {
 		if (currentTime <= startTime + (shootTime * 1000)) {
 			manipulators.flywheelEnabled(true);
 			manipulators.flywheelSetPoint(shootRPM);
+			manipulators.sweeper.set(1.0);
+			manipulators.agitator.set(1.0);
 		} else {
 			manipulators.flywheelEnabled(false);
 			manipulators.agitator.set(0.0);
+			manipulators.sweeper.set(0.0);
 			shooterDone++;
 		}
 
 		if (shooterDone > 50) {
 			manipulators.agitator.set(0.0);
+			manipulators.sweeper.set(0.0);
 			manipulators.flywheelEnabled(false);
 			return false;
 		}
