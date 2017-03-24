@@ -49,6 +49,13 @@ public class DashboardCommunication {
 		SmartDashboard.getNumber("Counter: ", 0);
 		SmartDashboard.putNumber("CAN Value", diagnostics.getLeftMotorCurrent());
 
+		if (!SmartDashboard.containsKey("Rotation Kp")) {
+			SmartDashboard.putNumber("Rotation Kp", 0.0034);
+			SmartDashboard.putNumber("Rotation Ki", 0.0005);
+			SmartDashboard.putNumber("Rotation Kd", 0.0004);
+			SmartDashboard.putNumber("Rotation Kf", 0.00);
+		}
+		
 		newRotationKP = SmartDashboard.getNumber("Rotation Kp", 0.0034);
 		newRotationKI = SmartDashboard.getNumber("Rotation Ki", 0.0005);
 		newRotationKD = SmartDashboard.getNumber("Rotation Kd", 0.0004);

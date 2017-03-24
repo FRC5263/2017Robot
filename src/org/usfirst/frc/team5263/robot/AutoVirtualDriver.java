@@ -226,7 +226,7 @@ public class AutoVirtualDriver {
 		manipulators.setkD(newRotateKd);
 		manipulators.setkF(newRotateKf);
 		manipulators.setNewRotatePID();
-		System.out.println("itital set rotation PID values");
+		System.out.println("itital set rotation PID values: P=" + newRotateKp + ", I=" + newRotateKi + ", D=" + newRotateKd + ", F=" + newRotateKf);
 		
 		sensing.gyro.reset();
 		sensing.encoder1.reset();
