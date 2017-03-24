@@ -25,10 +25,30 @@ public class Manipulators {
 	boolean isAutoFlywheel = false;
 	
 	
-	static final double kP = 0.0034;
-	static final double kI = 0.0005;
-	static final double kD = 0.0004;
-	static final double kF = 0.00;
+	double kP = 0.0034;
+	double kI = 0.0005;
+	double kD = 0.0004;
+	double kF = 0.00;
+	
+	public void setkP(double kP) {
+		this.kP = kP;
+	}
+
+	public void setkI(double kI) {
+		this.kI = kI;
+	}
+
+	public void setkD(double kD) {
+		this.kD = kD;
+	}
+
+	public void setkF(double kF) {
+		this.kF = kF;
+	}
+	
+	public void setNewRotatePID(){
+		turnController.setPID(kP, kI, kD, kF);
+	}
 	boolean runPID; //may not need this
 	double PIDTolerance = 2; // this is the "margin" of degrees the PID
 								// considers on target.
@@ -73,7 +93,7 @@ public class Manipulators {
 
 		
 		turnController = new PIDController(kP, kD, kI, kF, sensing.getGyroPIDSource(), new PIDOutput() {
-
+		
 			@Override
 			public void pidWrite(double output) {
 				// TODO Auto-generated method stub

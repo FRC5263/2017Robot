@@ -17,6 +17,12 @@ public class DashboardCommunication {
 	final String redShoot = "redShoot";
 	final String blueShoot = "blueShoot";
 	final String Camdrive = "Camdrive";
+
+	double newRotationKP;
+	double newRotationKI;
+	double newRotationKD;
+	double newRotationKF;
+	
 	Diagnostics diagnostics; 
 	String autoSelected;
 	SendableChooser<String> chooser = new SendableChooser<>(); 
@@ -40,10 +46,25 @@ public class DashboardCommunication {
 		SmartDashboard.putNumber("Encoder1: ", sensing.getEncoder1()); 
 		SmartDashboard.putNumber("Encoder2: ", sensing.getEncoder2());
 		SmartDashboard.putNumber("Ultra Range: ", sensing.getUltraRange());
-		//SmartDashboard.putNumber("feet traveled", (driveDistanceFeet * 12) / (pi * 6) * 1440 / 4;)
 		SmartDashboard.getNumber("Counter: ", 0);
-		//		SmartDashboard.putNumber("Counter: ", counter);
 		SmartDashboard.putNumber("CAN Value", diagnostics.getLeftMotorCurrent());
+
+		newRotationKP = SmartDashboard.getNumber("Rotation Kp", 0.0034);
+		newRotationKI = SmartDashboard.getNumber("Rotation Ki", 0.0005);
+		newRotationKD = SmartDashboard.getNumber("Rotation Kd", 0.0004);
+		newRotationKF = SmartDashboard.getNumber("Rotation Kf", 0.00);
+	}
+	public double getNewRotationKP() {
+		return newRotationKP;
+	}
+	public double getNewRotationKI() {
+		return newRotationKI;
+	}
+	public double getNewRotationKD() {
+		return newRotationKD;
+	}
+	public double getNewRotationKF() {
+		return newRotationKF;
 	}
 	public String getSelectedAutonMode() {
 		String selected = chooser.getSelected();
@@ -54,6 +75,10 @@ public class DashboardCommunication {
 		return selected;
 	
 	}
+	
+	
+	
+	
 //	public Double getFoo(){
 //		                                                                                                                                                                         
 //	}

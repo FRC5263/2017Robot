@@ -185,8 +185,8 @@ public class AutoVirtualDriver {
 
 	}
 
-	public void init(String mode) {
-		
+	public void init(String mode, double newRotateKp, double newRotateKi, double newRotateKd, double newRotateKf) {
+		clean();
 		System.out.println("mode: " + mode);
 		
 		autosteps.clear();
@@ -194,9 +194,11 @@ public class AutoVirtualDriver {
 		case "centerGear": 
 			autosteps.add(new sonicDrive(9, true));
 			autosteps.add(new stop());
+			System.out.println(autosteps);
 			break;
 		case "stop":
 			autosteps.add(new stop());
+			break;
 		case "baseline": 
 			autosteps.add(new drivestraight(16, 0.6));
 			autosteps.add(new stop());
@@ -215,8 +217,16 @@ public class AutoVirtualDriver {
 			autosteps.add(new stop());
 			break;
 		default:
-				autosteps.add(new stop());
+			autosteps.add(new stop());
+			break;
 		};
+		
+		manipulators.setkP(newRotateKp);
+		manipulators.setkI(newRotateKi);
+		manipulators.setkD(newRotateKd);
+		manipulators.setkF(newRotateKf);
+		manipulators.setNewRotatePID();
+		System.out.println("itital set rotation PID values");
 		
 		sensing.gyro.reset();
 		sensing.encoder1.reset();
@@ -443,7 +453,7 @@ public class AutoVirtualDriver {
 		encoder1Val = sensing.getEncoder1();
 		driveAngle = sensing.getGyroAngle();
 		encoderSet = encoderSet + 1;
-		double ultraDistance = sensing.getUltraRange() - 11;
+		double ultraDistance = sensing.getUltraRange() - 11; //offsets the ultrasonic readings to the front of the robot, not the sensor itself
 
 		if (encoderSet == 1) {
 			System.out.println("running drive");
