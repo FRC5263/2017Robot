@@ -185,7 +185,7 @@ public class AutoVirtualDriver {
 
 	}
 
-	public void init(String mode) {
+	public void init(String mode, double newRotateKp, double newRotateKi, double newRotateKd, double newRotateKf) {
 		clean();
 		System.out.println("mode: " + mode);
 		
@@ -212,6 +212,13 @@ public class AutoVirtualDriver {
 		default: 
 				autosteps.clear();
 		};
+		
+		manipulators.setkP(newRotateKp);
+		manipulators.setkI(newRotateKi);
+		manipulators.setkD(newRotateKd);
+		manipulators.setkF(newRotateKf);
+		manipulators.setNewRotatePID();
+		System.out.println("itital set rotation PID values");
 		
 		sensing.gyro.reset();
 		sensing.encoder1.reset();
